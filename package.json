@@ -1,0 +1,50 @@
+{
+  "name": "azimuteweb-adm",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev_old": "nuxt dev --host az.ret --port 3000",
+    "dev": "nuxt dev --host --port 3000",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^0.8.0",
+    "@nuxt/types": "^2.17.0",
+    "@types/crypto-js": "^4.1.1",
+    "@types/node": "^18",
+    "@types/vue-cropperjs": "^4.1.2",
+    "@unocss/nuxt": "^0.53.4",
+    "dayjs-nuxt": "^2.1.9",
+    "nuxt": "^3.7.3",
+    "nuxt-quasar-ui": "^2.0.5",
+    "sass": "^1.62.1",
+    "vite-plugin-javascript-obfuscator": "^2.0.0"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.2",
+    "@iconify-json/carbon": "^1.1.18",
+    "@iconify-json/mdi": "^1.1.52",
+    "@iconify-json/prime": "^1.1.5",
+    "@iconify-json/twemoji": "^1.1.11",
+    "@pinia/nuxt": "^0.4.11",
+    "@quasar/extras": "^1.16.7",
+    "@tato30/vue-pdf": "^1.7.0",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "@vueuse/core": "^10.1.2",
+    "crypto-js": "^4.1.1",
+    "file-saver": "^2.0.5",
+    "js-base64": "^3.7.5",
+    "js-md5": "^0.7.3",
+    "jszip": "^3.10.1",
+    "moment": "^2.29.4",
+    "pinia": "^2.1.3",
+    "qrcode.vue": "^3.4.1",
+    "quasar": "^2.12.7",
+    "remove": "^0.1.5",
+    "vue-advanced-cropper": "^2.8.8",
+    "vue-cropperjs": "^5.0.0"
+  }
+}

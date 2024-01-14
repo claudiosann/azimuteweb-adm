@@ -1,0 +1,181 @@
+.body--dark {
+   background: #111827 !important;
+}
+.body--light {
+   color: #414141 !important;
+}
+
+.q-field--outlined .q-field__control {
+   border-radius: 10px;
+   padding: 0 12px;
+}
+
+.q-btn--rectangle {
+   border-radius: 7px;
+}
+
+.q-btn--push {
+   border-radius: 14px;
+}
+
+.q-dialog__inner>div {
+   border-radius: 12px;
+}
+
+.q-table__top {
+   padding: 0px 0px;
+}
+
+.q-table__card {
+   border-radius: 12px;
+}
+
+.q-menu {
+   border-radius: 12px;
+}
+
+.q-field__native .q-field__input {
+   padding-left: 5px;
+}
+
+.q-stepper--vertical .q-stepper__tab {
+   padding: 12px 0px;
+}
+
+.q-stepper--vertical .q-stepper__step-inner {
+   padding: 0 0px 32px 24px;
+}
+
+// .q-tab-panel {
+//    padding: 0px;
+// }
+::-webkit-scrollbar {
+   height: 12px;
+   width: 14px;
+   background: transparent;
+   z-index: 12;
+   overflow: visible;
+}
+
+::-webkit-scrollbar-thumb {
+   width: 10px;
+   background-color: #c1c1c1;
+   border-radius: 10px;
+   z-index: 12;
+   border: 4px solid rgba(0, 0, 0, 0);
+   background-clip: padding-box;
+   transition: background-color .32s ease-in-out;
+   margin: 4px;
+   min-height: 32px;
+   min-width: 32px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: #c1c1c1;
+}
+
+.az-selecionado {
+   background-color: rgba($color: $primary, $alpha: 0.05);
+}
+
+.az-selecionado2 {
+   background-color: rgba($color: $negative, $alpha: 0.05);
+}
+
+.az-selecionado3 {
+   background-color: rgba($color: $positive, $alpha: 0.05);
+}
+
+.az-selecionado4 {
+   background-color: rgba($color: $warning, $alpha: 0.05);
+}
+
+.az-selecionado5 {
+   background-color: rgba($color: $accent, $alpha: 0.05);
+
+}
+.az-selecionado6 {
+   background-color: rgba($color: $secondary, $alpha: 0.05);
+}
+.az-selecionado7 {
+   background-color: rgba($color: $teal, $alpha: 0.05);
+}
+
+#description {
+   font-family: Roboto;
+   font-size: 15px;
+   font-weight: 280;
+}
+
+#infowindow-content .title {
+   font-weight: bold;
+}
+
+#infowindow-content {
+   display: none;
+}
+
+#map #infowindow-content {
+   display: inline;
+}
+
+.pac-card {
+   background-color: #fff;
+   border: 0;
+   border-radius: 10px;
+   box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+   margin: 10px;
+   padding: 0 0.5em;
+   font: 400 18px Roboto, Arial, sans-serif;
+   overflow: hidden;
+   font-family: Roboto;
+   padding: 0;
+   width: 334px;
+   left: 0px;
+   top: 50px !important;
+}
+
+#pac-container {
+border-radius: 12px;
+}
+
+.pac-controls {
+   display: inline-block;
+   padding: 5px 11px;
+}
+
+.pac-controls label {
+   font-family: Roboto;
+   font-size: 13px;
+   font-weight: 300;
+}
+
+#pac-input {
+   border-radius: 12px;
+   background-color: #fff;
+   font-family: Roboto;
+   font-size: 15px;
+   font-weight: 300;
+   text-overflow: ellipsis;
+   width: 400px;
+}
+
+#pac-input:focus {
+   border-color: #4d90fe;
+}
+
+#title {
+   color: #fff;
+   background-color: #4d90fe;
+   font-size: 25px;
+   font-weight: 500;
+   padding: 6px 12px;
+}
+
+#target {
+   width: 345px;
+}
+
+.pac-container {
+   z-index: 7000 !important;
+}

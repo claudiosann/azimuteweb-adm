@@ -1,0 +1,11 @@
+import VueGoogleMaps from '@fawmi/vue-google-maps';
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VueGoogleMaps, {
+    load: {
+      version: 3.52,
+      key: 'AIzaSyCiG_uMr5H-vr_gBRY2Kkr3Sj1TXjnGX6Y',
+      libraries: "places"
+    },
+  });
+});
