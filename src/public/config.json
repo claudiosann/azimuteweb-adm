@@ -1,0 +1,4 @@
+{
+  "BASE_S3": "https://azimuteweb.s3.sa-east-1.amazonaws.com/",
+  "BASE_REST": "https://cbo.esp.br/azimutewebws/"
+}

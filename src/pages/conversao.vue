@@ -20,7 +20,11 @@
       </div>
       <q-btn color="primary" icon="check" label="logout" @click="logout" />
       <!-- <q-btn color="primary" icon="check" label="Converter Entidades" @click="converterEntidades" /> -->
-      <q-btn color="primary" icon="check" label="Converter Pessoa" @click="converterPessoas" />
+      <!-- <q-btn color="primary" icon="check" label="Converter Evento" @click="converterEvento" /> -->
+      <q-btn color="primary" icon="check" label="Converter Evento" @click="ajustarTodosOsTelefones" />
+      <!-- <q-btn color="primary" icon="check" label="getImagem evento 45 " @click="getImagem(12656)" /> -->
+      <!-- <q-btn color="primary" icon="check" label="Converter Modelo" @click="conveterModeloCategoria" /> -->
+      <!-- <q-btn color="primary" icon="check" label="Converter Pessoa" @click="converterPessoas" /> -->
       <!-- <q-btn color="primary" icon="check" label="AjustaCPF" @click="ajustaCPF()" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Grupos de Notícias" @click="converterGrupoNoticias" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Notícias" @click="converterNoticias" /> -->
@@ -33,21 +37,474 @@
 import { useQuasar } from "quasar";
 // @ts-ignore
 import md5 from "js-md5";
+import PessoasFiliadas from "./cadastro/pessoas-filiadas.vue";
 const logado = ref(false);
 const $dayjs = useDayjs();
 const pessoaAzimute = ref<any>({ login: "suporte", senha: "3411" });
 
 const { $geralService } = useNuxtApp();
-
 const isPwd = ref(true);
-
 const $q = useQuasar();
 
-const findLinks = (valor: string) => {
-  console.log("valor", valor);
-  const regex = /(<a href|src)="([^"]*)/g;
-  const matches = [...valor.matchAll(regex)];
-  return matches.map((match) => match[0]);
+const mapeamentoDificuldade: { [key: string]: number } = {
+  N: 0,
+  B: 1,
+  A: 2,
+  E: 3,
+};
+
+const ajustarTodosOsTelefones = async () => {
+  const ret = await useCustomFetch('pessoa/getPopulate', 'post', { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
+  if (ret.valido) {
+    for (let index = 0; index < ret.data.length; index++) {
+      const pessoa = ret.data[index];
+      pessoa.id = pessoa.idAntigo;
+      console.log(index);
+
+      await ajustaTelefones(pessoa);
+          const retGrava = await useCustomFetch('pessoa/' + pessoa._id, 'put', pessoa, undefined);  
+      if (!retGrava.valido) {
+                      console.log(index);
+            console.log('Erro ao atualizar pessoa', pessoa);
+            console.log('Erro ao atualizar pessoa', retGrava);
+            return;
+          } 
+        }    
+  } else {
+    console.log('Erro ao buscar pessoas', ret);
+  }
+}
+const ajustaTelefones = async (element: any) => {
+  const formTeletone = {
+    tabelas: [{ nome: "pessoa_telefone", nomeAs: "pessoa_telefone" }],
+    campos: [],
+    condicoes: [
+      { campo: "pessoa_telefone.lixo", condicao: "<>", valor: true },
+      { campo: "pessoa_telefone.pessoa_id", condicao: "=", valor: element.id },
+    ],
+  };
+  const retTel = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formTeletone }, undefined);
+  element.telefones = [];
+  if (retTel.valido && retTel.data.json) {
+    if (retTel.data.json.listaGenerica.length > 0) {
+      for (let index = 0; index < retTel.data.json.listaGenerica.length; index++) {
+        const elementTel = retTel.data.json.listaGenerica[index];
+        const tel = $geralService.removeMascara(elementTel.telefone);
+        if (tel && tel.length > 5) {
+          element.telefones.push({
+            tipo: ["Celular", "Residencial", "Comercial"].includes(elementTel.tipo) ? elementTel.tipo : "Celular",
+            numero: tel,
+            complemento: elementTel.complemento,
+            principal: index == 0 ? true : false,
+            whatsApp: element.tipo == "Celular" ? true : false,
+          });
+        }
+      }
+    }
+    return true;
+  }
+  console.log("erro telefones", retTel);
+  return false;
+};
+
+const ajustaModalidades = (numeroEvento: number) => {
+  const idModalidadeSprint = "64289eec667e59a0fe5e8a8c";
+  const idModalidadePedestre = "642899b8beacbf61a8cbb29a";
+  return [];
+};
+
+const converterEvento = async () => {
+  const formSql = {
+    tabelas: [{ nome: "evento", nomeAs: "evento" }],
+    campos: [{ campo: "*" }],
+    condicoes: [{ campo: "lixo", condicao: "<>", valor: true }],
+    ordenacoes: [{ campo: "id desc" }],
+  };
+
+  const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
+  if (ret.valido) {
+    console.log("ret", ret);
+    const elementF = ret.data.json.listaGenerica;
+    let retString = JSON.stringify(elementF);
+    const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
+    console.log("retornoAjustado", retornoAjustado.length);
+
+    //for (let index = 0; index < retornoAjustado.length; index++) {
+    for (let index = 430; index < retornoAjustado.length; index++) {
+    
+      console.log(index);
+      const element = retornoAjustado[index];
+
+      let entidadeResponsavel: any = { _id: "5d6934fc9b35767d7398c823", idAntigo: 1 };
+
+      let encontrouEntidade = false;
+      if (element.entidade_id) {
+        const retEntidade = await useCustomFetch("entidade/getPopulate", "post", { filtro: { idAntigo: element.entidade_id }, select: { _id: 1, idAntigo: 1 } }, undefined);
+        if (retEntidade.valido) {
+          if (retEntidade.data.length > 0) {
+            entidadeResponsavel = retEntidade.data[0];
+            encontrouEntidade = true;
+          }
+        }
+      }
+      if (!encontrouEntidade) {
+        const retEntidade = await useCustomFetch("entidade/getPopulate", "post", { filtro: { idAntigo: element.entidade_pai_id }, select: { _id: 1, idAntigo: 1 } }, undefined);
+        if (retEntidade.valido) {
+          if (retEntidade.data.length > 0) {
+            entidadeResponsavel = retEntidade.data[0];
+          }
+        }
+      }
+
+      const etapaObj = ajustaEtapa(element.etapa);
+
+      const evento = {
+        entidadeResponsavel: entidadeResponsavel._id,
+        modalidadesEsportivas: ajustaModalidades(element.id), // Orientação // Corrida de Aventura
+        esportes: [], // Orientação // Corrida de Aventura
+        tags: [],
+        nome: element.descricao ? element.descricao : "Evento de Orientação " + element.id,
+        rota: element.id.toString(),
+        descritivo: etapaObj.descritivo ? etapaObj.descritivo : "-", //ex. Percurso Tradicional de Orientação Pedestre
+        online: element.descricao.toUpperCase().includes("ONLINE") || element.descricao.toUpperCase().includes("VIRTUAL"),
+        cancelado: false,
+        adiado: false,
+        canceladoMotivo: false,
+        sigla: element.sigla ? element.sigla : $geralService.getIniciaisCompleto(element.descricao),
+        ano: getAno(element.inicio),
+        etapa: etapaObj.etapa,
+        abrangencia: getAbrangenciaEvento(element.abrangencia),
+        tipoEvento: "Participação",
+        publicado: true,
+        pontuaRankingNacional: false,
+        pontuaRankingEstadual: false,
+        endereco: getEnderecoEvento(element),
+        inicio: element.inicio ? getISODate(element.inicio) : new Date().toISOString(),
+        fim: element.fim ? getISODate(element.fim) : element.inicio ? getISODate(element.inicio) : new Date().toISOString(),
+        imagem: await getImagem(element.id),
+        numero: element.id,
+        taxaAzimuteCerto: 6,
+        taxaAzimuteCertoAbsorver: true, //Por padrão é cobrado do cliente a taxa Administrativa - Se verdadeiro a taxa é absorvida.
+        administradores: [],
+        grupoLinks: await getGruposLinks(element.id),
+        contatos: [
+          {
+            nome: "Responsável",
+            imagem: "",
+            cargo: "Encarregado",
+            telefone: "",
+            email: element.contato ? element.contato : "",
+          },
+        ],
+        videos: [],
+        fotos: [],
+        programacoes: [],
+        conteudos: [],
+        parceiros: [],
+        hospedagens: [],
+        pontosTuristicos: [],
+        banners: [],
+        lixo: false,
+        created_at: element.inicio ? getISODate(element.inicio) : new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      const retGrava = await useCustomFetch("evento", "post", evento, undefined);
+      if (retGrava.valido) {
+        // console.log("evento", evento.nome, "inserida com sucesso");
+      } else {
+        console.log("Erro ao inserir evento", evento);
+        console.log("Erro ao inserir evento", element);
+        return;
+      }
+    }
+  } else {
+    console.log("Erro ao buscar evento", ret);
+  }
+};
+
+const getGruposLinks = async (eventoNumero: number) => {
+  const formSql = {
+    tabelas: [{ nome: "evento_links", nomeAs: "evento_links" }],
+    campos: [{ campo: "*" }],
+    condicoes: [
+      { campo: "lixo", condicao: "<>", valor: true },
+      { campo: "evento_id", condicao: "=", valor: eventoNumero },
+    ],
+  };
+
+  const gruposLink: any = [];
+
+  const findGrupo = (tipo: number) => {
+    for (let index = 0; index < gruposLink.length; index++) {
+      if (gruposLink[index].tipo == tipo) {
+        return gruposLink[index];
+      }
+    }
+    return null;
+  };
+
+  const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
+  if (ret.valido) {
+    // console.log("ret", ret);
+    const elementF = ret.data.json.listaGenerica;
+    let retString = JSON.stringify(elementF);
+    const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
+    // console.log("retornoAjustado", retornoAjustado.length);
+
+    for (let index = 0; index < retornoAjustado.length; index++) {
+      // console.log("executando o index", index);
+      const element = retornoAjustado[index];
+      if (element.link && element.descricao && element.evento_categorias_id) {
+        let grupoLink: any = null;
+        grupoLink = findGrupo(element.evento_categorias_id);
+        // console.log("indexGruposLink", grupoLink);
+
+        const likEvento = ajustaLinkEvento(element.link);
+        // console.log("elemnt", element);
+        if (likEvento == null) {
+          console.log("link invalido", element);
+          return;
+        }
+
+        if (grupoLink !== null) {
+          grupoLink.links.push({
+            descricao: element.descricao,
+            url: likEvento,
+          });
+        } else {
+          const grupoLink: any = constGetNovoGrupo(element.evento_categorias_id);
+          grupoLink.links.push({
+            descricao: element.descricao,
+            url: likEvento,
+          });
+          gruposLink.push(grupoLink);
+        }
+      }
+    }
+    return gruposLink;
+  } else {
+    console.log("Erro ao liks do evento", ret);
+    return;
+  }
+};
+
+const constGetNovoGrupo = (tipo: number) => {
+  const listDescricoes = [
+    { descricao: "Documentos", icone: "fas fa-folder" },
+    { descricao: "Resultados", icone: "fas fa-list-ol" },
+    { descricao: "Listas de Partida", icone: "fas fa-list" },
+    { descricao: "Fotos", icone: "fas fa-image" },
+    { descricao: "Finanças", icone: "fas fa-folder" },
+    { descricao: "Boletim", icone: "fas fa-folder" },
+    { descricao: "Benefícios", icone: "fas fa-folder" },
+    { descricao: "Vídeos", icone: "fas fa-video" },
+    { descricao: "Importante", icone: "fas fa-folder" },
+    { descricao: "SAOC", icone: "fas fa-folder" },
+    { descricao: "INSCRIÇÕES", icone: "fas fa-folder" },
+    { descricao: "Aluguel SIAC", icone: "fas fa-folder" },
+    { descricao: "Informativos", icone: "fas fa-folder" },
+    { descricao: "Treinamento", icone: "fas fa-folder" },
+    { descricao: "Materiais", icone: "fas fa-folder" },
+    { descricao: "Estatísticas do Evento", icone: "fas fa-chart-line" },
+    { descricao: "Premiação", icone: "fas fa-trophy" },
+    { descricao: "1ª ETAPA - FOG - 08/08/2020", icone: "fas fa-folder" },
+    { descricao: "2ª ETAPA - FORJ - 29/08/2020", icone: "fas fa-folder" },
+    { descricao: "3ª ETAPA - FPO/COC - 12/09/2020", icone: "fas fa-folder" },
+    { descricao: "4ª ETAPA - FBO - 26/09/2020", icone: "fas fa-folder" },
+    { descricao: "5ª ETAPA - FOSP - 10/10/2020", icone: "fas fa-folder" },
+    { descricao: "RANKING", icone: "fas fa-trophy" },
+    { descricao: "CERTIFICADOS", icone: "fas fa-award" },
+    { descricao: "TIRE SUAS DÚVIDAS!", icone: "fas fa-question" },
+    { descricao: "Regulamentos (Regulation)", icone: "fas fa-book" },
+    { descricao: "Importante", icone: "fas fa-folder" },
+    { descricao: "Anexos", icone: "fas fa-papperclip" },
+  ];
+
+//  console.log("tipo", tipo);
+  return {
+    descricao: listDescricoes[tipo - 1].descricao,
+    icone: listDescricoes[tipo - 1].icone,
+    tipo: tipo,
+    expanded: false,
+    links: [],
+  };
+};
+
+const getImagem = async (eventoId: number) => {
+  // console.log("CBO/site-antigo/Eventos/Banners/" + eventoId + ".jpg");
+  const ret: any = await useCustomFetch(
+    "api/listObjectsS3",
+    "post",
+    {
+      caminho: "CBO/site-antigo/Eventos/Banners/" + eventoId + ".jpg",
+    },
+    undefined
+  );
+
+  if (ret.valido) {
+    if (ret.data.Contents.length > 0) {
+      // console.log(ret.data.Contents[0].Key);
+      return ret.data.Contents[0].Key;
+    } else {
+      // console.log("CBO/site-antigo/Eventos/Banners/banner-padrao.png");
+      return "CBO/site-antigo/Eventos/Banners/banner-padrao.png";
+    }
+  }
+};
+
+const getEnderecoEvento = (eventAntigo: any) => {
+  const endereco: any = {
+    pais: "Brasil",
+    logradouro: "-",
+    numero: 0,
+    cep: "00000000",
+    bairro: "-",
+    cidade: "-",
+    uf: "DF",
+    complemento: "",
+    proximidade: "",
+    localizacao: {
+      lat: -15.7990489,
+      lng: -47.8607689,
+    },
+    cepValidado: false,
+    googleValidado: false,
+  };
+
+  if (eventAntigo.pais) {
+    endereco.pais = eventAntigo.pais;
+  }
+
+  if (eventAntigo.estado) {
+    endereco.uf = getUf( eventAntigo.estado ?  eventAntigo.estado  : 0)
+  }
+
+  if (eventAntigo.cidade) {
+    endereco.cidade = eventAntigo.cidade;
+  }
+
+  if (eventAntigo.endereco) {
+    endereco.logradouro = eventAntigo.endereco;
+  }
+
+  if (eventAntigo.latitude) {
+    endereco.localizacao.lat = eventAntigo.latitude;
+  }
+
+  if (eventAntigo.longitude) {
+    endereco.localizacao.lng = eventAntigo.longitude;
+  }
+
+  return endereco;
+};
+
+const getAbrangenciaEvento = (abrangeciaId: number) => {
+  switch (abrangeciaId) {
+    case 57:
+      return "Municipal";
+    case 58:
+      return "Estadual";
+    case 59:
+      return "Regional";
+    case 60:
+      return "Nacional";
+    case 61:
+      return "Mundial";
+    default:
+      return "Municipal";
+  }
+};
+
+const ajustaEtapa = (etapaString: string) => {
+  const etapas = ["Única", "Primeira", "Segunda", "Terceira", "Quarta", "Quinta", "Sexta", "Sétima", "Oitava"];
+
+  const retEt = determinarEtapa(etapaString);
+
+  return { etapa: etapas[retEt.numero], descritivo: retEt.descritivo };
+};
+
+const determinarEtapa = (etapaString: string): any => {
+  // Remove espaços no início e no final
+  const etapa = etapaString.trim();
+
+  // Verifica se a etapa é única
+  if (etapa.toLowerCase() === "única") {
+    return { numero: 0 };
+  }
+
+  // Procura por números seguidos de 'ª' ou 'º' na string
+  const numero = etapa.match(/(\d+)(?:ª|º)/i);
+  if (numero) {
+    return { numero: parseInt(numero[1]) };
+  }
+
+  // Procura por números romanos seguidos de espaço na string
+  const romanos = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+  for (let i = 0; i < romanos.length; i++) {
+    if (etapa.startsWith(romanos[i] + " ")) {
+      return { numero: i + 1 }; // Retorna o índice + 1, pois os índices começam em 0
+    }
+  }
+
+  // Procura por números escritos por extenso na string
+  const extenso = ["primeira", "segunda", "terceira", "quarta", "quinta", "sexta", "sétima", "oitava", "nona", "décima"];
+  for (let i = 0; i < extenso.length; i++) {
+    if (etapa.toLowerCase().startsWith(extenso[i])) {
+      return { numero: i + 1 }; // Retorna o índice + 1, pois os índices começam em 0
+    }
+  }
+
+  // Se não for possível identificar a etapa, retorna 0
+  return { numero: 0, descritivo: etapa };
+};
+
+const conveterModeloCategoria = async () => {
+  const formSql = {
+    tabelas: [{ nome: "categoria_modelo", nomeAs: "categoria_modelo" }],
+    campos: [{ campo: "*" }],
+    condicoes: [{ campo: "lixo", condicao: "<>", valor: true }],
+  };
+
+  const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
+  if (ret.valido) {
+    console.log("ret", ret);
+    const elementF = ret.data.json.listaGenerica;
+    let retString = JSON.stringify(elementF);
+    const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
+    console.log("retornoAjustado", retornoAjustado.length);
+
+    for (let index = 0; index < retornoAjustado.length; index++) {
+      console.log("executando o index", index);
+      const element = retornoAjustado[index];
+
+      const modeloCategoria: any = {
+        _id: index == 1 ? "5f0e466efb3dde11e2394c3c" : index == 0 ? "5e13df559615c3438fdc9bae" : undefined,
+        descricao: element.descricao,
+        modalidadesEsportivas: ["642899b8beacbf61a8cbb29a", "64289eec667e59a0fe5e8a8c"],
+        categorias: [],
+        tipo: "Individual",
+        idAntigo: element.id,
+        lixo: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      if (!(await ajustaCategoriasAntigas(modeloCategoria))) {
+        return;
+      }
+
+      const retGrava = await useCustomFetch("modeloCategoria", "post", modeloCategoria, undefined);
+      if (retGrava.valido) {
+        console.log("modeloCategoria", modeloCategoria.nome, "inserida com sucesso");
+      } else {
+        console.log("Erro ao inserir modeloCategoria", modeloCategoria);
+        console.log("Erro ao inserir modeloCategoria", element);
+        return;
+      }
+    }
+  } else {
+    console.log("Erro ao buscar modelo_categoria", ret);
+  }
 };
 
 const converterConteudo = async () => {
@@ -80,7 +537,7 @@ const converterConteudo = async () => {
 
           // console.log('imagem old', element.imagem);
           // console.log('new imagem',ajustaLink(element.imagem));
-          let htmlConteudo = ' ';
+          let htmlConteudo = " ";
           if (element.conteudo_html) {
             const links = findLinks(element.conteudo_html);
             htmlConteudo = element.conteudo_html;
@@ -145,6 +602,84 @@ const converterConteudo = async () => {
     console.log("Erro ao buscar entidades", retEntidades);
   }
 };
+
+const determinarDificuldade = (categoria: string, permiteNaofiliado: boolean): number => {
+  if (permiteNaofiliado) {
+    return 0;
+  }
+  const regex = /^([NABE]\s)|(\s[NABE])|(\d{2}[NABE])$/;
+  const match = categoria.match(regex);
+  if (match) {
+    const ultimoCaractere = match[0].trim().slice(-1);
+    return mapeamentoDificuldade[ultimoCaractere];
+  }
+
+  return 0; // Retorna 0 se não houver correspondência ou se a letra não for N, A, B ou E
+};
+
+const ajustaCategoriasAntigas = async (modelo: any) => {
+  const formSql = {
+    tabelas: [{ nome: "categoria", nomeAs: "categoria" }],
+    campos: [{ campo: "*" }],
+    condicoes: [
+      { campo: "lixo", condicao: "<>", valor: true },
+      { campo: "categoria_modelo_id", condicao: "=", valor: modelo.idAntigo },
+    ],
+  };
+
+  const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
+  if (ret.valido) {
+    try {
+      const elementF = ret.data.json.listaGenerica;
+      let retString = JSON.stringify(elementF);
+      const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
+      modelo.categorias = [];
+      for (let index = 0; index < retornoAjustado.length; index++) {
+        const element = retornoAjustado[index];
+
+        modelo.categorias.push({
+          descricao: element.descricao,
+          tipo: getTipo(element),
+          idadeMinima: element.idade_minima,
+          idadeMaxima: element.idade_maxima,
+          maximoParticipantes: element.maximo_participantes ? element.maximo_participantes : 1,
+          minimoParticipantes: element.minimo_participantes ? element.minimo_participantes : 1,
+          minimoFeminino: element.minimo_feminino ? element.minimo_feminino : 0,
+          minimoMasculino: element.minimo_masculino ? element.minimo_masculino : 0,
+          maximoFeminino: element.maximo_feminino ? element.maximo_feminino : 0,
+          maximoMasculino: element.maximo_masculino ? element.maximo_masculino : 0,
+          nivelDificuldade: determinarDificuldade(element.descricao, element.permite_nao_filiado == 1),
+          idAntigo: element.id,
+          lixo: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      console.log("Erro ao configurar categoria", ret);
+      return false;
+    }
+    return true;
+  } else {
+    console.log("Erro ao buscar categoria", ret);
+    return false;
+  }
+};
+
+// ['Masculino', 'Feminino', 'Misto']
+const getTipo = (categoria: any) => {
+  if (categoria.maximo_participantes == 1 && categoria.minimo_participantes == 1) {
+    if (categoria.minimo_feminino > 0 && !categoria.minimo_masculino && !categoria.maximo_masculino) {
+      return "Feminino";
+    } else if (categoria.minimo_masculino > 0 && !categoria.minimo_feminino && !categoria.maximo_feminino) {
+      return "Masculino";
+    } else {
+      return "Misto";
+    }
+  }
+};
+
 const converterNoticias = async () => {
   const retEntidades = await useCustomFetch("entidade/getPopulate", "post", { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
   if (retEntidades.valido) {
@@ -256,6 +791,13 @@ const converterNoticias = async () => {
   }
 };
 
+const findLinks = (valor: string) => {
+  console.log("valor", valor);
+  const regex = /(<a href|src)="([^"]*)/g;
+  const matches = [...valor.matchAll(regex)];
+  return matches.map((match) => match[0]);
+};
+
 const findNoticiaGrupo = async (idAntigo: number) => {
   const ret = await useCustomFetch("noticiaGrupo/getPopulate", "post", { filtro: { idAntigo }, select: { _id: 1 } }, undefined);
   if (ret.valido && ret.data.length > 0) {
@@ -291,6 +833,21 @@ const ajustaLink = (input: string) => {
     return getNewSiglaAjuste(input.replace(regex, `$1`));
   } else {
     return null;
+  }
+  return null;
+};
+
+const ajustaLinkEvento = (input: string) => {
+  // console.log("input", input);
+  const regex = /[^]*(gerenciador)/;
+
+  const match = input.match(regex);
+  // console.log("match", match);
+
+  if (match) {
+    return 'https://azimuteweb.s3.sa-east-1.amazonaws.com/'+getNewSiglaAjuste(input.replace(regex, `$1`));
+  } else {
+    return input;
   }
   return null;
 };
@@ -483,14 +1040,13 @@ const converterPessoas = async () => {
   ];
 
   $scope.formSql.campos = [{ campo: "pessoa_usuario.*" }, { campo: "pessoa.*" }, { campo: "pessoa_fisica.*" }, { campo: "filiacao_atleta.*" }, { campo: "categoria.descricao", campoAs: "categoria" }];
-  
+
   $scope.formSql.condicoes = [{ campo: "pessoa_usuario.lixo", condicao: "<>", valor: true }];
 
-    //somente correção para estavam sem categoria
+  //somente correção para estavam sem categoria
   $scope.formSql.ordenacoes = [{ campo: "pessoa_fisica.categoria_id" }];
   $scope.formSql.limitInicio = 0;
   $scope.formSql.limitFim = 118;
-  
 
   const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: $scope.formSql }, undefined);
   if (ret.valido && ret.data.json) {
@@ -498,7 +1054,7 @@ const converterPessoas = async () => {
 
     const elementF = ret.data.json.listaGenerica;
 
-     //somente correção para estavam sem categoria
+    //somente correção para estavam sem categoria
     if (elementF.length != 118) {
       console.log("retornoAjustadoresultado inesperado", elementF);
       return;
@@ -507,8 +1063,6 @@ const converterPessoas = async () => {
     let retString = JSON.stringify(elementF);
     const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
     console.log("retornoAjustado", retornoAjustado.length);
-
-    
 
     for (let index = 0; index < retornoAjustado.length; index++) {
       // for (let index = 0; index < 50; index++) {
@@ -797,39 +1351,6 @@ const ajustaEnderecosEletronicos = async (element: any) => {
     return true;
   }
   console.log("Errro retEndEl", retEndEl);
-  return false;
-};
-const ajustaTelefones = async (element: any) => {
-  const formTeletone = {
-    tabelas: [{ nome: "pessoa_telefone", nomeAs: "pt" }],
-    campos: [],
-    condicoes: [
-      { campo: "pt.lixo", condicao: "<>", valor: true },
-      { campo: "pt.pessoa_id", condicao: "=", valor: element.id },
-    ],
-  };
-  const retTel = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formTeletone }, undefined);
-  element.telefones = [];
-  if (retTel.valido && retTel.data.json) {
-    if (retTel.data.json.listaGenerica.length > 0) {
-      for (let index = 0; index < retTel.data.json.listaGenerica.length; index++) {
-        const elementTel = retTel.data.json.listaGenerica[index];
-        const tel = $geralService.removeMascara(elementTel.telefone);
-        if (tel && tel.length > 5) {
-          element.telefones.push({
-            tipo: ["Celular", "Residencial", "Comercial"].includes(elementTel.tipo) ? elementTel.tipo : "Celular",
-            ddd: tel.length > 9 ? tel.substring(0, 2) : "00",
-            numero: $geralService.removeMascara(tel.length > 9 ? tel.substring(2, tel.length) : tel),
-            complemento: elementTel.complemento,
-            principal: index == 0 ? true : false,
-            whatsApp: element.tipo == "Celular" ? true : false,
-          });
-        }
-      }
-    }
-    return true;
-  }
-  console.log("erro telefones", retTel);
   return false;
 };
 
@@ -1324,6 +1845,17 @@ const getISODate = (data: string) => {
     console.log("Erro ao converter data", data);
   }
   return null;
+};
+const getAno = (data: string) => {
+  try {
+    if (data) {
+      let dateParts: any = data.split("/");
+      return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).getFullYear();
+    }
+  } catch (error) {
+    return 2024;
+  }
+  return 2024;
 };
 
 const getNewEntidade = () => {

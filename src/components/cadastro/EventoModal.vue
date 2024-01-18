@@ -1117,14 +1117,14 @@ const inserirGeral = (nomeLista: any, inicio: any) => {
     objSelecionadoIndex.value = -1;
     objSelecionadoNome.value = nomeLista;
     objSelecionado.value = null;
-    state.campeonato[nomeLista].forEach((element: any) => {
+    state.evento[nomeLista].forEach((element: any) => {
         element.expanded = false;
     });
-    state.campeonato[nomeLista].push(inicio || {});
+    state.evento[nomeLista].push(inicio || {});
 };
 const deletarGeral = (nomeLista: any, index: number) => {
-    state.campeonato[nomeLista].splice(index, 1);
-    state.campeonato[nomeLista].forEach((element: any) => {
+    state.evento[nomeLista].splice(index, 1);
+    state.evento[nomeLista].forEach((element: any) => {
         element.expanded = false;
     });
 };

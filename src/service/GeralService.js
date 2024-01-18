@@ -7,9 +7,11 @@ moment.locale('pt-br');
 const GeralService = {
   configuracoes: {
     BASE_S3: "https://azimuteweb.s3.sa-east-1.amazonaws.com/",
+    // BASE_S3: process.env.BASE_S3,
     //BASE_REST: "https://atleta.esp.br/azimutewebws/",
     // BASE_REST: "http://localhost:3005/",
-    BASE_REST: "http://192.168.0.48:3005/",
+    BASE_REST: "https://cbo.esp.br/azimuteweb-ws/",
+    //BASE_REST: "http://192.168.0.48:3005/",
     // BASE_REST: "http://192.168.3.29:3005/",
     id: "5d6934fc9b35767d7398c823",
     _urj: "batatinhaloca"
@@ -258,6 +260,57 @@ const GeralService = {
       initials = parts[0][0];
     }
     return initials;
+  },
+
+  // pegar todas os iniciais das palavras ignorando as preposições e conjunções
+  getIniciaisCompleto(name) {
+    var parts = name.toLowerCase().split(" ");
+    var initials = "";
+
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].length > 0 && parts[i] !== "") {
+        if (
+          parts[i] !== "de" &&
+          parts[i] !== "da" &&
+          parts[i] !== "do" &&
+          parts[i] !== "dos" &&
+          parts[i] !== "das" &&
+          parts[i] !== "e" &&
+          parts[i] !== "a" &&
+          parts[i] !== "o" &&
+          parts[i] !== "as" &&
+          parts[i] !== "os" &&
+          parts[i] !== "em" &&
+          parts[i] !== "no" &&
+          parts[i] !== "na" &&
+          parts[i] !== "nos" &&
+          parts[i] !== "nas" &&
+          parts[i] !== "um" &&
+          parts[i] !== "uma" &&
+          parts[i] !== "uns" &&
+          parts[i] !== "umas" &&
+          parts[i] !== "pelo" &&
+          parts[i] !== "pela" &&
+          parts[i] !== "pelos" &&
+          parts[i] !== "pelas" &&
+          parts[i] !== "ao" &&
+          parts[i] !== "aos" &&
+          parts[i] !== "à" &&
+          parts[i] !== "às" &&
+          parts[i] !== "dum" &&
+          parts[i] !== "duma" &&
+          parts[i] !== "duns" &&
+          parts[i] !== "dumas" &&
+          parts[i] !== "num" &&
+          parts[i] !== "numa" &&
+          parts[i] !== "nuns" &&
+          parts[i] !== "numas"
+        ) {
+          initials += parts[i][0];
+        }
+      }
+    }
+    return initials.toUpperCase();
   },
 
   getIdade(nascimento) {
@@ -709,6 +762,11 @@ const GeralService = {
   },
   async deleteFile(caminho1, thumbnails) {
     // Deleta o arquivo original mais os thumbs
+
+    if (caminho1 == 'CBO/site-antigo/Eventos/Banners/banner-padrao.png') { 
+      return true;
+    }
+
     const caminhos = [caminho1];
     if (thumbnails) {
       for (let index = 0; index < thumbnails.length; index++) {
@@ -774,6 +832,9 @@ const GeralService = {
         // No caso de sucesso do upload
         obj[field] = caminho + randonName;
         if (!insercao && oldName !== '') {
+          if (oldName == 'CBO/site-antigo/Eventos/Banners/banner-padrao.png') { 
+            ignorarDelete = true;
+          }
           if (!ignorarDelete) {
             this.deleteImagem(oldName, thumbnails);
           }

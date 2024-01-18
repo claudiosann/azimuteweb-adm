@@ -69,6 +69,8 @@ export default defineNuxtConfig({
   //   ],
   // },
   runtimeConfig: {
+    baseUrl: process.env.BASE_REST,
+    baseS3: process.env.BASE_S3,
     public: {
       // baseUrl: GeralService.configuracoes.BASE_REST,
       // baseS3: GeralService.configuracoes.BASE_S3,

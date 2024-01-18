@@ -120,9 +120,17 @@ onMounted(() => {
 });
 
 const getUrlImagemThumb = (caminho) => {
-    return $geralService.getUrlS3Thumb(caminho, {
-        height: 128
-    })
+    try {
+        if (caminho) {
+            return $geralService.getUrlS3Thumb(caminho, {
+                height: 128
+            })
+        } else {
+            return null;
+        }
+    } catch (error) {
+        return null;
+    }
 }
 
 const getList = async () => {

@@ -6,6 +6,14 @@
 
 <script setup>
 // const vinculoC = useCookie("__olu");
+onMounted(() => {
+  // if (vinculoC.value) {
+  //   const vinculoDec = JSON.parse(decode(vinculoC.value, yul));
+  //   geral.setEntidade(vinculoDec.entidade);
+  //   geral.setFuncoesSistema(vinculoDec);
+  // }
+});
+
 onBeforeMount(async () => {
   const { $geralService } = useNuxtApp();
   const yul = $geralService.configuracoes._urj;
