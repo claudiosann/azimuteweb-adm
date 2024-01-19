@@ -1,0 +1,94 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 14, "ufId": 15, "estadoPadraoSigla": "PB", "sigla": "FOP", "nomeRazao": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o Para\u00edba", "nomeFantasia": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o da Para\u00edba", "cnpj": "13.189.836/0001-28", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "assets/img/logo/logo_fop.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o da Para\u00edba",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FOP, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-1",
+    "corBotoesFundo": "#ca0000",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_fop.png",
+    "urlFavIcon": "assets/img/logo/favicon_fop.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_fop.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal,conta",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "mostrarNoticiasCBO": true,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.5vw",
+    "destaqueMarginTop": "39px;",
+    "destaqueCorTexto": "#ca0000",
+    "destaqueCorSombra": "#ffffff",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#ca0000"
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "3501-7", "contaCorrente": "40150-1", "corFundo": "#000000", "corTexto": "#ffffff" },
+  "caminho": { "baseHtml": "/", "base": "https://www.fop.org.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLR-xwYGrH-lj8p6or5DTdGxqH7kPfNCnR", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "FOP Filmes" },
+  "facebook": { "fanpage": "orientacaodaparaiba", "apiId": "135209040519044", "versao": "v2.11", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua Terezinha da Costa, 50", "bairro": "Recanto do Po\u00e7o", "cidade": "Cabedelo", "uf": "PB", "cep": "58105-069" },
+  "contatos": [
+    { "nome": "Presidente:", "email": "presidente@fop.org.br", "fone": "" },
+    { "nome": "Secretaria:", "email": "secretaria@fop.org.br", "fone": "" }
+  ],
+  "menu": {
+    "title": "Principal",
+    "background": "#ca0000",
+    "color": "#ffffff",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "tooltip": "", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1x" },
+      {
+        "title": "FOP",
+        "tooltip": "FOP",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Diretoria", "href": "conteudo/Diretoria" },
+          { "title": "Regulamentos", "href": "arquivo?caminho=Regulamentos" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Presta\u00e7\u00e3o de Contas", "href": "arquivo?caminho=Finan\u00e7as" }
+        ]
+      },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "fotos", "icon": "fa fa-camera", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Agenda", "href": "agenda" },
+          { "title": "Todos os Eventos", "href": "eventos" },
+          { "title": "CPO", "tooltip": "", "href": "arquivo?caminho=Etapas", "icon": "", "iconSize": "fa-1x" },
+          { "title": "CopaNE 2017", "tooltip": "", "href": "arquivo?caminho=CopaNE", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Resultados", "href": "arquivo?caminho=Resultados", "icon": "fa fa-trophy" }
+        ]
+      },
+      { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Clubes", "tooltip": "Clubes", "href": "", "icon": "fa fa-flag-checkered", "iconSize": "fa-1" },
+      {
+        "title": "Ranking",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "CBO", "tooltip": "", "href": "ranking", "icon": "fa fa-trophy", "iconSize": "fa-1x" },
+          { "title": "FOP", "tooltip": "", "href": "arquivo?caminho=Ranking", "icon": "fa fa-trophy", "iconSize": "fa-1x" }
+        ]
+      }
+    ]
+  },
+  "domain": "fop.org.br"
+}

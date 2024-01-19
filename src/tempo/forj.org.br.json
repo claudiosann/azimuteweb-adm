@@ -1,0 +1,113 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 5, "ufId": 19, "estadoPadraoSigla": "RJ", "sigla": "FORJ", "nomeRazao": "FEDERA\u00c7\u00c3O DE ORIENTA\u00c7\u00c3O DO RIO DE JANEIRO", "nomeFantasia": "FEDERA\u00c7\u00c3O DE ORIENTA\u00c7\u00c3O DO RIO DE JANEIRO", "cnpj": "02.965.597/0001-34", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "http://www.forj.org.br/assets/img/logo/logo_forj.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Rio de Janeiro",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FORJ, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-1",
+    "corBotoesFundoB": "#BB1816",
+    "corBotoesFundo": "#322f62",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_forj.png",
+    "urlFavIcon": "assets/img/logo/favicon_forj.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_forj.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,separador:4px:#FFFFFF:true,principal,conta",
+    "menuIncludeB": "destaque,separador:3px:#822B25:true,principal,separador:3px:#822B25:false,conta,separador:3px:#822B25:true",
+    "menuIncludeA": "principal,separador:3px:red:true,destaque,separador:3px:orange:false,conta,separador:3px:pink:false",
+    "menuNaDireita": true,
+    "menuFixo": false,
+    "mostrarCampanha": false,
+    "mostrarNoticiasCBO": true,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.5vw",
+    "destaqueMarginTop": "35px;",
+    "destaqueCorTexto": "#ffffff",
+    "destaqueCorSombra": "#322f62",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#ffffff"
+  },
+  "conta": { "nomeBanco": "BANCO DO BRASIL", "agencia": "1517-2", "contaCorrente": "29673-2", "corFundo": "#FF6600", "corTexto": "white" },
+  "caminho": { "baseHtml": "/", "base": "http://forj.org.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLPPESzlTphj8jv33DPbfR-Hluk1-KN23G", "apiKey": "AIzaSyCx29wGGw5NHOUf5qw9vhjlwWQTzwcMdK4", "descricao": "Oreintacao FORJ" },
+  "facebook": { "fanpage": "federacaoforj", "apiId": "907442116062518", "versao": "v2.8", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua General Bruce 72 bl02 apt1009", "bairro": "S\u00e3o Cristov\u00e3o", "cidade": "Rio de Janeiro", "uf": "RJ", "cep": "20921030" },
+  "contatos": [
+    { "nome": "Presidente - Everson Kauffmann", "email": "presidente@forj.org.br", "fone": "(21) 96954-0958" },
+    { "nome": "Secret\u00e1rio - Junior Dias", "email": "secretaria@forj.org.br", "fone": "" }
+  ],
+  "menu": {
+    "background": "#322f62",
+    "color": "#ffffff",
+    "align": "rigth",
+    "title": "Principal",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "fotos", "icon": "fa fa-camera", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Eventos", "href": "eventos", "target": "" },
+          { "title": "Eventos Diversos Anos", "href": "eventos" },
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Resultados", "href": "arquivo?caminho=Resultados" }
+        ]
+      },
+      { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      {
+        "title": "Ranking",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "Nacional", "tooltip": "", "href": "ranking", "icon": "", "iconSize": "fa-1x" },
+          { "title": "FORJ", "tooltip": "", "href": "arquivo?caminho=Ranking", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      {
+        "title": "CLUBES",
+        "tooltip": "",
+        "icon": "",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "ADAAN", "tooltip": "", "href": "", "icon": "", "iconSize": "fa-1x" },
+          { "title": "ADVENTURE SPORTS", "tooltip": "", "href": "https://www.adventuresports-o.com/", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+          { "title": "ASSOJAPE", "tooltip": "", "href": "", "icon": "", "iconSize": "fa-1x" },
+          { "title": "COARJ", "tooltip": "", "href": "https://coarj.com.br/", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+          { "title": "COCAPRI", "tooltip": "", "href": "http://www.cacaprisma.com.br/", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+          { "title": "COMPASS", "tooltip": "", "href": "http://clubedeorientacaocompass.blogspot.com/", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+          { "title": "COUFRJ", "tooltip": "", "href": "https://coufrj.wixsite.com/coufrj", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+          { "title": "ELITE CO", "tooltip": "", "href": "", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      { "title": "Transpar\u00eancia", "tooltip": "Transpar\u00eancia", "href": "arquivo?caminho=Transpar\u00eancia", "icon": "fa fa-adjust", "iconSize": "fa-1x" },
+      {
+        "title": "FORJ",
+        "tooltip": "FORJ",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Institucional", "href": "conteudo/Institucional" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Embargos", "tooltip": "", "href": "conteudo/Embargos", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Calend\u00e1rio", "tooltip": "", "href": "arquivo?caminho=Calend\u00e1rios", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Regras", "tooltip": "", "href": "arquivo?caminho=Regras", "icon": "", "iconSize": "fa-1x" }
+        ]
+      }
+    ]
+  },
+  "domain": "forj.org.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

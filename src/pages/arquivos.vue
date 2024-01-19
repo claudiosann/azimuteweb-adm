@@ -99,7 +99,7 @@ import { useDialogPluginComponent, useQuasar, QSpinnerOval } from "quasar";
 const { $geralService, $constantes } = useNuxtApp();
 const geral = useGeral();
 
-const raiz = "CBO";
+const raiz = geral.entidade.sigla;
 
 const travarCaminhoUpload = ref(false);
 const multiple = ref(true);
