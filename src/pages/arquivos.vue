@@ -83,7 +83,8 @@
               <q-item-label>{{ removeCaminho(file.Key) }}</q-item-label>
               <q-item-label caption>Tamanho: {{ file.Size / 1000 }}kb</q-item-label>
             </q-item-section>
-            <q-item-section v-if="!travarDeletar" side>
+            <q-item-section class="flex items-center" v-if="!travarDeletar" side>
+              <q-btn size="14px" flat dense round icon="copy" @click="clipboard(file)" />
               <q-btn size="14px" flat dense round icon="delete" @click="deleteFile(file)" />
             </q-item-section>
           </q-item>
@@ -96,6 +97,11 @@
 
 <script lang="ts" setup>
 import { useDialogPluginComponent, useQuasar, QSpinnerOval } from "quasar";
+import { useClipboard } from "@vueuse/core";
+
+const source = ref("Hello");
+const { text, copy, copied, isSupported } = useClipboard({ source });
+
 const { $geralService, $constantes } = useNuxtApp();
 const geral = useGeral();
 
@@ -114,6 +120,17 @@ const lista = ref<any>([]);
 onMounted(async () => {
   navegar(0, true);
 });
+
+const clipboard = (text: string) => {
+  copy($geralService.configuracoes.BASE_S3 + text);
+  $q.notify({
+    color: "info",
+    position: "top",
+    icon: "check",
+    message: "Link copiado para área de transferência",
+    caption: "Copiado",
+  });
+};
 
 const finalizar = (val: any) => {
   console.log(val.files[0].name);
