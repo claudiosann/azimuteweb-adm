@@ -106,6 +106,23 @@ const GeralService = {
       dataValida: true,
     };
   },
+  formatoTelefone(phoneNumber) {
+    return phoneNumber.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
+  },
+  getCorStatusInscricao(status) {
+    switch (status) {
+      case "Iniciada":
+        return "accent";
+      case "Aguardando o Pagamento":
+        return "warning";
+      case "Finalizada":
+        return "positive";
+      case "Recusada":
+        return "negative";
+      default:
+        return "blue-gray-6";
+    }
+  },
   getTaxaAzimuteCerto(evento) {
     if (evento && evento.entidadeResponsavel) {
       if (evento.taxaAzimuteCerto) {
@@ -763,7 +780,7 @@ const GeralService = {
   async deleteFile(caminho1, thumbnails) {
     // Deleta o arquivo original mais os thumbs
 
-    if (caminho1 == 'CBO/site-antigo/Eventos/Banners/banner-padrao.png') { 
+    if (caminho1 == 'CBO/site-antigo/Eventos/Banners/banner-padrao.png') {
       return true;
     }
 
@@ -832,7 +849,7 @@ const GeralService = {
         // No caso de sucesso do upload
         obj[field] = caminho + randonName;
         if (!insercao && oldName !== '') {
-          if (oldName == 'CBO/site-antigo/Eventos/Banners/banner-padrao.png') { 
+          if (oldName == 'CBO/site-antigo/Eventos/Banners/banner-padrao.png') {
             ignorarDelete = true;
           }
           if (!ignorarDelete) {

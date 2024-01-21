@@ -1,0 +1,96 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 15, "ufId": 9, "estadoPadraoSigla": "GO", "sigla": "FOG", "nomeRazao": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o de Goi\u00e1s", "nomeFantasia": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o de Goi\u00e1s", "cnpj": "14.951.950/0001-06 -  Chave Pix 14.951.950/0001-06", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "http://www.fbo.com.br/assets/img/logo/logo_fog.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o de Goi\u00e1s",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FBO, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-4",
+    "corBotoesFundo": "#01793c",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_fog.png",
+    "urlFavIcon": "assets/img/logo/favicon_fog.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_fog.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal,conta",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.9vw",
+    "destaqueMarginTop": "38px;",
+    "destaqueCorTexto": "#0038a7",
+    "destaqueCorSombra": "#ffffff",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#0038a7",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "nomeBanco": "SICOOB", "agencia": "3155", "contaCorrente": "16985-4", "corFundo": "#ffde13", "corTexto": "#000000" },
+  "caminho": { "baseHtml": "/", "base": "https://www.fogoias.esp.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLz3-qIRYtcnlAMcTdrI55VQg3DCRonlQK", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "FBO Filmes" },
+  "facebook": { "fanpage": "679327515526252", "apiId": "301262053660104", "versao": "v2.9", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Avenida I, Quadra 73, Lote 10-A, Casa 03", "bairro": "Zona Sul Nova", "cidade": "Cristalina", "uf": "GO", "cep": "73850-000" },
+  "contatos": [
+    { "nome": "Presidente: Jos\u00e9 Reinaldo da Silva", "email": "presidente@fogoias.esp.br", "fone": "62 99486-2381" },
+    { "nome": "Secret\u00e1rio: Marcos Antonio Paulino de Almeida", "email": "secretario@fogoias.esp.br", "fone": "61 98488-1240" },
+    { "nome": "Diretor Financeiro: Daniel Marques de Jesus", "email": "financeiro@fogoias.esp.br", "fone": "61 99220-4234" },
+    { "nome": "Diretor T\u00e9cnico: Hugo Maciel de Carvalho", "email": "diretortecnico@fogoias.esp.br", "fone": "64 99289-4768" }
+  ],
+  "menu": {
+    "title": "Principal",
+    "background": "#01793c",
+    "color": "#ffffff",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "fotos", "icon": "fa fa-camera", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Agenda", "href": "agenda" },
+          { "title": "Eventos Futuro", "href": "https://www.cbo.org.br/assets/gerenciador/CBO/Eventos/Documentos/EVENTOS_FUTUROS.pdf", "target": "_blank" },
+          { "title": "Eventos 2016", "href": "eventos" },
+          { "title": "Resultados", "href": "arquivo?caminho=Resultados", "icon": "fa fa-trophy" }
+        ]
+      },
+      { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      {
+        "title": "Ranking",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Estadual", "tooltip": "", "href": "arquivo?caminho=Ranking", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Nacional", "tooltip": "", "href": "ranking", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      {
+        "title": "FOG",
+        "tooltip": "FOG",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Intitucional", "href": "conteudo/Diretoria" },
+          { "title": "Regras da Orienta\u00e7\u00e3o", "href": "arquivo?caminho=Regras" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Financas/Contabilidade", "href": "arquivo?caminho=Financas" },
+          { "title": "Cursos", "href": "cursos" }
+        ]
+      }
+    ]
+  },
+  "domain": "fogoias.esp.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

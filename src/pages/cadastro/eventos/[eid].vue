@@ -4,7 +4,7 @@
     <q-item class="pb-0 rounded-tl-lg  rounded-tr-lg " :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-7'" v-if="evento">
     <q-item-section v-if="$q.screen.gt.xs" avatar>
       <q-img v-if="evento.imagem" class="rounded-borders" style="width: 90px;" :ratio="1200 / 630"
-        :src="getUrlImagemThumb(evento.imagem)"></q-img>
+        :src="getUrlImagem(evento.imagem)"></q-img>
     </q-item-section>
     <q-item-section>
       <q-item-label class="text-h6" lines="2">{{ $q.screen.gt.xs ? `${evento.nome} (${evento.sigla})`: evento.sigla  }}</q-item-label>
@@ -32,6 +32,7 @@
       <q-tab name="percursos" icon="trending_up" label="Percursos" />
       <q-tab default name="consumiveis" icon="list_alt" label="Consumíveis" />
       <q-tab name="lotes" icon="event_note" label="Lotes de Inscrições" />
+      <q-tab name="inscricao" icon="how_to_reg" label="Inscrições" />
     </q-tabs>
     <div class="row q-col-gutter-sm">
       <div class="col-12">
@@ -44,6 +45,9 @@
             </q-tab-panel>
           <q-tab-panel class="p-0 sm:p-2" name="lotes">
             <CadastroLotesInscricoes :eventoId="eventoId"></CadastroLotesInscricoes>
+          </q-tab-panel>
+          <q-tab-panel class="p-0 sm:p-2" name="inscricao">
+            <CadastroInscricoes :eventoId="eventoId"></CadastroInscricoes>
           </q-tab-panel>
         </q-tab-panels>
 
@@ -121,6 +125,9 @@ const getUrlImagemThumb = (caminho: String) => {
   return $geralService.getUrlS3Thumb(caminho, {
     height: 128
   });
+};
+const getUrlImagem = (caminho: String) => {
+  return $geralService.getUrlS3(caminho);
 };
 
 

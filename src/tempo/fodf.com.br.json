@@ -1,0 +1,169 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 6, "ufId": 7, "estadoPadraoSigla": "DF", "sigla": "FODF", "nomeRazao": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Distrito Federal", "nomeFantasia": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Distrito Federal", "cnpj": "02.950.654/0001-01", "tipo": "federa\u00e7\u00e3o", "desabilitarAnuidades": true },
+  "pagina": {
+    "og_image": "https://www.fodf.com.br/assets/img/logo/logo_fodf.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Distrito Federal",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FODF, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-2",
+    "corBotoesFundoB": "#BB1816",
+    "corBotoesFundo": "#72b1cc",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_fodf.png",
+    "urlFavIcon": "assets/img/logo/favicon_fodf.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_fodf.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal,conta",
+    "menuIncludeB": "destaque,separador:3px:#822B25:true,principal,separador:3px:#822B25:false,conta,separador:3px:#822B25:true",
+    "menuIncludeA": "principal,separador:3px:red:true,destaque,separador:3px:orange:false,conta,separador:3px:pink:false",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.2vw",
+    "destaqueMarginTop": "35px;",
+    "destaqueCorTexto": "#476f80",
+    "destaqueCorSombra": "#ffffff",
+    "destaqueFonte": "Candara",
+    "rodapeCorTexto": "#476f80",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "1003-0", "contaCorrente": "15501-2", "corFundo": "#476f80", "corTexto": "#ffffff" },
+  "caminho": { "baseHtml": "/", "base": "https://www.fodf.com.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLBdLbLz0e7PHFe7zVQv9V17hQDkqYu1Kf", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "CBO Filmes" },
+  "facebook": { "fanpage": "federacaodeorientacaodf", "apiId": "170834143477142", "versao": "v2.10", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8", "token_bkp2": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "SQN 113, Bloco F, t\u00e9rreo", "bairro": "Asa Norte", "cidade": "Bras\u00edlia", "uf": "DF", "cep": "70.763-060" },
+  "contatos": [
+    { "nome": "Presidente - Thaiane M. R. do Prado", "email": "adm.fodf@gmail.com", "fone": "" },
+    { "nome": "Vice-Presidente - Wallace Lucas A. Angelo", "email": "adm.fodf@gmail.com", "fone": "" },
+    { "nome": "Diretor Administrativo - Andr\u00e9 Lu\u00eds Nascimento", "email": "adm.fodf@gmail.com", "fone": "" },
+    { "nome": "Diretor Financeiro - Wendel A. Pereira", "email": "adm.fodf@gmail.com", "fone": "" },
+    { "nome": "Diretora Jur\u00eddica - Marcela C. Moreira do Prado", "email": "adm.fodf@gmail.com", "fone": "" },
+    { "nome": "Diretor T\u00e9cnico - Humberto Rizzi de Azevedo", "email": "adm.fodf@gmail.com", "fone": "" }
+  ],
+  "menu": {
+    "background": "#72b1cc",
+    "color": "#ffffff",
+    "align": "rigth",
+    "title": "Principal",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "FODF",
+        "tooltip": "FODF",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Diretoria Executiva", "href": "conteudo/Diretoria" },
+          { "title": "Regras da Orienta\u00e7\u00e3o", "href": "arquivo?caminho=Regras" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Diretoria Financeira", "href": "arquivo?caminho=Financas" },
+          { "title": "Cursos", "href": "arquivo?caminho=Cursos" }
+        ]
+      },
+      { "title": "Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Agenda", "href": "agenda" },
+          { "title": "Eventos Futuros", "href": "https://www.cbo.org.br/assets/gerenciador/Eventos/Documentos/EVENTOS_FUTUROS.pdf", "target": "_blank" }
+        ]
+      },
+      {
+        "title": "Ranking",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "Nacional", "tooltip": "", "href": "ranking", "icon": "", "iconSize": "fa-1x" },
+          { "title": "CODF", "tooltip": "", "href": "arquivo?caminho=Ranking/CODF", "icon": "", "iconSize": "fa-1x" },
+          { "title": "CiMOB", "tooltip": "", "href": "arquivo?caminho=Ranking/CMOB", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      {
+        "title": "Resultados",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1x",
+        "children": [
+          {
+            "title": "XXIII CODF/2019",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "1\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2715&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "2\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2795&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "3\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2973&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "4\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=3017&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" }
+            ]
+          },
+          {
+            "title": "III CiMOB/2019",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "1\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2759&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "2\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2788&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "3\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2918&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "4\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=3061&year=2019&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" }
+            ]
+          },
+          {
+            "title": "XXII CODF/2018",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "1\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2230", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "2\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2281#H%20S%C3%AAnior%20A", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "3\u00aa Etapa", "tooltip": "", "href": "http://helga-o.com/webres/?lauf=2330", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "4\u00aa Etapa", "tooltip": "", "href": "http://helga-o.com/webres/index.php?lauf=2524&year=0#D%20Adulto%20B", "icon": "", "iconSize": "fa-1x", "target": "_blank" }
+            ]
+          },
+          {
+            "title": "II CiMOB/2018",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "1\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2369", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "2\u00aa Etapa", "tooltip": "", "href": "http://helga-o.com/webres/?lauf=2452", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "3\u00aa Etapa", "tooltip": "", "href": "http://helga-o.com/webres/index.php?lauf=2573&year=2018&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" }
+            ]
+          },
+          {
+            "title": "XXI CODF/2017",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "1\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=1818&year=2017&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "2\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=1889&year=2017&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "3\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=1962&year=2017&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "4\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=1982&year=2017&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "5\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2017&year=2017&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+              { "title": "6\u00aa Etapa", "tooltip": "", "href": "https://helga-o.com/webres/index.php?lauf=2105&year=2017&country=BRA", "icon": "", "iconSize": "fa-1x", "target": "_blank" }
+            ]
+          }
+        ]
+      },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "fotos", "icon": "fa fa-camera", "iconSize": "fa-1" }
+    ]
+  },
+  "domain": "fodf.com.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

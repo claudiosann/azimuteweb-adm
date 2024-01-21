@@ -1,0 +1,126 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 17, "ufId": 5, "estadoPadraoSigla": "BA", "sigla": "FBO", "nomeRazao": "Federa\u00e7\u00e3o Baiana de Orienta\u00e7\u00e3o", "nomeFantasia": "Federa\u00e7\u00e3o Baiana de Orienta\u00e7\u00e3o", "cnpj": "21.810.887/0001-53  - PIX: secretaria.fbo@gmail.com", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "http://www.fbo.com.br/assets/img/logo/logo_fbo.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o Baiana de Orienta\u00e7\u00e3o",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FBO, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-6",
+    "corBotoesFundo": "#000080",
+    "corBotoesTexto": "white",
+    "urlLogo": "assets/img/logo/logo_fbo.png",
+    "urlFavIcon": "assets/img/logo/favicon_fbo.ico",
+    "logoAltura": "80px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_fbo.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal,conta",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.9vw",
+    "destaqueMarginTop": "31px;",
+    "destaqueCorTexto": "#ffffff",
+    "destaqueCorSombra": "#000080",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#ffffff",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "0041-8", "contaCorrente": "132826-3", "corFundo": "#d90000", "corTexto": "white" },
+  "caminho": { "baseHtml": "/", "base": "https://fbo.esp.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLCV6y14ycau5t2PgH5P-Y6LpRG-qcqBcd", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "FBO Filmes" },
+  "facebook": { "fanpage": "federacaobaianadeorientacao", "apiId": "559334097789431", "versao": "v2.9", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua B, 82, Conj. Milton Gomes", "bairro": "Queimadinha", "cidade": "Feira de Santana", "uf": "BA", "cep": "44.050-532" },
+  "contatos": [
+    { "nome": "Secretaria:", "email": "secretaria.fbo@gmail.com", "fone": "75.99184.0005 (WhatsApp)" },
+    { "nome": "Presid\u00eancia:", "email": "presidente.fbo@gmail.com", "fone": "71.99157.8304 (WhatsApp)" }
+  ],
+  "menu": {
+    "title": "Principal",
+    "background": "#000080",
+    "color": "white",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Agenda", "href": "agenda" },
+          { "title": "Eventos Futuro", "href": "https://www.cbo.org.br/assets/gerenciador/CBO/Eventos/Documentos/EVENTOS_FUTUROS.pdf", "target": "_blank" },
+          { "title": "Resultados", "href": "arquivo?caminho=Resultados", "icon": "fa fa-trophy" }
+        ]
+      },
+      { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Clubes", "tooltip": "Clubes", "href": "conteudo/Clubes", "icon": "fa fa-flag-checkered", "iconSize": "fa-1" },
+      {
+        "title": "Ranking 2019",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1x",
+        "children": [
+          {
+            "title": "CamBO",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "Ranking por Clubes", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/CAMPOR/RANKING CAMPOR 2019 - CLUBES.pdf", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Ranking Feminino", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/Cambo/RANKING Cambo 2019 - FEMININO.pdf", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Ranking Masculino", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/Cambo/RANKING Cambo 2019 - MASCULINO.pdf", "icon": "", "iconSize": "fa-1x" }
+            ]
+          },
+          {
+            "title": "CAMPOR",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "Ranking por Clubes", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/CAMPOR/RANKING CAMPOR 2019 - CLUBES.pdf", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Ranking Feminino", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/CAMPOR/RANKING CAMPOR 2019 - FEMININO.pdf", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Ranking Masculino", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/CAMPOR/RANKING CAMPOR 2019 - MASCULINO.pdf", "icon": "", "iconSize": "fa-1x" }
+            ]
+          },
+          { "title": "Superf\u00e3 da Orienta\u00e7\u00e3o", "tooltip": "", "href": "https://fbo.esp.br/assets/gerenciador/FBO/Ranking/Superf\u00e3 da Orienta\u00e7\u00e3o/RANKING SUPERF\u00c3 DA ORIENTA\u00c7\u00c3O 2019.pdf", "icon": "", "iconSize": "fa-1x" },
+          { "title": "CBO", "tooltip": "", "href": "ranking", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      { "title": "Mapas", "tooltip": "", "href": "arquivo?caminho=Mapas", "icon": "", "iconSize": "fa-1x" },
+      {
+        "title": "M\u00eddias",
+        "tooltip": "M\u00eddias",
+        "icon": "fa fa-chrome",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "Facebook", "tooltip": "", "href": "https://www.facebook.com/federacaobaianadeorientacao/", "icon": "fa fa-facebook-square", "iconSize": "fa-1x" },
+          { "title": "Instagram", "tooltip": "", "href": "https://www.instagram.com/fborientacao/", "icon": "fa fa-camera", "iconSize": "fa-1x" }
+        ]
+      },
+      {
+        "title": "FBO",
+        "tooltip": "FBO",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Intitucional", "href": "conteudo/Institucional" },
+          { "title": "Regras da Orienta\u00e7\u00e3o", "href": "arquivo?caminho=Regras" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Transpar\u00eancia", "href": "arquivo?caminho=Transpar\u00eancia" },
+          { "title": "Cursos", "href": "arquivo?caminho=Cursos" }
+        ]
+      }
+    ]
+  },
+  "domain": "fbo.esp.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

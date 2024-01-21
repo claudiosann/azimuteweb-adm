@@ -1,0 +1,95 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 7, "ufId": 18, "estadoPadraoSigla": "PR", "sigla": "FPO", "nomeRazao": "Federa\u00e7\u00e3o Paranaense de Orienta\u00e7\u00e3o", "nomeFantasia": "Federa\u00e7\u00e3o Paranaense de Orienta\u00e7\u00e3o", "cnpj": "03.752.683.0001/21", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "http://www.fpo.com.br/assets/img/logo/logo_fpo.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o Paranaense de Orienta\u00e7\u00e3o",
+    "subTitulo": "- FPO",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FPO, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical, mapa, percurso, cmoc, cipo, cambor,",
+    "analiticsId": "UA-75281480-3",
+    "corBotoesFundo": "#40591c",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/gerenciador/FPO/Logos/Diversos/banner fpo.png",
+    "urlFavIcon": "assets/img/logo/favicon_fpo.ico",
+    "logoAltura": "150px",
+    "logoMargin": "10px",
+    "personaCSS": "assets/css/persona_fpo.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal",
+    "menuIncludeB": "destaque,separador:3px:#822B25:true,principal,separador:3px:#822B25:false,conta,separador:3px:#822B25:true",
+    "menuIncludeA": "principal,separador:3px:red:true,destaque,separador:3px:orange:false,conta,separador:3px:pink:false",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.5vw",
+    "destaqueMarginTop": "10px;",
+    "destaqueCorTexto": "#40591c",
+    "destaqueCorSombra": "#ffffff",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#000000",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "corFundo": "#c0c0c0", "corTexto": "#000000", "nomeBanco": "Banco do Brasil", "agencia": "3792-3", "contaCorrente": "7715-1" },
+  "caminho": { "baseHtml": "/", "base": "https://www.fpo.esp.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLR-xwYGrH-lj8p6or5DTdGxqH7kPfNCnR", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "FPO Filmes" },
+  "facebook": { "fanpage": "orientaparana", "apiId": "302565586814749", "versao": "v2.11", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "_", "bairro": "_", "cidade": "_", "uf": "PR", "cep": "81000000" },
+  "contatos": [
+    { "nome": "Presidente<br>Luciano de Oliveira<br>", "email": "presidente@fpo.esp.br", "fone": "" },
+    { "nome": "Vice-Presidente<br>Fabio Alexander Hartmann<br>", "email": "secretaria@fpo.esp.br", "fone": "" },
+    { "nome": "Financeiro<br>Edin\u00e9ia Roniak dos Santos<br>", "email": "financeiro@fpo.esp.br", "fone": "" }
+  ],
+  "menu": {
+    "background": "#36591c",
+    "color": "white",
+    "align": "rigth",
+    "title": "Principal",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Eventos Futuros", "href": "https://www.cbo.esp.br/assets/gerenciador/CBO/Eventos/Documentos/EVENTOS_FUTURO.pdf", "target": "_blank" },
+          { "title": "Eventos Passados", "href": "eventos" }
+        ]
+      },
+      { "title": "Ranking", "tooltip": "Ranking", "href": "ranking", "icon": "fa fa-trophy", "iconSize": "fa-1" },
+      {
+        "title": "Institucional",
+        "tooltip": "Institucional",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Hist\u00f3rico", "tooltip": "", "href": "conteudo/Hist\u00f3ria", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Diretoria", "href": "conteudo/Diretoria" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" }
+        ]
+      },
+      { "title": "Resultados", "tooltip": "Home", "href": "arquivo?caminho=Resultados", "icon": "fa fa-folder", "iconSize": "fa-1" },
+      {
+        "title": "Regras FPO",
+        "tooltip": "Regras",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Regras FPO", "tooltip": "", "href": "arquivo?caminho=Regras FPO", "icon": "fa fa-folder", "iconSize": "fa-1" },
+          { "title": "Regras Nacionais", "tooltip": "", "href": "https://cbo.esp.br/arquivo?caminho=Regras", "icon": "fa fa-folder", "iconSize": "fa-1" }
+        ]
+      },
+      { "title": "FOTOS", "tooltip": "FOTOS", "href": "https://fpo.esp.br/evento/852", "icon": "fa fa-camera-retro", "iconSize": "fa-1", "target": "" },
+      { "title": "Transpar\u00eancia", "tooltip": "Transpar\u00eancia", "href": "arquivo?caminho=Transpar\u00eancia", "icon": "fa fa-archive", "iconSize": "fa-1" }
+    ]
+  },
+  "domain": "fpo.esp.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

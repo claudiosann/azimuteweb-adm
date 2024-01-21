@@ -1,0 +1,98 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 11, "ufId": 6, "estadoPadraoSigla": "CE", "sigla": "FECORI", "nomeRazao": "Federa\u00e7\u00e3o Cearense de Orienta\u00e7\u00e3o", "nomeFantasia": "Federa\u00e7\u00e3o Cearense de Orienta\u00e7\u00e3o", "cnpj": "07.360.881/0001-09", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "http://www.fecori.com.br/assets/img/logo/logo_fecori.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o Cearense de Orienta\u00e7\u00e3o",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FECORI, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-9",
+    "corBotoesFundo": "#13794e",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_fecori.png",
+    "urlFavIcon": "assets/img/logo/favicon_fecori.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_fecori.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,separador:5px:#FFDF00:true,principal",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.1vw",
+    "destaqueMarginTop": "39px;",
+    "destaqueCorTexto": "#13794e",
+    "destaqueCorSombra": "#ffffff",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#13794e",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "2793-6", "contaCorrente": "79906-8", "corFundo": "#ffde13", "corTexto": "#000000" },
+  "caminho": { "baseHtml": "/", "base": "https://www.fecori.org.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PL0phOi-jnqO_yAi3y8Jcudf9fP2bo7cn1", "apiKey": "AIzaSyC1BddYAHO4Td6qvpKoYYIx7Moez_y1B44", "descricao": "FECORI Filmes" },
+  "facebook": { "fanpage": "fecorioficial", "apiId": "330854203993891", "versao": "v2.10", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua Valdet\u00e1rio Mota, 37", "bairro": "Vicente Pinzon", "cidade": "Fortaleza", "uf": "CE", "cep": "60.181-265" },
+  "contatos": [
+    { "nome": "Presidente:", "email": "fecori.presidente@gmail.com", "fone": "(85) 9.9996.9570" },
+    { "nome": "Financeiro:", "email": "fecori.financeiro@gmail.com", "fone": "(85) 9.8803.1648" }
+  ],
+  "menu": {
+    "title": "Principal",
+    "background": "#13794e",
+    "color": "#ffffff",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "FECORI",
+        "tooltip": "FECORI",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          {
+            "title": "Institucional",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "O Esporte Orienta\u00e7\u00e3o", "tooltip": "", "href": "conteudo/O Esporte Orienta\u00e7\u00e3o", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Hist\u00f3rico", "tooltip": "", "href": "conteudo/Hist\u00f3rico", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Diretoria", "tooltip": "", "href": "conteudo/Diretoria", "icon": "", "iconSize": "fa-1x" }
+            ]
+          },
+          { "title": "Planejamento Estrat\u00e9gico", "tooltip": "", "href": "arquivo?caminho=Planejamento", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Financas/Contabilidade", "href": "arquivo?caminho=Financas" },
+          { "title": "Cursos", "href": "arquivo?caminho=Cursos" },
+          { "title": "Regulamentos", "tooltip": "", "href": "arquivo?caminho=Regulamentos", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Quadro T\u00e9cnico", "tooltip": "", "href": "arquivo?caminho=Quadro T\u00e9cnico", "icon": "", "iconSize": "fa-1x" },
+          { "title": "TJD", "tooltip": "", "href": "arquivo?caminho=TJD", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "fotos", "icon": "fa fa-camera", "iconSize": "fa-1" },
+      {
+        "title": "Calend\u00e1rios",
+        "tooltip": "Calend\u00e1rios",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Todos os Eventos", "href": "eventos" },
+          { "title": "Eventos do Cear\u00e1", "tooltip": "", "href": "arquivo?caminho=Eventos Cear\u00e1", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Eventos do Nordeste", "tooltip": "", "href": "arquivo?caminho=Eventos do Nordeste", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      { "title": "Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Clubes", "tooltip": "Clubes", "href": "conteudo/Clubes", "icon": "fa fa-flag-checkered", "iconSize": "fa-1" },
+      { "title": "Resultados", "tooltip": "Resultados", "href": "arquivo?caminho=Resultados", "icon": "fa fa-trophy", "iconSize": "fa-1x" },
+      { "title": "Ranking", "tooltip": "Ranking", "href": "ranking", "icon": "fa fa-trophy", "iconSize": "fa-1" }
+    ]
+  },
+  "domain": "fecori.org.br"
+}

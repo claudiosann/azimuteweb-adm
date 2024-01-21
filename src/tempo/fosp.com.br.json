@@ -1,0 +1,131 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 8, "ufId": 26, "estadoPadraoSigla": "SP", "sigla": "FOSP", "nomeRazao": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Estado de S\u00e3o Paulo", "nomeFantasia": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Estado de S\u00e3o Paulo", "cnpj": "04.768.924/0001-93", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "https://www.fosp.com.br/assets/img/logo/logo_fosp.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o do Estado de S\u00e3o Paulo",
+    "subTitulo": "FOSP",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FOSP, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-2",
+    "corBotoesFundoB": "#BB1816",
+    "corBotoesFundo": "#6B747A",
+    "corBotoesTexto": "white",
+    "urlLogo": "https://www.fosp.com.br/assets/img/logo/logo_fosp.png",
+    "urlFavIcon": "assets/img/logo/favicon_fosp.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_fosp.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal,separador:4px:#E77817:true,conta,separador:4px:#E77817:true",
+    "menuIncludeB": "destaque,separador:3px:#822B25:true,principal,separador:3px:#822B25:false,conta,separador:3px:#822B25:true",
+    "menuIncludeA": "principal,separador:3px:red:true,destaque,separador:3px:orange:false,conta,separador:3px:pink:false",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.2vw",
+    "destaqueMarginTop": "35px;",
+    "destaqueCorTexto": "#ffffff",
+    "destaqueCorSombra": "#000000",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#000000",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "0097-3", "contaCorrente": "25.000-7", "corFundo": "#ff9a57", "corTexto": "white" },
+  "caminho": { "baseHtml": "/", "base": "https://www.fosp.com.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLAqmNau8ncabmkaA8hPPeDaymNClfHE0g", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "Midias FOSP" },
+  "facebook": { "fanpage": "fosp.com.br", "apiId": "255010328307718", "versao": "v2.8", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8", "token_bkp2": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "-", "bairro": "00", "cidade": "00", "uf": "SP", "cep": "00000-000" },
+  "contatos": [
+    { "nome": "Presidente<br>", "email": "presidencia.fosp@gmail.com", "fone": "(12) 99787-7781" },
+    { "nome": "Secretaria<br>", "email": "secretariaefinanceiro.fosp@gmail.com", "fone": "" },
+    { "nome": "Diretor de Marketing", "email": "diretor.marketing.fosp@gmail.com", "fone": "" },
+    { "nome": "Diretor T\u00e9cnico<br>", "email": "diretor.tecnico.fosp@gamil.com", "fone": "" }
+  ],
+  "menu": {
+    "background": "#6B747A",
+    "color": "white",
+    "align": "rigth",
+    "title": "Principal",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Eventos", "href": "eventos", "target": "" },
+          { "title": "Eventos Diversos Anos", "href": "eventos" },
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Resultados", "href": "arquivo?caminho=Resultados" },
+          { "title": "Mapas", "tooltip": "", "href": "arquivo?caminho=Mapas", "icon": "", "iconSize": "" }
+        ]
+      },
+      { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Clubes", "tooltip": "Clubes", "href": "conteudo/Clubes", "icon": "fa fa-flag-checkered", "iconSize": "fa-1" },
+      {
+        "title": "Ranking",
+        "tooltip": "",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "Nacional", "tooltip": "", "href": "ranking", "icon": "", "iconSize": "fa-1x" },
+          { "title": "FOSP", "tooltip": "", "href": "arquivo?caminho=Ranking", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      {
+        "title": "FOSP",
+        "tooltip": "FOSP",
+        "icon": "fa fa-tree",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Institucional", "href": "conteudo/Institucional" },
+          { "title": "Financeiro", "href": "arquivo?caminho=Finan\u00e7as" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Estatuto", "tooltip": "", "href": "arquivo?caminho=Estatuto", "icon": "", "iconSize": "fa-1x" },
+          {
+            "title": "Regras",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "2020", "tooltip": "", "href": "arquivo?caminho=Regras/CAMPOR 2020", "icon": "", "iconSize": "fa-1x" },
+              { "title": "2021", "tooltip": "", "href": "arquivo?caminho=Regras/CAMPOR 2021", "icon": "", "iconSize": "fa-1x" },
+              {
+                "title": "2022",
+                "tooltip": "",
+                "icon": "",
+                "iconSize": "fa-1x",
+                "children": [
+                  { "title": "CAMPOR 2022", "tooltip": "", "href": "arquivo?caminho=Regras/CAMPOR 2022", "icon": "", "iconSize": "fa-1x" },
+                  { "title": "1\u00ba CAMPEstO 2022", "tooltip": "", "href": "arquivo?caminho=Regras/1\u00ba CAMPEstO 2022", "icon": "", "iconSize": "fa-1x" }
+                ]
+              },
+              { "title": "2023", "tooltip": "", "href": "arquivo?caminho=Regras/CAMPOR 2023", "icon": "", "iconSize": "fa-1x" }
+            ]
+          },
+          {
+            "title": "Calend\u00e1rio",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "2020", "tooltip": "", "href": "arquivo?caminho=Calend\u00e1rios/2020", "icon": "", "iconSize": "fa-1x" },
+              { "title": "2021", "tooltip": "", "href": "arquivo?caminho=Calend\u00e1rios/2021", "icon": "", "iconSize": "fa-1x" }
+            ]
+          }
+        ]
+      },
+      { "title": "FOTOS", "tooltip": "FOTOS", "icon": "", "iconSize": "fa-1x", "children": [{ "title": "FOSP NAS ESCOLAS", "tooltip": "", "icon": "", "iconSize": "fa-1x", "children": [{ "title": "2021", "tooltip": "", "href": "arquivo?caminho=FOSP NAS ESCOLAS/FOTOS", "icon": "", "iconSize": "fa-1x" }] }] },
+      { "title": "Projetos Institucionais", "tooltip": "FOSP", "icon": "fa fa-institution", "iconSize": "fa-1", "children": [{ "title": "Projeto TrailOSP", "tooltip": "FOSP", "href": "conteudo/Projeto TrailOSP", "icon": "fa fa-wheelchair-alt", "iconSize": "fa-1x" }] }
+    ]
+  },
+  "domain": "fosp.com.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}
