@@ -1,0 +1,87 @@
+{
+  "geral": { "tratamento": "o", "tratamento2": "do" },
+  "entidade": { "entidadePaiId": 41, "ufId": 24, "estadoPadraoSigla": "SC", "sigla": "BAVECO", "nomeRazao": "Barriga Verde Clube de Orienta\u00e7\u00e3o", "nomeFantasia": "BaVeCO", "cnpj": "02.319.702/0001-68", "tipo": "clube", "confederacaoId": 1, "federacaoId": 10, "federacaoSigla": "ORIESC" },
+  "pagina": {
+    "og_image": "https://www.baveco.org.br/assets/img/logo/logo_baveco.png",
+    "og_type": "Facebook type",
+    "titulo": "BaVeCO",
+    "subTitulo": "Barriga Verde Clube de Orienta\u00e7\u00e3o",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, BAVECO, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-1",
+    "corBotoesFundo": "#135e47",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_baveco.png",
+    "urlFavIcon": "assets/img/logo/favicon_baveco.png",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "urlLogoBKP": "assets/img/cbo/federacoes/LOGO FOSP.png",
+    "personaCSS": "assets/css/persona_baveco.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,separador:5px:#AD1B1B:true,principal",
+    "menuIncludeB": "destaque,separador:3px:#822B25:true,principal,separador:3px:#822B25:false,conta,separador:3px:#822B25:true",
+    "menuIncludeA": "principal,separador:3px:red:true,destaque,separador:3px:orange:false,conta,separador:3px:pink:false",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "mostrarNoticiasCBO": true,
+    "mostrarNoticiasFederacao": true,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.5vw",
+    "destaqueMarginTop": "30px;",
+    "destaqueCorTexto": "#ffffff",
+    "destaqueCorSombra": "#000000",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#ffffff"
+  },
+  "conta": { "nomeBanco": "Banco do Brasil - 001", "agencia": "0016-7", "contaCorrente": "10.1106-5", "corFundo": "#ad1b1b", "corTexto": "#ffffff" },
+  "caminho": { "baseHtml": "/", "base": "https://www.baveco.org.br", "baseRest": "https://www.baveco.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLz3-qIRYtcnlAMcTdrI55VQg3DCRonlQK", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "BAVECO Filmes" },
+  "facebook": { "fanpage": "bavecosc", "apiId": "291477231644750", "versao": "v3.1", "baseRest": "http://localhost:8080/azimuteweb_ws/webresources", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua Fernando Ferreira de Mello 376 2/23", "bairro": "Bom Abrigo", "cidade": "Florianopolis", "uf": "SC", "cep": "88.085-260" },
+  "contatos": [
+    { "nome": "Marco Aur\u00e9lio Pedroso da Rosa", "email": "maurelio_the@yahoo.com.br", "fone": "55 9 9196-6322" },
+    { "nome": "Amilcare Jose Satler", "email": "presidente@oriesc.org.br", "fone": "48 9 8402-6675" }
+  ],
+  "menu": {
+    "background": "#135e47",
+    "color": "#ffffff",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "fotos", "icon": "fa fa-camera", "iconSize": "fa-1" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Agenda", "href": "agenda" },
+          { "title": "Eventos Futuro", "href": "https://www.cbo.org.br/assets/gerenciador/Eventos/Documentos/EVENTOS_FUTUROS.pdf", "target": "_blank" },
+          { "title": "Eventos", "href": "eventos" }
+        ]
+      },
+      { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Ranking", "tooltip": "Ranking", "href": "ranking", "icon": "fa fa-trophy", "iconSize": "fa-1" },
+      {
+        "title": "BAVECO",
+        "tooltip": "BAVECO",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Intitucional", "href": "organograma" },
+          { "title": "Regras da Orienta\u00e7\u00e3o", "href": "regras" },
+          { "title": "Secretaria", "href": "secretaria" },
+          { "title": "Financas/Contabilidade", "href": "financas" },
+          { "title": "cursos", "href": "cursos" }
+        ]
+      }
+    ]
+  },
+  "domain": "baveco.org.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

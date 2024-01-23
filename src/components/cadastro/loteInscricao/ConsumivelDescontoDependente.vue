@@ -188,9 +188,6 @@ const listaTipoDependentes = ['Pai/Mãe', 'Cônjuge', 'Filho(a)', 'Qualquer'];
 const rules = {
     descricao: {
         required
-    },
-    valor: {
-        required
     }
 };
 

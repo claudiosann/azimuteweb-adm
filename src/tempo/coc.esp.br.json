@@ -1,0 +1,105 @@
+{
+  "geral": { "tratamento": "o", "tratamento2": "do" },
+  "entidade": { "entidadePaiId": 20, "ufId": 18, "estadoPadraoSigla": "PR", "sigla": "COC", "nomeRazao": "Clube de Orienta\u00e7\u00e3o de Curitiba", "nomeFantasia": "Clube de Orienta\u00e7\u00e3o de Curitiba", "cnpj": "01.052.937/0001-73", "tipo": "clube", "confederacaoId": 1, "federacaoId": 7, "federacaoSigla": "FPO" },
+  "pagina": {
+    "og_image": "http://coc.esp.br/assets/img/logo/logo_coc.png",
+    "og_type": "Facebook type",
+    "titulo": "Clube de Orienta\u00e7\u00e3o de Curitiba",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, COC, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-1",
+    "corBotoesFundo": "#6fbf85",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_coc.png",
+    "urlFavIcon": "assets/img/logo/favicon_coc.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "urlLogoBKP": "assets/img/cbo/federacoes/LOGO FOSP.png",
+    "personaCSS": "assets/css/persona_coc.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,principal",
+    "menuIncludeB": "destaque,separador:3px:#822B25:true,principal,separador:3px:#822B25:false,conta,separador:3px:#822B25:true",
+    "menuIncludeA": "principal,separador:3px:red:true,destaque,separador:3px:orange:false,conta,separador:3px:pink:false",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "mostrarNoticiasCBO": true,
+    "mostrarNoticiasFederacao": true,
+    "tituloHomeGrad": false,
+    "destaqueSombra": true,
+    "destaqueTamanho": "2.5vw",
+    "destaqueMarginTop": "41px;",
+    "destaqueCorTexto": "#000000",
+    "destaqueCorSombra": "#ffffff",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#000000"
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "1243-2", "contaCorrente": "50868-3", "corFundo": "#ec3035", "corTexto": "#ffffff" },
+  "caminho": { "baseHtml": "/", "base": "http://coc.esp.br", "baseRest": "https://www.coc.esp.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PLR-xwYGrH-lj8p6or5DTdGxqH7kPfNCnR", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "COC Filmes" },
+  "facebook": { "fanpage": "COC.Curitiba", "apiId": "195713374498132", "versao": "v2.12", "baseRest": "http://localhost:8080/azimuteweb_ws/webresources", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua Ernesto Biscardi 1155 casa 29", "bairro": "CIC", "cidade": "Curitiba", "uf": "PR", "cep": "81312-120" },
+  "contatos": [
+    { "nome": "Presidente: <br> JEAN MERENDA <br>", "email": "coc.curitiba@gmail.com", "fone": "(41) 99920 1555" },
+    { "nome": "Financeiro: <br> FERNANDO AUGUSTO TORTELLI<br>", "email": "ftortelli@gmail.com", "fone": "(41) 99993-0545" }
+  ],
+  "menu": {
+    "background": "#6fbf85",
+    "color": "#ffffff",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "COC",
+        "tooltip": "COC",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          {
+            "title": "Financeiro",
+            "tooltip": "",
+            "icon": "",
+            "iconSize": "fa-1x",
+            "children": [
+              { "title": "Balancetes", "tooltip": "", "href": "arquivo?caminho=Balancetes", "icon": "", "iconSize": "fa-1x" },
+              { "title": "Formul\u00e1rios", "tooltip": "", "href": "arquivo?caminho=Formularios", "icon": "", "iconSize": "fa-1x" }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Institucional",
+        "tooltip": "Institucional",
+        "icon": "fa fa-id-card-o",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "Diretoria", "tooltip": "", "href": "conteudo/Diretoria", "icon": "", "iconSize": "fa-1x", "target": "" },
+          { "title": "Hist\u00f3ria", "tooltip": "", "href": "conteudo/Hist\u00f3ria", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Estatuto", "tooltip": "", "href": "arquivo?caminho=Secretaria/Estatuto", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      { "title": "Resultados", "tooltip": "Eventos", "icon": "fa fa-bar-chart-o", "iconSize": "fa-1", "children": [{ "title": "Resultados", "tooltip": "", "href": "arquivo?caminho=Eventos/Resultados", "icon": "", "iconSize": "fa-1x" }] },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "https://www.coc.esp.br/evento/853", "icon": "fa fa-camera", "iconSize": "fa-1" },
+      { "title": "Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Ranking CBO", "tooltip": "Ranking", "href": "ranking", "icon": "fa fa-trophy", "iconSize": "fa-1" },
+      {
+        "title": "Orienta\u00e7\u00e3o",
+        "tooltip": "Orienta\u00e7\u00e3o",
+        "icon": "fa fa-tree",
+        "iconSize": "fa-1x",
+        "children": [
+          { "title": "Sobre o Esporte", "tooltip": "", "href": "", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Como iniciar no esporte", "tooltip": "", "href": "conteudo/iniciando", "icon": "", "iconSize": "fa-1x" },
+          { "title": "Regras CBO", "tooltip": "", "href": "https://www.cbo.org.br/arquivo?caminho=Regras", "icon": "", "iconSize": "fa-1x", "target": "_blank" },
+          { "title": "Regras FPO", "tooltip": "", "href": "https://www.fpo.esp.br/arquivo?caminho=Regras", "icon": "", "iconSize": "fa-1x", "target": "_blank" }
+        ]
+      }
+    ]
+  },
+  "domain": "coc.esp.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}
