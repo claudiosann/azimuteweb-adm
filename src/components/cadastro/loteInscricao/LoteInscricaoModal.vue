@@ -23,12 +23,12 @@
                                 :error="$v.loteInscricao.descricao.$error" error-message="Campo obrigatório" />
                         </div>
                         <div class="col-sm-4 col-md-3 col-6">
-                            <CinputDate hide-bottom-space outlined v-model="state.loteInscricao.inicio" label="Inicio"
+                            <CinputDate tipo="datetime" hide-bottom-space outlined v-model="state.loteInscricao.inicio" label="Inicio"
                                 :dense="dense" @blur="$v.loteInscricao.inicio.$touch"
                                 :error="$v.loteInscricao.inicio.$error" error-message="Campo obrigatório" />
                         </div>
                         <div class="col-sm-4 col-md-3 col-6">
-                            <CinputDate hide-bottom-space outlined v-model="state.loteInscricao.fim" label="Fim"
+                            <CinputDate  tipo="datetime" hide-bottom-space outlined v-model="state.loteInscricao.fim" label="Fim"
                                 :dense="dense" @blur="$v.loteInscricao.fim.$touch" :error="$v.loteInscricao.fim.$error"
                                 error-message="Campo obrigatório" />
                         </div>
@@ -432,6 +432,8 @@ const inserirPacoteConsumivel = (index: number) => {
         consumivel: null,
         valor: '',
         agrupador: null,
+        cetegorias:[],
+        tipo: 'Valor',
         open: true
     });
 };

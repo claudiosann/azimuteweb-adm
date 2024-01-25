@@ -6,8 +6,9 @@
       </q-toolbar>
 
       <q-card-section>
+        <q-input outlined v-model="filtro" type="text" label="Label" />
         <q-list v-if="listaVinculo.length>0">
-          <q-item clickable v-ripple @click="confirm(vinculo)" v-for="vinculo in listaVinculo" :key="vinculo._id">
+          <q-item clickable v-ripple @click="confirm(vinculo)" v-for="vinculo in listVinculoFiltered" :key="vinculo._id">
             <q-item-section avatar>
               <q-avatar rounded>
                 <img :src="getUrlImagem(vinculo)" />
@@ -34,6 +35,13 @@ const props = defineProps({
   caminho: null,
 });
 
+const filtro = ref(''); //
+const listVinculoFiltered = computed(() => {
+  if (!filtro.value) return props.listaVinculo;
+  return props.listaVinculo.filter((item) => {
+    return item.entidade.sigla.toLowerCase().indexOf(filtro.value.toLowerCase()) > -1;
+  });
+});
 const { $geralService } = useNuxtApp();
 const $q = useQuasar();
 

@@ -17,10 +17,6 @@
             </template>
             <div class=" col-sm-4 col-md-12 q-pa-sm">
                 <div class="row q-col-gutter-sm">
-                    <div class="col-sm-6 col-md-2 col-12">
-                        <q-input hide-bottom-space outlined v-model="pacoteConsumivel.valor" label="Valor" :dense="dense"
-                            :error="!pacoteConsumivel.valor" error-message="Campo obrigatório" prefix="R$" type="number" input-class="text-right"/>
-                    </div>
                     <div class="col-md-4 col-sm-6 col-12">
                         <q-select hide-bottom-space outlined v-model="pacoteConsumivel.consumivel"
                             :options="listaConsumiveis" option-label="descricao" emit-value option-value="_id"
@@ -28,6 +24,16 @@
                             :rules="[val => val.length > 0 || 'Selecione um consumível']">
                         </q-select>
                     </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                         
+                    <q-select hide-bottom-space outlined v-model="pacoteConsumivel.tipo" :options="['Percentual', 'Valor']" label="Tipo" :dense="dense" />
+                         
+                    </div>
+                    <div class="col-sm-6 col-md-2 col-12">
+                        <q-input hide-bottom-space outlined v-model="pacoteConsumivel.valor" label="Valor" :dense="dense"
+                              :prefix="pacoteConsumivel.tipo=='Valor'?'R$':'%'" type="number" input-class="text-right"/>
+                    </div>
+                    
                     <div class="col-sm-6 col-md-4 col-12">
                             <q-input type="number" hide-bottom-space min="0" outlined
                                 v-model="pacoteConsumivel.agrupador" label="Agrupador" :dense="dense" >
@@ -99,9 +105,6 @@ const getDescricaoConsumivel = (id: String) => {
 
 const rules = {
     consumivel: {
-        required
-    },
-    valor: {
         required
     }
 };

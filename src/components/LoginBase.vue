@@ -58,7 +58,7 @@ const geral = useGeral();
 const isPwd = ref(true);
 const passInput = ref(null);
 
-const state = reactive({ senha: "123456", login: "00403767962" });
+const state = reactive({ senha: "", login: "" });
 const rules = { login: { required }, senha: { required } };
 const v$ = useVuelidate(rules, state, { $scope: false });
 const { $geralService } = useNuxtApp();

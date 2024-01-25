@@ -162,6 +162,7 @@ const getList = async () => {
             {
                 filtro: {
                     lixo: false,
+                    entidade: geral.entidade._id
                 },
             },
             undefined

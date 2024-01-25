@@ -1,55 +1,15 @@
 <template>
-  
   <div class="h-full text-center q-pa-md">
-    <h1 class="mt-1 p-3 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-4xl font-extrabold tracking-tighter text-transparent sm:text-5xl lg:text-7xl">Home Page Teste</h1>
+    <h1 class="mt-1 p-3 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-4xl font-extrabold tracking-tighter text-transparent sm:text-5xl lg:text-7xl">Bem-vindo, {{ geral.pessoa.apelido }}!</h1>
     <div>
-      <p>
-        This is an example store to test out devtools. Try one of the following
-        with the devtools open:
+      <p class="text-xl">
+        O sistema encontra-se numa fase de implantação e configuração. Ocorreu uma grande migração de dados da plataforma antiga e ainda estamos trabalhando para que tudo fique perfeito.
         <br />
       </p>
-      <ol>
-        <li>Use the different increment actions</li>
-        <li>Change the counter directly from the devtools</li>
-        <li>Use decrement to zero to see how action groups work</li>
-        <li>
-          Click
-          <b>Test Errors</b> and immediately after <b>increment</b> the store
-        </li>
-        <li>
-          While the dev server is running, try changing counter.changeMe, adding,
-          and removing new state properties
-        </li>
-      </ol>
-      <h2>Counter Store</h2>
-      <p data-testid="counter-values">
-        Counter: {{ counter.n }}. Double: {{ counter.double }}
-      </p>
-      <p>Increment the Store:</p>
-      <button @click="counter.increment()" data-testid="increment">+1</button>
-      <button @click="counter.increment(10)">+10</button>
-      <button @click="counter.increment(100)">+100</button>
-      <button @click="counter.n++">Direct Increment</button>
-      <button @click="
-        counter.$patch((state) => {
-          state.n++
-          state.incrementedTimes++
-        })
-      ">
-        Direct patch
-      </button>
-      <p>Other actions:</p>
-      <button @click="counter.fail">Test Errors</button>
-      <button @click="counter.decrementToZero()">Decrement to zero</button>
-      <button @click="counter.changeMe()">
-        <code>counter.changeMe()</code>
-      </button>
       <hr />
       <p>
-        Complete store state via
-        <code>store.$state</code>:
+        No lugar dessa tela de boas-vindas, em breve você verá a tela de Dashboard com os dados estatísticos da entidade de acordo com o seu perfil de acesso.
       </p>
-      <pre>{{ counter.$state }}</pre>
     </div>
   </div>
 </template>
@@ -59,6 +19,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const counter = useCounter()
+const geral = useGeral();
 
 </script>
