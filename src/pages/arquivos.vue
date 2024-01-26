@@ -13,84 +13,84 @@
     </q-toolbar>
 
     <div class="m-2">
-    <!-- <pre>{{ raiz }}</pre> -->
-    <div :style="{ 'max-height': 'calc(100vh - 50px)' }" class="scroll">
-      <div class="flex justify-between">
-        <q-breadcrumbs gutter="sm" style="font-size: 15px">
-          <q-breadcrumbs-el class="cursor-pointer" v-for="(item, index) in pastas" @click="navegar(index, false)" :key="index">
-            <q-btn :icon="index === 0 ? 'home' : undefined" flat :label="item" />
-          </q-breadcrumbs-el>
-        </q-breadcrumbs>
-        <q-btn round push class="border-none btn-scale " color="amber-7" icon="create_new_folder" @click="criarFolder">
-          <q-tooltip>Nova Pasta</q-tooltip>
-        </q-btn>
-      </div>
+      <!-- <pre>{{ raiz }}</pre> -->
+      <div :style="{ 'max-height': 'calc(100vh - 50px)' }" class="scroll">
+        <div class="flex justify-between">
+          <q-breadcrumbs gutter="sm" style="font-size: 15px">
+            <q-breadcrumbs-el class="cursor-pointer" v-for="(item, index) in pastas" @click="navegar(index, false)" :key="index">
+              <q-btn :icon="index === 0 ? 'home' : undefined" flat :label="item" />
+            </q-breadcrumbs-el>
+          </q-breadcrumbs>
+          <q-btn round push class="border-none btn-scale" color="amber-7" icon="create_new_folder" @click="criarFolder">
+            <q-tooltip>Nova Pasta</q-tooltip>
+          </q-btn>
+        </div>
 
-      
+        <div class="mt-2 col-12 flex flex-center">
+          <q-list class="w-full container" style="background: transparent !important">
+            <q-uploader v-if="geral.funcoesAcessos.arquivosInserir" class="q-pa-sm w-full" ref="uploader" auto-upload @uploaded="finalizar" :form-fields="[{ name: 'caminho', value: lista.Prefix }]" :url="$geralService.configuracoes.BASE_REST + 'api/uploadS3'" label="Fazer Novo Upload" :multiple="multiple">
+              <template v-slot:list="scope">
+                <q-list separator>
+                  <q-item v-for="(file, index) in scope.files" :key="index">
+                    <q-item-section>
+                      <q-item-label class="ellipsis">
+                        {{ file.name }}
+                      </q-item-label>
 
-      <div class="mt-2 col-12 flex flex-center">
-        <q-list class="w-full container" style="background: transparent !important">
-          <q-uploader class="q-pa-sm w-full" ref="uploader" auto-upload @uploaded="finalizar" :form-fields="[{ name: 'caminho', value: lista.Prefix }]" :url="$geralService.configuracoes.BASE_REST + 'api/uploadS3'" label="Fazer Novo Upload" :multiple="multiple">
-            <template v-slot:list="scope">
-              <q-list separator>
-                <q-item v-for="(file, index) in scope.files" :key="index">
+                      <q-item-label :class="{ 'text-red': file.__status === 'failed', 'text-green': file.__status === 'uploaded' }" caption> Status: {{ file.__status }} </q-item-label>
+
+                      <q-item-label caption> {{ file.__sizeLabel }} / {{ file.__progressLabel }} </q-item-label>
+                    </q-item-section>
+
+                    <q-item-section v-if="file.__img" thumbnail>
+                      <img :src="file.__img.src" />
+                    </q-item-section>
+
+                    <q-item-section top side>
+                      <q-btn size="12px" flat dense round icon="delete" @click="scope.removeFile(file)" />
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </template>
+            </q-uploader>
+            <q-separator />
+
+            <div pt-2>Arquivos da Nuvem</div>
+
+            <div v-if="!travarCaminhoUpload">
+              <div v-for="(item, index1) in lista.CommonPrefixes" :key="index1">
+                <q-item @click="buscar(item.Prefix, false)" clickable v-ripple>
+                  <q-item-section avatar top>
+                    <q-avatar icon="folder" color="amber" text-color="white" />
+                  </q-item-section>
                   <q-item-section>
-                    <q-item-label class="ellipsis">
-                      {{ file.name }}
-                    </q-item-label>
-
-                    <q-item-label :class="{ 'text-red': file.__status === 'failed', 'text-green': file.__status === 'uploaded' }" caption> Status: {{ file.__status }} </q-item-label>
-
-                    <q-item-label caption> {{ file.__sizeLabel }} / {{ file.__progressLabel }} </q-item-label>
+                    <q-item-label>{{ removeCaminho(item.Prefix) }}</q-item-label>
                   </q-item-section>
-
-                  <q-item-section v-if="file.__img" thumbnail>
-                    <img :src="file.__img.src" />
-                  </q-item-section>
-
-                  <q-item-section top side>
-                    <q-btn size="12px" flat dense round icon="delete" @click="scope.removeFile(file)" />
+                  <q-item-section v-if="!travarDeletar" side>
+                    <q-btn size="14px" flat dense round icon="delete" @click.stop="deleteFolder(item)" />
                   </q-item-section>
                 </q-item>
-              </q-list>
-            </template>
-          </q-uploader>
-          <q-separator />
-
-          <div pt-2>Arquivos da Nuvem</div>
-
-          <div v-if="!travarCaminhoUpload">
-            <div v-for="(item, index1) in lista.CommonPrefixes" :key="index1">
-              <q-item @click="buscar(item.Prefix, false)" clickable v-ripple>
-                <q-item-section avatar top>
-                  <q-avatar icon="folder" color="amber" text-color="white" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>{{ removeCaminho(item.Prefix) }}</q-item-label>
-                </q-item-section>
-                 <q-item-section v-if="!travarDeletar" side>
-              <q-btn size="14px" flat dense round icon="delete" @click.stop="deleteFolder(item)" />
-            </q-item-section>
-              </q-item>
+              </div>
             </div>
-          </div>
-          <q-item class="px-0" clickable v-for="file in lista.Contents" :key="file.Etag" v-ripple>
-            <q-item-section clickable avatar top>
-              <q-avatar :color="file.extensao === 'jpg' || file.extensao === 'jpg' ? 'primary' : 'secondary'" :icon="file.extensao === 'jpg' || file.extensao === 'jpg' ? 'image' : 'assignment'" text-color="white" />
-            </q-item-section>
+            <q-item class="px-0" clickable v-for="file in lista.Contents" :key="file.Etag" v-ripple>
+              <q-item-section clickable avatar top>
+                <q-avatar :color="file.extensao === 'jpg' || file.extensao === 'jpg' ? 'primary' : 'secondary'" :icon="file.extensao === 'jpg' || file.extensao === 'jpg' ? 'image' : 'assignment'" text-color="white" />
+              </q-item-section>
 
-            <q-item-section>
-              <q-item-label>{{ removeCaminho(file.Key) }}</q-item-label>
-              <q-item-label caption>Tamanho: {{ file.Size / 1000 }}kb</q-item-label>
-            </q-item-section>
-            <q-item-section class="flex items-center" v-if="!travarDeletar" side>
-              <q-btn size="14px" flat dense round icon="copy" @click="clipboard(file)" />
-              <q-btn size="14px" flat dense round icon="delete" @click="deleteFile(file)" />
-            </q-item-section>
-          </q-item>
-        </q-list>
+              <q-item-section>
+                <q-item-label>{{ removeCaminho(file.Key) }}</q-item-label>
+                <q-item-label caption>Tamanho: {{ file.Size / 1000 }}kb</q-item-label>
+              </q-item-section>
+              <q-item-section class="" v-if="!travarDeletar" side>
+                <div class="flex items-center flex-nowrap">
+                  <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-copy" @click="clipboard(file.Key)" />
+                  <q-btn v-if="geral.funcoesAcessos.arquivosDeletar" size="14px" flat dense round icon="delete" @click="deleteFile(file)" />
+                </div>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -141,28 +141,27 @@ const finalizar = (val: any) => {
 };
 
 const deleteFile = async (file: any) => {
-    console.log('jhsdkjshdkljhs');
-    console.log(file);
+  console.log("jhsdkjshdkljhs");
+  console.log(file);
   if (!travarDeletar.value) {
     $q.loading.show({ spinner: QSpinnerOval });
     let ret = await $geralService.deleteFile(file.Key, $constantes.THUMBNAILS);
-      if (ret) {
-              navegar(pastas.value.length - 1, true);
-      }
+    if (ret) {
+      navegar(pastas.value.length - 1, true);
+    }
     $q.loading.hide();
   }
 };
 const deleteFolder = async (file: any) => {
-    
   if (!travarDeletar.value) {
     $q.loading.show({ spinner: QSpinnerOval });
     let ret = await $geralService.deleteFile(file.Prefix);
-      if (ret) {
-        console.log(ret);
-              buscar(ultimoCaminho.value, true);
-      } else {
-        console.log('erro');
-      }
+    if (ret) {
+      console.log(ret);
+      buscar(ultimoCaminho.value, true);
+    } else {
+      console.log("erro");
+    }
     $q.loading.hide();
   }
 };
@@ -196,6 +195,17 @@ const navegar = async (idx: number, force: boolean) => {
 };
 
 const criarFolder = async () => {
+  if (!geral.funcoesAcessos.arquivosDeletar) {
+    $q.notify({
+      color: "warning",
+      position: "top",
+      icon: "check",
+      message: "Atenção!",
+      caption: "Você não tem permissão para criar pastas.",
+    });
+    return;
+  }
+
   $q.dialog({
     dark: true,
     title: "Criar Pasta",
@@ -214,7 +224,7 @@ const criarFolder = async () => {
         "api/createFolderS3",
         "post",
         {
-          caminho: ultimoCaminho.value+data,
+          caminho: ultimoCaminho.value + data,
         },
         undefined
       );
@@ -266,7 +276,7 @@ const buscar = async (caminho: any, forcar: boolean) => {
         pastas.value = ret.data.Prefix.replace(raiz, "(Home)").split("/");
 
         if (pastas.value.length == 2) {
-            console.log(pastas.value);
+          console.log(pastas.value);
           console.log(lista.value.CommonPrefixes);
           lista.value.CommonPrefixes = lista.value.CommonPrefixes.filter((file: any, index: number) => {
             if (isPastaSistema(file.Prefix)) {

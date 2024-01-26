@@ -65,7 +65,7 @@ const { $geralService } = useNuxtApp();
 const yul = $geralService.configuracoes._urj;
 const runTimeConfig = useRuntimeConfig();
 onMounted(() => {
-    console.log('EntidadeId', props.entidadeId);
+    // console.log('EntidadeId', props.entidadeId);
     if (props.messageNoLogin) {
         setTimeout(() => {
             $q.notify({
@@ -103,6 +103,7 @@ const logar = async () => {
     try {
         const newData = JSON.parse(JSON.stringify(state));
         newData.senha = md5(newData.senha);
+        // console.log(newData.senha);
 
         const ret = await $fetch(`${runTimeConfig.public.baseUrl}login`, {
             method: "post",
@@ -154,7 +155,7 @@ const verificaVinculos = async (caminho1) => {
             ativo: true,
         },
         select: { entidade: 1, funcoesExtras: 1, funcoesRestritivas: 1, acessosSistema: 1, tipoLigacao: 1 },
-        populateObj: [
+        populateObj: ['acessosSistema',
         { path: "entidade", select: { nomeRazao: 1, nomeFantasia: 1, sigla: 1, logo: 1, tipo: 1, esportes: 1, tratamentoMasculino: 1 }, populate: { path: "esportes", select: { descricao: 1 } } },
         ],
     });
