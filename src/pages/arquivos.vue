@@ -133,16 +133,16 @@ const clipboard = (text: string) => {
 };
 
 const finalizar = (val: any) => {
-  console.log(val.files[0].name);
+  // console.log(val.files[0].name);
   // save(props.raiz + '/' + val.files[0].name);
-  console.log(pastas.value);
+  // console.log(pastas.value);
   navegar(pastas.value.length - 1, true);
   // this.tab = 'arquivos';
 };
 
 const deleteFile = async (file: any) => {
-  console.log("jhsdkjshdkljhs");
-  console.log(file);
+  // console.log("jhsdkjshdkljhs");
+  // console.log(file);
   if (!travarDeletar.value) {
     $q.loading.show({ spinner: QSpinnerOval });
     let ret = await $geralService.deleteFile(file.Key, $constantes.THUMBNAILS);
@@ -157,17 +157,17 @@ const deleteFolder = async (file: any) => {
     $q.loading.show({ spinner: QSpinnerOval });
     let ret = await $geralService.deleteFile(file.Prefix);
     if (ret) {
-      console.log(ret);
+      // console.log(ret);
       buscar(ultimoCaminho.value, true);
     } else {
-      console.log("erro");
+      // console.log("erro");
     }
     $q.loading.hide();
   }
 };
 
 const confirmUpload = () => {
-  console.log("tete");
+  // console.log("tete");
 };
 
 const removeCaminho = (caminho: any) => {
@@ -188,10 +188,10 @@ const navegar = async (idx: number, force: boolean) => {
       }
     }
     caminho = caminho.replace("(Home)", raiz);
-    console.log(caminho);
+    // console.log(caminho);
     buscar(caminho, idx === 0);
   }
-  console.log(idx);
+  // console.log(idx);
 };
 
 const criarFolder = async () => {
@@ -229,7 +229,7 @@ const criarFolder = async () => {
         undefined
       );
       if (ret.valido) {
-        console.log(ret);
+        // console.log(ret);
         buscar(ultimoCaminho.value, true);
       } else {
         $q.notify({
@@ -276,8 +276,8 @@ const buscar = async (caminho: any, forcar: boolean) => {
         pastas.value = ret.data.Prefix.replace(raiz, "(Home)").split("/");
 
         if (pastas.value.length == 2) {
-          console.log(pastas.value);
-          console.log(lista.value.CommonPrefixes);
+          // console.log(pastas.value);
+          // console.log(lista.value.CommonPrefixes);
           lista.value.CommonPrefixes = lista.value.CommonPrefixes.filter((file: any, index: number) => {
             if (isPastaSistema(file.Prefix)) {
               return false;
@@ -289,14 +289,14 @@ const buscar = async (caminho: any, forcar: boolean) => {
         pastas.value.splice(pastas.value.length - 1, 1);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     $q.loading.hide();
   }
 };
 
 const isPastaSistema = (caminho: any) => {
-  console.log(caminho);
+  // console.log(caminho);
   switch (caminho) {
     case geral.entidade.sigla + "/conteudos/":
     case geral.entidade.sigla + "/parceiros/":

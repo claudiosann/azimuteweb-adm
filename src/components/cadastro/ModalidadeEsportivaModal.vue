@@ -142,7 +142,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.modalidadeEsportiva = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (props.copia) {
                 state.modalidadeEsportiva.descricao = state.modalidadeEsportiva.descricao + " (Cópia)";
                 state.modalidadeEsportiva._id = undefined;
@@ -325,7 +325,7 @@ const beforeSave = () => {
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -364,7 +364,7 @@ const save = async (newDestaque: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);

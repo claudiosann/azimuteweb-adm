@@ -238,7 +238,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.diretoria = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (!state.diretoria.membros) {
                 state.diretoria.membros = [];
             }
@@ -264,8 +264,8 @@ onBeforeMount(async () => {
         };
         inserir.value = true;
     }
-    console.log($v.value);
-    console.log(state.diretoria);
+    // console.log($v.value);
+    // console.log(state.diretoria);
 });
 
 const cancel = async () => {
@@ -483,7 +483,7 @@ const save = async (newDiretoria: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);
             $q.loading.hide();

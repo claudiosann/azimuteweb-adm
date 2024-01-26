@@ -98,7 +98,7 @@ const getPercentual = () => {
 
 function fitParentWidth(negativo?: boolean) {
     let reload = false;
-    console.log('teste');
+    // console.log('teste');
 
     if (negativo && fatorUsado.value >= (fator * -3)) {
         if ((parentWidth.value - fator) > 150) {
@@ -122,7 +122,7 @@ function fitParentWidth(negativo?: boolean) {
 
 
 onMounted(async () => {
-    console.log(pdf);
+    // console.log(pdf);
 });
 
 const cancel = async () => {

@@ -347,7 +347,7 @@ const tipoDocumento = () => {
       }
     }
   } else {
-    console.log('documentoImagem Iniciando com valor');
+    // console.log('documentoImagem Iniciando com valor');
   }
 };
 
@@ -669,7 +669,7 @@ const save = async (newFinanceiroMovimentacao: any, nomeTempFile: any) => {
     });
     onDialogOK(ret.data);
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.loading.hide();
     if (nomeTempFile) {
       $geralService.deleteImagem(nomeTempFile);

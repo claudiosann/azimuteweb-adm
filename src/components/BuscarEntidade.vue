@@ -70,7 +70,7 @@ const nome = ref('');
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
 
 const getUrlImagem = (entidade: any) => {
-    console.log(entidade);
+    // console.log(entidade);
     return $geralService.getUrlS3Thumb(entidade.logo, {
         height: 128
     });

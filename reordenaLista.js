@@ -127,7 +127,7 @@ function writeOutputToFile(output, filename) {
         if (err) {
             console.error('Error writing file', err);
         } else {
-            console.log(`Output written to ${filename}`);
+            // console.log(`Output written to ${filename}`);
         }
     });
 }

@@ -157,7 +157,7 @@ const { $geralService } = useNuxtApp();
 
 watch(() => state.conteudo.titulo, async (value, oldValue) => {
     state.conteudo.rota = geral.entidade.sigla.toLowerCase()+'-'+$geralService.removeCaracteresEspeciais(value);
-    console.log(state.conteudo.rota);
+    // console.log(state.conteudo.rota);
 })
 
 // GO valida
@@ -186,7 +186,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.conteudo = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (props.copia) {
                 state.conteudo.titulo = state.conteudo.titulo + " (Cópia)";
                 state.conteudo._id = undefined;
@@ -205,7 +205,7 @@ onBeforeMount(async () => {
         inserir.value = true;
     }
     getConteudoGrupo();
-    console.log(state.conteudo);
+    // console.log(state.conteudo);
 });
 
 const insertImg = () => { // insertImg method
@@ -387,7 +387,7 @@ const beforeSave = () => {
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -400,7 +400,7 @@ const cancel = async () => {
 // TO save
 // TO save
 const save = async (newConteudo: any, nomeTempFile: any) => {
-    console.log(newConteudo);
+    // console.log(newConteudo);
     $q.loading.show({
         spinner: QSpinnerOval,
         spinnerColor: 'white',
@@ -427,7 +427,7 @@ const save = async (newConteudo: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);

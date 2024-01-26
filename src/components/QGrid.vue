@@ -300,14 +300,14 @@ export default {
       const self = this;
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.column_options_selected = Object.assign({}, this.column_options_selected);
-      // console.log(this.column_options_selected);
+      // // console.log(this.column_options_selected);
       // eslint-disable-next-line camelcase
       const table_Data = this.getFilteredData.filter(function (item) {
         let i = '';
         for (i = 0; i < self.columns.length; i++) {
           if (self.column_options_selected[self.columns[i].field].length === 0) { continue; }
           try {
-            console.log(self.column_options_selected[self.columns[i].field]);
+            // console.log(self.column_options_selected[self.columns[i].field]);
             if (self.column_options_selected[self.columns[i].field] !== item[self.columns[i].field].toString()) {
               return false;
             }
@@ -332,7 +332,7 @@ export default {
   },
   created () {
     this.uuid = uid();
-    // console.log(this.selection===undefined);
+    // // console.log(this.selection===undefined);
     if (this.selection === undefined) {
       this.selection_prop = 'none';
     } else {

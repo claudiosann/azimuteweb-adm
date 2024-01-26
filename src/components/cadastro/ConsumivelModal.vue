@@ -376,31 +376,31 @@ const inserir = ref(true);
 // watch(
 //   () => state.consumivel.percurso,
 //   async (value) => {
-//     console.log("percurso", value);
+//     // console.log("percurso", value);
 //     validaTaxasEventoRendimento();
     
 //   }
 // );
 
 const changePercurso = async (value: any) => {
-  console.log('dfdsfsdfsdfsdfsdfsdf');
-  console.log('valor', value);
+  // console.log('dfdsfsdfsdfsdfsdfsdf');
+  // console.log('valor', value);
   validaTaxasEventoRendimento();
 };
 
 const validaTaxasEventoRendimento = async () => {
   if (state.consumivel.percurso) {
     const percurso = listaPercurso.value.find((x: any) => x._id == state.consumivel.percurso);
-    console.log(percurso);
+    // console.log(percurso);
     state.consumivel.descricao = percurso.descricao;
     state.consumivel.detalhes = percurso.detalhes;
 
-    console.log("evento tipoEvento", props.evento.tipoEvento);
-    console.log("evento tipoEvento", props.evento.abrangencia);
+    // console.log("evento tipoEvento", props.evento.tipoEvento);
+    // console.log("evento tipoEvento", props.evento.abrangencia);
     if (props.evento.tipoEvento === "Rendimento") {
       if (props.evento.abrangencia == "Municipal" || props.evento.abrangencia == "Estadual" || props.evento.abrangencia == "Nacional" || props.evento.abrangencia == "Regional") {
         if (percurso) {
-          console.log("entidadeReguladora", percurso.esporte.entidadeReguladora);
+          // console.log("entidadeReguladora", percurso.esporte.entidadeReguladora);
           state.consumivel.arranjoPagamento = [];
 
           let totalPercentual = 100;
@@ -449,7 +449,7 @@ const validaTaxasEventoRendimento = async () => {
             valor: totalPercentual,
           });
 
-          console.log("entidadeReguladoraEstados", percurso.esporte.entidadesReguladorasEstados);
+          // console.log("entidadeReguladoraEstados", percurso.esporte.entidadesReguladorasEstados);
         }
       }
     } else {
@@ -728,7 +728,7 @@ const ajustaListaConta = async () => {
         element.listaConta = [];
       }
     } else {
-      console.log("Não achou");
+      // console.log("Não achou");
     }
   }
 };
@@ -982,7 +982,7 @@ const save = async (newconsumivel: any, nomeTempFile: any) => {
     });
     onDialogOK(ret.data);
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.loading.hide();
     if (nomeTempFile) {
       $geralService.deleteImagem(nomeTempFile);

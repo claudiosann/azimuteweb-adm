@@ -55,7 +55,7 @@ onBeforeMount(async () => {
   if (props.id) {
     const ret = await useCustomFetch("inscricao/getPopulate", "post", { filtro: { _id: props.id }, populateObj: [{ path: "pagamento", select: { tipo: 1, status: 1 } }, { path: "pessoa", select: { nome: 1, email:1, apelido: 1, foto: 1, telefones:1 } }, { path: "inscritos.pessoa", select: { nome: 1, apelido: 1, foto: 1 } }, { path: "inscritos.consumiveis.consumivel" },{ path: "evento", select: { imagem: 1, numero: 1,  nome: 1, inicio: 1, rota: 1, ano: 1, etapa: 1, abrangencia: 1, "endereco.cidade": 1, "endereco.uf": 1, sigla: 1, esporte: 1 }, populate: { path: "esportes" } } ] }, undefined);
     if (ret.valido) {
-      // // console.log("inscricao", ret.data);
+      // // // console.log("inscricao", ret.data);
       inscricao.value = ret.data[0];
     }
   } else {

@@ -244,25 +244,25 @@ const tab = ref("filiacao");
 const getFiliacoesObrigatorias = async () => {
   // Verifica se a quantidade de filiações retornadas e ativas é igual a quantidade de filiações obrigatórias da entidade
   if (!state.filiacaoPessoa.entidade) {
-    console.log("Aguardando entidade");
+    // console.log("Aguardando entidade");
     return false;
   }
 
   const ret2 = await useCustomFetch("filiacaoPessoa/getPopulate", "post", { filtro: { status: "Ativa", entidade: { $in: state.filiacaoPessoa.entidade.filiacaoPessoa.filiacoesObrigatorias } }, select: { entidade: 1 } }, undefined);
   if (ret2.valido) {
-    console.log(ret2.data);
+    // console.log(ret2.data);
     if (state.filiacaoPessoa.entidade.filiacaoPessoa.filiacoesObrigatorias.length > ret2.data.length) {
-      console.log("listaFiliacoesObrigatorias menor que filiações obrigatórias ");
+      // console.log("listaFiliacoesObrigatorias menor que filiações obrigatórias ");
       return false;
     }
 
     for (let index1 = 0; index1 < state.filiacaoPessoa.entidade.filiacaoPessoa.filiacoesObrigatorias.length; index1++) {
       const element = state.filiacaoPessoa.entidade.filiacaoPessoa.filiacoesObrigatorias[index1];
-      console.log('element', element);
+      // console.log('element', element);
       let achou = false;
       for (let index2 = 0; index2 < ret2.data.length; index2++) {
         const element2 = ret2.data[index2].entidade;
-        console.log('element2', element2);
+        // console.log('element2', element2);
         if (element2 == element) {
           achou = true;
 
@@ -277,12 +277,12 @@ const getFiliacoesObrigatorias = async () => {
         }
       }
       if (!achou) {
-        console.log("não achou filiação obrigatória");
+        // console.log("não achou filiação obrigatória");
         return false;
       }
     }
   } else {
-    console.log(ret2);
+    // console.log(ret2);
     return false;
   }
 
@@ -324,7 +324,7 @@ const getCorStatusFuncao = (status: string) => {
 };
 
 const getMensagemStatus = computed(() => {
-  console.log(state.filiacaoPessoa.status);
+  // console.log(state.filiacaoPessoa.status);
   switch (state.filiacaoPessoa.status) {
     case "Ativa":
       return "Filiação ativa, todas as etapas foram realizadas com sucesso!";
@@ -367,7 +367,7 @@ const $v = useVuelidate(validations, state);
 const inserir = ref(true);
 
 onBeforeMount(async () => {
-  console.log(props.id);
+  // console.log(props.id);
   if (props.id) {
     const ret: any = await useCustomFetch(
       "filiacaoPessoa/getPopulate",
@@ -394,14 +394,14 @@ onBeforeMount(async () => {
       },
       undefined
     );
-    console.log(ret);
+    // console.log(ret);
     if (ret.valido) {
       state.filiacaoPessoa = ret.data[0];
-      console.log(ret.data);
+      // console.log(ret.data);
       state.filiacaoPessoa = JSON.parse(JSON.stringify(state.filiacaoPessoa));
       inserir.value = false;
-      console.log(state.filiacaoPessoa);
-      console.log(state.filiacaoPessoa.entidade.filiacaoPessoa.filiacoesObrigatorias);
+      // console.log(state.filiacaoPessoa);
+      // console.log(state.filiacaoPessoa.entidade.filiacaoPessoa.filiacoesObrigatorias);
       await getFiliacoesObrigatorias();
     } else {
       setTimeout(async () => {
@@ -411,7 +411,7 @@ onBeforeMount(async () => {
     }
   } else {
     const id = await $geralService.getId();
-    console.log(id);
+    // console.log(id);
     if (id) {
       inserir.value = true;
       state.filiacaoPessoa._id = id;
@@ -423,12 +423,12 @@ onBeforeMount(async () => {
 });
 
 const validaDataValidade = (value: any) => {
-  console.log(value);
+  // console.log(value);
   state.pagamento.cartao.dataValida = $geralService.validaDataValidade(state.pagamento.cartao.ExpirationDate);
 };
 
 const validaCartao = (value: any) => {
-  console.log(value);
+  // console.log(value);
   setTimeout(() => {
     $geralService.validaCartao(state.pagamento, modoSandBox);
   }, 100);
@@ -500,7 +500,7 @@ const beforeSave = async () => {
     });
     onDialogOK(ret.data);
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.notify({
       color: "error",
       position: "top",
@@ -574,7 +574,7 @@ const onRejected = (rejectedEntries: any) => {
   });
 };
 const checkFileTypeAtaContrato = (files: any) => {
-  console.log(files);
+  // console.log(files);
   return files.filter((file: any) => file.type === "application/pdf");
 };
 
@@ -614,7 +614,7 @@ const gravaFiliacaoPessoa = async (descricaoHistorico: string) => {
     if (ret.valido) {
       retorno = true;
       gravouFiliacao.value = true;
-      console.log("gravou filiação");
+      // console.log("gravou filiação");
     } else {
       $q.notify({
         position: "top",
@@ -623,7 +623,7 @@ const gravaFiliacaoPessoa = async (descricaoHistorico: string) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
   $q.loading.hide();
   return retorno;
@@ -667,7 +667,7 @@ const gravaFiliacaoPessoaLancamento = async (descricaoHistorico: string, objGrav
     if (ret.valido) {
       retorno = true;
       gravouFiliacao.value = true;
-      console.log("gravou filiação");
+      // console.log("gravou filiação");
     } else {
       $q.notify({
         position: "top",
@@ -676,14 +676,14 @@ const gravaFiliacaoPessoaLancamento = async (descricaoHistorico: string, objGrav
       });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
   $q.loading.hide();
   return retorno;
 };
 
 const continuaSelecaoEntidade = async () => {
-  console.log(state.filiacaoPessoa);
+  // console.log(state.filiacaoPessoa);
   let continua = true;
   if (inserir.value) {
     continua = await gravaFiliacaoPessoa("Iniciado o processo de filiação.");

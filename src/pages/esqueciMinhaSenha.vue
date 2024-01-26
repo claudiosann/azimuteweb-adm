@@ -22,7 +22,7 @@ const recuperarSenha = async () => {
       method: "post",
       body: { email: email.value },
     });
-    console.log(ret);
+    // console.log(ret);
     if (ret && ret.valido == false) {
       $q.loading.hide();
       $q.notify({

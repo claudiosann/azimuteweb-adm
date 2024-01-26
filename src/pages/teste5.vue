@@ -161,13 +161,13 @@ const download = async () => {
                 const data = await $fetch(url, 'get', {});
 
                 if (data) {
-                    // console.log(data);
-                    // console.log(url);
+                    // // console.log(data);
+                    // // console.log(url);
                     // loading a file and add it in a zip file
                     zip.file(fileName, data, { binary: true });
-                    // console.log((index+1) + ' - ' + urls.length);
+                    // // console.log((index+1) + ' - ' + urls.length);
                     if (index == urls.length - 1) {
-                        console.log('gerando zip');
+                        // console.log('gerando zip');
                         zip.generateAsync({ type: 'blob' }).then(function (content) {
                             saveAs(content, `${empresa.cnpj}_${mes.value}_20${ano.value}.zip`);
                             retornoGerado.value.push({ empresa: empresa, valido: true, quantidade: urls.length });
@@ -178,13 +178,13 @@ const download = async () => {
                         });
                     }
                 } else {
-                    console.log(data);
+                    // console.log(data);
                 }
 
 
             }
         } else {
-            console.log(ret.data);
+            // console.log(ret.data);
             // $q.notify({
             //     color: "negative",
             //     message: "Nenhum arquivo encontrado!",

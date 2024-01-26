@@ -82,7 +82,7 @@ onBeforeMount(async () => {
         inserir.value = false;
       }
     } else {
-      console.log('passou aquidsdsdsds');
+      // console.log('passou aquidsdsdsds');
       setTimeout(async () => {
         await cancel();
         // navigateTo('/login');
@@ -96,7 +96,7 @@ onBeforeMount(async () => {
 });
 
 const cancel = async () => {
-  console.log('passou aquitttt');
+  // console.log('passou aquitttt');
   onDialogCancel();
   $q.notify({
     position: "top",
@@ -136,7 +136,7 @@ const save = async () => {
       message: "Registro salvo com sucesso!",
     });
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.notify({
       type: "negative",
       message: "Falha ao salvar",

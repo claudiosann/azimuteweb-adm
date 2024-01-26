@@ -490,12 +490,12 @@ const addCategoria = (idxConsumivel: number, idxAcrescimoDesconto: number, tipo:
         })
         .onCancel(() => { });
 
-    // console.log(modeloCategoriaTemp.value);
+    // // console.log(modeloCategoriaTemp.value);
     // openSeletorCategoria();
 };
 
 const addEntidade = (idxConsumivel: number, idxAcrescimoDesconto: number, tipo: String) => {
-    console.log('addEntidade');
+    // console.log('addEntidade');
     tipoIndex.value = tipo;
     indexConsumivel.value = idxConsumivel;
     indexAcrescimoDesconto.value = idxAcrescimoDesconto;

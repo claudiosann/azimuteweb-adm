@@ -114,7 +114,7 @@ const tipo = [
 
 watch(() => state.parceiro.nome, async (newQuestion, oldQuestion) => {
     state.parceiro.rota = $geralService.removeCaracteresEspeciais(newQuestion);
-    console.log(state.parceiro.rota);
+    // console.log(state.parceiro.rota);
 })
 
 // GO valida
@@ -152,7 +152,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.parceiro = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (props.copia) {
                 state.parceiro.nome = state.parceiro.nome + " (Cópia)";
                 state.parceiro._id = undefined;
@@ -170,7 +170,7 @@ onBeforeMount(async () => {
     } else {
         inserir.value = true;
     }
-    console.log(state.parceiro);
+    // console.log(state.parceiro);
 });
 
 const insertImg = () => { // insertImg method
@@ -303,7 +303,7 @@ const beforeSave = () => {
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -316,7 +316,7 @@ const cancel = async () => {
 // TO save
 // TO save
 const save = async (newNoticia: any, nomeTempFile: any) => {
-    console.log(newNoticia);
+    // console.log(newNoticia);
     $q.loading.show({
         spinner: QSpinnerOval,
         spinnerColor: 'white',
@@ -343,7 +343,7 @@ const save = async (newNoticia: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);

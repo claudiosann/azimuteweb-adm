@@ -69,7 +69,7 @@
                               @update:model-value="selecionarArquivo"
                               @rejected="
                                 (rejectedEntries) => {
-                                  console.log(rejectedEntries);
+                                  // console.log(rejectedEntries);
                                 }
                               "
                               v-model="item.arquivo"
@@ -114,7 +114,7 @@
                                   icon="swap_horiz"
                                   @click="
                                     (evt) => {
-                                      console.log(arraydocs[index].value[0].pickFiles(evt));
+                                      // console.log(arraydocs[index].value[0].pickFiles(evt));
                                     }
                                   "
                                 >
@@ -309,7 +309,7 @@ const getCorStatusFuncao = (status: string) => {
   }
 };
 const getMensagemStatus = computed(() => {
-  console.log(state.filiacaoEntidade.status);
+  // console.log(state.filiacaoEntidade.status);
   switch (state.filiacaoEntidade.status) {
     case "Ativa":
       return "Filiação ativa, todas as etapas foram realizadas com sucesso!";
@@ -448,10 +448,10 @@ onBeforeMount(async () => {
       },
       undefined
     );
-    console.log(ret);
+    // console.log(ret);
     if (ret.valido) {
       state.filiacaoEntidade = ret.data[0];
-      console.log(ret.data);
+      // console.log(ret.data);
       state.filiacaoEntidade = JSON.parse(JSON.stringify(state.filiacaoEntidade));
       inserir.value = false;
       await verificaDocumentoPendente();
@@ -463,7 +463,7 @@ onBeforeMount(async () => {
     }
   } else {
     const id = await $geralService.getId();
-    console.log(id);
+    // console.log(id);
     if (id) {
       inserir.value = true;
       state.filiacaoEntidade._id = id;
@@ -476,12 +476,12 @@ onBeforeMount(async () => {
 });
 
 const validaDataValidade = (value: any) => {
-  console.log(value);
+  // console.log(value);
   state.pagamento.cartao.dataValida = $geralService.validaDataValidade(state.pagamento.cartao.ExpirationDate);
 };
 
 const validaCartao = (value: any) => {
-  console.log(value);
+  // console.log(value);
   setTimeout(() => {
     $geralService.validaCartao(state.pagamento, modoSandBox);
   }, 100);
@@ -571,7 +571,7 @@ const confirmarPagamento = async () => {
       message: "Pagamento realizado com sucesso!",
     });
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.notify({
       color: "red",
       position: "top",
@@ -624,7 +624,7 @@ const beforeSave = async () => {
     });
     onDialogOK(ret.data);
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.notify({
       color: "error",
       position: "top",
@@ -644,7 +644,7 @@ const getTotalTaxas = () => {
 };
 
 const verificaDocumentoPendente = async () => {
-  console.log("validando");
+  // console.log("validando");
   documentoPendente.value = false;
   for (let index = 0; index < state.filiacaoEntidade.validacoesDocumentos.length; index++) {
     const element = state.filiacaoEntidade.validacoesDocumentos[index];
@@ -720,22 +720,22 @@ const onRejected = (rejectedEntries: any) => {
   });
 };
 const checkFileTypeAtaContrato = (files: any) => {
-  console.log(files);
+  // console.log(files);
   return files.filter((file: any) => file.type === "application/pdf");
 };
 const atualizaConfiguracoes = (empresa: any) => {
   // Verifica todas as configurações de filiação // Se existir mais de uma configuracao encontrada o sistema reconhecerá somente o primeiro
-  console.log(empresa);
+  // console.log(empresa);
   for (let index = 0; index < empresa.filiacoesEntidades.length; index++) {
     const element = empresa.filiacoesEntidades[index];
-    console.log(element);
+    // console.log(element);
     // Se existe filtro de tipo de entidades
     if (element.tipoEntidadesAceitas && element.tipoEntidadesAceitas.length) {
       for (let index2 = 0; index2 < element.tipoEntidadesAceitas.length; index2++) {
         const element2 = element.tipoEntidadesAceitas[index2];
         // Se a entidadeFilha fizer parte do filtro;
         if (element2 === state.filiacaoEntidade.entidadeFilha.tipo) {
-          console.log("Fez parte do filtro");
+          // console.log("Fez parte do filtro");
           // Adiciona as taxas caso exista;
           state.filiacaoEntidade.taxas = element.taxas;
           state.filiacaoEntidade.validacoesDocumentos = element.documentosObrigatorios;
@@ -744,7 +744,7 @@ const atualizaConfiguracoes = (empresa: any) => {
         }
       }
     } else {
-      console.log("Pegou generico");
+      // console.log("Pegou generico");
       state.filiacaoEntidade.taxas = element.taxas;
       state.filiacaoEntidade.validacoesDocumentos = element.documentosObrigatorios;
       atualizaTotalTaxas();
@@ -784,7 +784,7 @@ const iniciaListaEntidades = async () => {
   if (ret1.valido) {
     listaEntidades.value = ret1.data;
   }
-  console.log(ret1);
+  // console.log(ret1);
   // const ret1 = await $geralService.comunicaAsync(
   //   'entidade/getPopulate',
   //   'post',
@@ -840,8 +840,8 @@ const confirmSelecao = (entidade: any) => {
     });
   } else {
     state.filiacaoEntidade.entidade = entidade;
-    console.log("teste");
-    console.log(entidade);
+    // console.log("teste");
+    // console.log(entidade);
     atualizaConfiguracoes(entidade);
   }
 };
@@ -897,7 +897,7 @@ const gravaFiliacao = async (descricaoHistorico?: string) => {
     if (ret.valido) {
       retorno = true;
       gravouFiliacao.value = true;
-      console.log("gravou filiação");
+      // console.log("gravou filiação");
     } else {
       $q.notify({
         position: "top",
@@ -906,14 +906,14 @@ const gravaFiliacao = async (descricaoHistorico?: string) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
   $q.loading.hide();
   return retorno;
 };
 
 const continuaSelecaoEntidade = async () => {
-  console.log(state.filiacaoEntidade);
+  // console.log(state.filiacaoEntidade);
   let continua = true;
   if (inserir.value) {
     state.filiacaoEntidade.etapa = 2;
@@ -952,7 +952,7 @@ const continuaDocumentosObrigatorios = async () => {
         if (caminhoAntigo && getNomeKey(caminhoAntigo) != element.arquivo.name) {
           await $geralService.deleteFile(caminhoAntigo);
           // deletando arquivo antigo;
-          console.log("deletando arquivo antigo");
+          // console.log("deletando arquivo antigo");
           state.filiacaoEntidade.historico.push({
             created_at: new Date().toISOString(),
             origemFiliadora: false,
@@ -983,7 +983,7 @@ const continuaDocumentosObrigatorios = async () => {
         });
         break;
       }
-      console.log(ret);
+      // console.log(ret);
     }
   }
 
@@ -1005,7 +1005,7 @@ const continuaDocumentosObrigatorios = async () => {
 
 const continuaTaxas = async () => {
   let continua = true;
-  console.log(state.filiacaoEntidade.status);
+  // console.log(state.filiacaoEntidade.status);
   if (state.filiacaoEntidade.status == "Iniciada" && state.filiacaoEntidade.taxas.length === 0) {
     state.filiacaoEntidade.etapa = 4;
     state.filiacaoEntidade.status = "Em Análise";
@@ -1025,7 +1025,7 @@ const continuar = async () => {
   }
 
   if (etapa.value == 2) {
-    console.log("yudfs");
+    // console.log("yudfs");
     await verificaDocumentoPendente();
     if (documentoPendente.value) {
       return;

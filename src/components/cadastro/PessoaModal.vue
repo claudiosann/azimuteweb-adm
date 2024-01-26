@@ -370,7 +370,7 @@ onBeforeMount(async () => {
     );
     if (ret.valido) {
       state.pessoa = ret.data[0];
-      console.log(ret.data);
+      // console.log(ret.data);
       state.pessoa = JSON.parse(JSON.stringify(state.pessoa));
       inserir.value = false;
     } else {
@@ -458,7 +458,7 @@ const excluirTelefone = (indice: number) => {
 };
 const verificaCEP = async () => {
   const end = await $geralService.buscarCep(state.pessoa.endereco.cep);
-  console.log(end);
+  // console.log(end);
   if (!end.erro) {
     // Object.assign(state.pessoa.endereco, end);
     state.pessoa.endereco.logradouro = end.logradouro;
@@ -485,7 +485,7 @@ const beforeSave = () => {
   });
   // $v.value.vinculos.$touch();
   $v.value.pessoa.$touch();
-  console.log($v.value);
+  // console.log($v.value);
 
   if ($v.value.pessoa.$error) {
     $q.loading.hide();
@@ -555,7 +555,7 @@ const save = async (newPessoa: any, nomeTempFile: any) => {
     });
     onDialogOK(ret.data);
   } else {
-    console.log(ret);
+    // console.log(ret);
     if (nomeTempFile) {
       $geralService.deleteImagem(nomeTempFile);
     }

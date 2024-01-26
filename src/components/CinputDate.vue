@@ -156,7 +156,7 @@ export default {
       if (value) {
         this.dataQInput = this.dataQInput.substr(0, 10);
         if (this.tipo === 'datetime') {
-          console.log('teste1', this.dataQInput);
+          // console.log('teste1', this.dataQInput);
           this.dataQInput += ' ' + value;
         } else if (this.tipo === 'fulldatetime') {
           this.dataQInput += ' ' + value;

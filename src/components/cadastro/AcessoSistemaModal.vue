@@ -108,7 +108,7 @@ for (let index = 0; index < funcoesSistema.length; index++) {
   const element = funcoesSistema[index];
   element.id = index + 1;
 }
-// console.log(funcoesSistema);
+// // console.log(funcoesSistema);
 const funcoesSistemaFilter = ref(funcoesSistema);
 const dense = ref(false);
 
@@ -167,7 +167,7 @@ onBeforeMount(async () => {
         inserir.value = false;
       }
     } else {
-      console.log('passou aquidsdsdsds');
+      // console.log('passou aquidsdsdsds');
       setTimeout(async () => {
         await cancel();  
         // navigateTo('/login');
@@ -239,7 +239,7 @@ const filterFn = (val: any, update: any) => {
 };
 
 const cancel = async () => {
-  console.log('passou aquitttt');
+  // console.log('passou aquitttt');
   onDialogCancel();
   $q.notify({
     position: "top",
@@ -279,7 +279,7 @@ const save = async () => {
       message: "Registro salvo com sucesso!",
     });
   } else {
-    console.log(ret);
+    // console.log(ret);
     $q.notify({
       type: "negative",
       message: "Falha ao salvar",

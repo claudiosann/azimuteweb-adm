@@ -155,14 +155,14 @@ const getList = async () => {
             },
             undefined
         );
-        // console.log('Leu o Banco de dados.');
+        // // console.log('Leu o Banco de dados.');
         if (ret.valido) {
-            console.log(ret.data);
+            // console.log(ret.data);
             rows.value = ret.data;
             $q.loading.hide();
         } else {
             rows.value = [];
-            console.log(ret.data);
+            // console.log(ret.data);
             $q.loading.hide();
             $q.notify({
                 color: "negative",
@@ -187,7 +187,7 @@ const criarDestaque = async (index) => {
         }, undefined)
 
         let idDestaque = null;
-        console.log(ret)
+        // console.log(ret)
         if (ret.valido && ret.data.length > 0) {
             idDestaque = ret.data[0]._id;
         }
@@ -239,7 +239,7 @@ const deleteRow = async (index, id) => {
             });
             rows.value.splice(index, 1);
         } else {
-            console.log(ret.data);
+            // console.log(ret.data);
             $q.notify({
                 type: "warning",
                 message: "Falha ao deletar." + ret.data.message,

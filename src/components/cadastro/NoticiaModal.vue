@@ -182,7 +182,7 @@ const { $geralService } = useNuxtApp();
 
 watch(() => state.noticia.titulo, async (newQuestion, oldQuestion) => {
     state.noticia.rota = $geralService.removeCaracteresEspeciais(newQuestion);
-    console.log(state.noticia.rota);
+    // console.log(state.noticia.rota);
 })
 
 // GO valida
@@ -227,7 +227,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.noticia = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (props.copia) {
                 state.noticia.titulo = state.noticia.titulo + " (Cópia)";
                 state.noticia._id = undefined;
@@ -246,7 +246,7 @@ onBeforeMount(async () => {
         inserir.value = true;
     }
     getNoticiaGrupo();
-    console.log(state.noticia);
+    // console.log(state.noticia);
 });
 
 const insertImg = () => { // insertImg method
@@ -319,7 +319,7 @@ const addTag = () => {
 };
 
 const selecionarEvento = () => {
-    console.log('selecionar evento');
+    // console.log('selecionar evento');
     $q.dialog({
         component: SeletorEvento,
         persistent: true,
@@ -334,7 +334,7 @@ const selecionarEvento = () => {
 }
 
 const confirmSelecaoEvento = (evento: any) => {
-    console.log(evento);
+    // console.log(evento);
     state.noticia.evento = evento;
 };
 
@@ -457,7 +457,7 @@ const beforeSave = () => {
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -470,7 +470,7 @@ const cancel = async () => {
 // TO save
 // TO save
 const save = async (newNoticia: any, nomeTempFile: any) => {
-    console.log(newNoticia);
+    // console.log(newNoticia);
     $q.loading.show({
         spinner: QSpinnerOval,
         spinnerColor: 'white',
@@ -497,7 +497,7 @@ const save = async (newNoticia: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);

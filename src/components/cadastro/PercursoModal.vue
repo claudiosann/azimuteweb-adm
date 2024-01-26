@@ -216,7 +216,7 @@ onBeforeMount(async () => {
     if (props.id) {
         const ret: any = await useCustomFetch("percurso/" + props.id, "get", undefined, undefined);
         if (ret.valido) {
-            console.log(ret.data);
+            // console.log(ret.data);
             percurso.value = ret.data;
             if (props.copia) {
                 percurso.value.descricao = percurso.value.descricao + " (Cópia)";
@@ -228,7 +228,7 @@ onBeforeMount(async () => {
             }
             getListaModeloCategoria();
         } else {
-            console.log('passou aquidsdsdsds');
+            // console.log('passou aquidsdsdsds');
             setTimeout(async () => {
                 await cancel();
                 // navigateTo('/login');
@@ -242,13 +242,13 @@ onBeforeMount(async () => {
 const changeModalidadeEsportiva = (value: any) => {
     percurso.value.modeloCategoria = null;
 
-    console.log('changeModalidadeEsportiva', value);
+    // console.log('changeModalidadeEsportiva', value);
 
     percurso.value.modeloCategoria = null;
     getListaModeloCategoria();
-    console.log('listModalidadeEsportiva', listaModalidadeEsportiva.value);
+    // console.log('listModalidadeEsportiva', listaModalidadeEsportiva.value);
     percurso.value.esporte = listaModalidadeEsportiva.value.find((modalidade: any) => modalidade._id == value).esporte;
-    console.log('percurso.esporte', percurso.value.esporte);
+    // console.log('percurso.esporte', percurso.value.esporte);
 };
 
 // GO inserirGrupo
@@ -281,7 +281,7 @@ const modeloCategoria = computed(() => {
             }
         }
     }
-    console.log('tá retornando null');
+    // console.log('tá retornando null');
     return null;
 });
 
@@ -307,7 +307,7 @@ const getListaModeloCategoria = async () => {
 };
 const getListaModalidadeEsportiva = async () => {
     try {
-        console.log(geral.entidade.esportes);
+        // console.log(geral.entidade.esportes);
         const ret = await useCustomFetch(
             'modalidadeEsportiva/getPopulate',
             'post',
@@ -319,22 +319,22 @@ const getListaModalidadeEsportiva = async () => {
             },
             null
         );
-        console.log({
-                    lixo: false,
-                    esporte: {$in: [geral.entidade.esportes.map((esporte: any) => esporte._id)]}
-                })
+        // console.log({
+                //     lixo: false,
+                //     esporte: {$in: [geral.entidade.esportes.map((esporte: any) => esporte._id)]}
+                // })
         if (ret.valido) {
             listaModalidadeEsportiva.value = ret.data;
-            console.log('listaModalidadeEsportiva.value', listaModalidadeEsportiva.value);
+            // console.log('listaModalidadeEsportiva.value', listaModalidadeEsportiva.value);
         } else {
             listaModalidadeEsportiva.value = [];
-            console.log(ret);
+            // console.log(ret);
         }
     } catch (error) { }
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -374,7 +374,7 @@ const save = async () => {
             message: "Registro salvo com sucesso!",
         });
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.notify({
             type: "negative",
             message: "Falha ao salvar",

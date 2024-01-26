@@ -84,7 +84,7 @@ export const revalidateToken = async (
     } else {
       // O token curto expirou
       if (validaToken(encTokenMaster, key)) {
-        console.log("O token curto expirou e será relavidado!");
+        // console.log("O token curto expirou e será relavidado!");
         // O token curto não está valido e ira revalidar o token curto
         
         const runTimeConfig = useRuntimeConfig();
@@ -114,18 +114,18 @@ export const revalidateToken = async (
             parseJwt(ret.data.token).exp);
           geral.decrementExpiracaoMaster(
             parseJwt(ret.data.tkMaster).exp);
-          console.log("Token curto revalidado com sucesso!");
+          // console.log("Token curto revalidado com sucesso!");
           return true;
         } else {
           // TODO mostrar mensagens
           return false;
         }
       } else {
-        console.log("O Token longo exprirou!");
+        // console.log("O Token longo exprirou!");
       }
     }
   } else {
-    console.log('esta vazio');
+    // console.log('esta vazio');
   }
   return false;
 };

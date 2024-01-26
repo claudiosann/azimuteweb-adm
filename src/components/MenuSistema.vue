@@ -185,9 +185,9 @@ const editarEntidadeSite = async () => {
                 select: { dominio: 1 }
             }, null);
             $q.loading.hide();
-            console.log(ret);
+            // console.log(ret);
             if (ret.valido) {
-                console.log(ret.data[0]._id);
+                // console.log(ret.data[0]._id);
                 $q.dialog({
                     component: EntidadeSiteModal,
                     componentProps: {

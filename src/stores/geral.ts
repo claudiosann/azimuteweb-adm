@@ -38,10 +38,7 @@ export const useGeral = defineStore("geral", {
       this.tokens.sessao = Date.now();
       const sessaoInicial = this.tokens.sessao;
       if (this.tokens.expiracao <= 0) return;
-      while (
-        this.tokens.expiracao > 0 &&
-        this.tokens.sessao === sessaoInicial
-      ) {
+      while (this.tokens.expiracao > 0 && this.tokens.sessao === sessaoInicial) {
         this.$patch((state) => {
           state.tokens.expiracao = state.tokens.expiracao - interval;
           if (state.tokens.expiracao < 0) {
@@ -58,29 +55,23 @@ export const useGeral = defineStore("geral", {
       this.tokens.sessaoMaster = Date.now();
       const sessaoInicial = this.tokens.sessaoMaster;
       if (this.tokens.expiracaoMaster <= 0) return;
-      while (
-        this.tokens.expiracaoMaster > 0 &&
-        this.tokens.sessaoMaster === sessaoInicial
-      ) {
+      while (this.tokens.expiracaoMaster > 0 && this.tokens.sessaoMaster === sessaoInicial) {
         this.$patch((state) => {
-          state.tokens.expiracaoMaster =
-            state.tokens.expiracaoMaster - interval;
-          
+          state.tokens.expiracaoMaster = state.tokens.expiracaoMaster - interval;
+
           if (state.tokens.expiracaoMaster < 0) {
             state.tokens.expiracaoMaster = 0;
             state.tokens.sessaoMaster = 0;
-             setTimeout(() => {
-               Dialog.create({
-                 component: LoginModal,
-                 persistent: true,
-                 componentProps: {
-                   entidadeId: state.entidade._id
-                 },
-               }).onOk(async (data) => {
-                 
-               });
-             }, 500);
-            
+            setTimeout(() => {
+              Dialog.create({
+                component: LoginModal,
+                persistent: true,
+                componentProps: {
+                  entidadeId: state.entidade._id,
+                },
+              }).onOk(async (data) => {});
+            }, 500);
+
             // setTimeout(() => {
             //   Dialog.create({
             //     title: "Atenção",
@@ -168,11 +159,7 @@ export const useGeral = defineStore("geral", {
         if (this.pessoa._id === "5aff4d2f47667633c7ace227") {
           const funcoes: Array<any> = [];
           const funcoesAcessos: any = {};
-          for (
-            let index2 = 0;
-            index2 < constantes.FUNCOES_SISTEMA.length;
-            index2++
-          ) {
+          for (let index2 = 0; index2 < constantes.FUNCOES_SISTEMA.length; index2++) {
             const element = constantes.FUNCOES_SISTEMA[index2];
             funcoes.push(element.id);
             funcoesAcessos[element.variavel] = true;
@@ -188,11 +175,7 @@ export const useGeral = defineStore("geral", {
           }
           Array.prototype.push.apply(funcoes, acesso.funcoesExtras);
 
-          for (
-            let index = 0;
-            index < acesso.funcoesRestritivas.length;
-            index++
-          ) {
+          for (let index = 0; index < acesso.funcoesRestritivas.length; index++) {
             const element = acesso.funcoesRestritivas[index];
             for (let index2 = 0; index2 < funcoes.length; index2++) {
               const element2 = funcoes[index2];
@@ -205,11 +188,7 @@ export const useGeral = defineStore("geral", {
 
           for (let index = 0; index < funcoes.length; index++) {
             const funcao = funcoes[index];
-            for (
-              let index2 = 0;
-              index2 < constantes.FUNCOES_SISTEMA.length;
-              index2++
-            ) {
+            for (let index2 = 0; index2 < constantes.FUNCOES_SISTEMA.length; index2++) {
               const element = constantes.FUNCOES_SISTEMA[index2];
               if (element.id === funcao) {
                 funcoesAcessos[element.variavel] = true;

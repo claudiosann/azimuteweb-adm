@@ -213,7 +213,7 @@ onBeforeMount(async () => {
 });
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -225,7 +225,7 @@ const cancel = async () => {
 };
 // TO save
 const save = async () => {
-    // console.log($v.value.modeloPontuacao);
+    // // console.log($v.value.modeloPontuacao);
     $v.value.modeloPontuacao.$touch();
 
     if ($v.value.modeloPontuacao.$error) {
@@ -254,7 +254,7 @@ const save = async () => {
             message: "Registro salvo com sucesso!",
         });
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.notify({
             type: "negative",
             message: "Falha ao salvar",

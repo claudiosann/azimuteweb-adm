@@ -194,7 +194,7 @@ const abrirGerenciadorArquivo = (iLink: number) => {
     },
   })
     .onOk(async (data) => {
-      console.log(data);
+      // console.log(data);
       confirmGerenciadorArquivo(data);
     })
     .onCancel(() => { });

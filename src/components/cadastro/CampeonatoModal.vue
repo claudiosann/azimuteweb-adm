@@ -506,9 +506,9 @@ const verificarModalidadeCategoria = () => {
         if (!item.percurso) {
             return false;
         }
-        console.log(item.evento.percursos.indexOf(item.percurso));
-        console.log(item.evento.percursos[item.evento.percursos.indexOf(item.percurso)].modeloCategoria);
-        console.log(state.campeonato.modeloCategoria);
+        // console.log(item.evento.percursos.indexOf(item.percurso));
+        // console.log(item.evento.percursos[item.evento.percursos.indexOf(item.percurso)].modeloCategoria);
+        // console.log(state.campeonato.modeloCategoria);
         return item.percurso.modeloCategoria !== state.campeonato.modeloCategoria
     });
     return listaFiltrada.length == 0;
@@ -785,7 +785,7 @@ const beforeSave = () => {
     $v.value.campeonato.$touch();
 
     if ($v.value.campeonato.$error || !(imageData.value || state.campeonato.logo)) {
-console.log($v.value.campeonato);
+// console.log($v.value.campeonato);
         $q.loading.hide();
         $q.notify({
             color: 'warning',
@@ -860,7 +860,7 @@ console.log($v.value.campeonato);
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -872,7 +872,7 @@ const cancel = async () => {
 };
 // TO save
 const save = async (newNoticia: any, nomeTempFile: any) => {
-    console.log(newNoticia);
+    // console.log(newNoticia);
     $q.loading.show({
         spinner: QSpinnerOval,
         spinnerColor: 'white',
@@ -899,7 +899,7 @@ const save = async (newNoticia: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);
@@ -972,7 +972,7 @@ const excluirGrupoLink = (index: number) => {
 };
 
 const filterFn = (val: any, update: Function) => {
-    console.log(val);
+    // console.log(val);
     if (val === '') {
         update(() => {
             listaIcones.value = icones;

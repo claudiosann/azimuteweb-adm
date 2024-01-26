@@ -129,7 +129,7 @@ export default {
     getFiltro () {
       const filtro = {};
 
-      console.log(this.nome);
+      // console.log(this.nome);
 
       if (this.nome.length > 0) {
         if (this.isNumeric(this.nome)) {
@@ -162,7 +162,7 @@ export default {
       // if (this.email.length > 0) {
       //   filtro.email = this.email;
       // }
-      console.log(filtro);
+      // console.log(filtro);
       return filtro;
     }
   }

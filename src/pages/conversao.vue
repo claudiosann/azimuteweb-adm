@@ -59,19 +59,19 @@ const ajustarTodosOsTelefones = async () => {
     for (let index = 0; index < ret.data.length; index++) {
       const pessoa = ret.data[index];
       pessoa.id = pessoa.idAntigo;
-      console.log(index);
+      // console.log(index);
 
       await ajustaTelefones(pessoa);
           const retGrava = await useCustomFetch('pessoa/' + pessoa._id, 'put', pessoa, undefined);  
       if (!retGrava.valido) {
-                      console.log(index);
-            console.log('Erro ao atualizar pessoa', pessoa);
-            console.log('Erro ao atualizar pessoa', retGrava);
+                      // console.log(index);
+            // console.log('Erro ao atualizar pessoa', pessoa);
+            // console.log('Erro ao atualizar pessoa', retGrava);
             return;
           } 
         }    
   } else {
-    console.log('Erro ao buscar pessoas', ret);
+    // console.log('Erro ao buscar pessoas', ret);
   }
 }
 const ajustaTelefones = async (element: any) => {
@@ -103,7 +103,7 @@ const ajustaTelefones = async (element: any) => {
     }
     return true;
   }
-  console.log("erro telefones", retTel);
+  // console.log("erro telefones", retTel);
   return false;
 };
 
@@ -123,16 +123,16 @@ const converterEvento = async () => {
 
   const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
   if (ret.valido) {
-    console.log("ret", ret);
+    // console.log("ret", ret);
     const elementF = ret.data.json.listaGenerica;
     let retString = JSON.stringify(elementF);
     const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-    console.log("retornoAjustado", retornoAjustado.length);
+    // console.log("retornoAjustado", retornoAjustado.length);
 
     //for (let index = 0; index < retornoAjustado.length; index++) {
     for (let index = 430; index < retornoAjustado.length; index++) {
     
-      console.log(index);
+      // console.log(index);
       const element = retornoAjustado[index];
 
       let entidadeResponsavel: any = { _id: "5d6934fc9b35767d7398c823", idAntigo: 1 };
@@ -210,15 +210,15 @@ const converterEvento = async () => {
       };
       const retGrava = await useCustomFetch("evento", "post", evento, undefined);
       if (retGrava.valido) {
-        // console.log("evento", evento.nome, "inserida com sucesso");
+        // // console.log("evento", evento.nome, "inserida com sucesso");
       } else {
-        console.log("Erro ao inserir evento", evento);
-        console.log("Erro ao inserir evento", element);
+        // console.log("Erro ao inserir evento", evento);
+        // console.log("Erro ao inserir evento", element);
         return;
       }
     }
   } else {
-    console.log("Erro ao buscar evento", ret);
+    // console.log("Erro ao buscar evento", ret);
   }
 };
 
@@ -245,24 +245,24 @@ const getGruposLinks = async (eventoNumero: number) => {
 
   const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
   if (ret.valido) {
-    // console.log("ret", ret);
+    // // console.log("ret", ret);
     const elementF = ret.data.json.listaGenerica;
     let retString = JSON.stringify(elementF);
     const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-    // console.log("retornoAjustado", retornoAjustado.length);
+    // // console.log("retornoAjustado", retornoAjustado.length);
 
     for (let index = 0; index < retornoAjustado.length; index++) {
-      // console.log("executando o index", index);
+      // // console.log("executando o index", index);
       const element = retornoAjustado[index];
       if (element.link && element.descricao && element.evento_categorias_id) {
         let grupoLink: any = null;
         grupoLink = findGrupo(element.evento_categorias_id);
-        // console.log("indexGruposLink", grupoLink);
+        // // console.log("indexGruposLink", grupoLink);
 
         const likEvento = ajustaLinkEvento(element.link);
-        // console.log("elemnt", element);
+        // // console.log("elemnt", element);
         if (likEvento == null) {
-          console.log("link invalido", element);
+          // console.log("link invalido", element);
           return;
         }
 
@@ -283,7 +283,7 @@ const getGruposLinks = async (eventoNumero: number) => {
     }
     return gruposLink;
   } else {
-    console.log("Erro ao liks do evento", ret);
+    // console.log("Erro ao liks do evento", ret);
     return;
   }
 };
@@ -320,7 +320,7 @@ const constGetNovoGrupo = (tipo: number) => {
     { descricao: "Anexos", icone: "fas fa-papperclip" },
   ];
 
-//  console.log("tipo", tipo);
+//  // console.log("tipo", tipo);
   return {
     descricao: listDescricoes[tipo - 1].descricao,
     icone: listDescricoes[tipo - 1].icone,
@@ -331,7 +331,7 @@ const constGetNovoGrupo = (tipo: number) => {
 };
 
 const getImagem = async (eventoId: number) => {
-  // console.log("CBO/site-antigo/Eventos/Banners/" + eventoId + ".jpg");
+  // // console.log("CBO/site-antigo/Eventos/Banners/" + eventoId + ".jpg");
   const ret: any = await useCustomFetch(
     "api/listObjectsS3",
     "post",
@@ -343,10 +343,10 @@ const getImagem = async (eventoId: number) => {
 
   if (ret.valido) {
     if (ret.data.Contents.length > 0) {
-      // console.log(ret.data.Contents[0].Key);
+      // // console.log(ret.data.Contents[0].Key);
       return ret.data.Contents[0].Key;
     } else {
-      // console.log("CBO/site-antigo/Eventos/Banners/banner-padrao.png");
+      // // console.log("CBO/site-antigo/Eventos/Banners/banner-padrao.png");
       return "CBO/site-antigo/Eventos/Banners/banner-padrao.png";
     }
   }
@@ -467,14 +467,14 @@ const conveterModeloCategoria = async () => {
 
   const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
   if (ret.valido) {
-    console.log("ret", ret);
+    // console.log("ret", ret);
     const elementF = ret.data.json.listaGenerica;
     let retString = JSON.stringify(elementF);
     const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-    console.log("retornoAjustado", retornoAjustado.length);
+    // console.log("retornoAjustado", retornoAjustado.length);
 
     for (let index = 0; index < retornoAjustado.length; index++) {
-      console.log("executando o index", index);
+      // console.log("executando o index", index);
       const element = retornoAjustado[index];
 
       const modeloCategoria: any = {
@@ -495,22 +495,22 @@ const conveterModeloCategoria = async () => {
 
       const retGrava = await useCustomFetch("modeloCategoria", "post", modeloCategoria, undefined);
       if (retGrava.valido) {
-        console.log("modeloCategoria", modeloCategoria.nome, "inserida com sucesso");
+        // console.log("modeloCategoria", modeloCategoria.nome, "inserida com sucesso");
       } else {
-        console.log("Erro ao inserir modeloCategoria", modeloCategoria);
-        console.log("Erro ao inserir modeloCategoria", element);
+        // console.log("Erro ao inserir modeloCategoria", modeloCategoria);
+        // console.log("Erro ao inserir modeloCategoria", element);
         return;
       }
     }
   } else {
-    console.log("Erro ao buscar modelo_categoria", ret);
+    // console.log("Erro ao buscar modelo_categoria", ret);
   }
 };
 
 const converterConteudo = async () => {
   const retEntidades = await useCustomFetch("entidade/getPopulate", "post", { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
   if (retEntidades.valido) {
-    console.log("iniciando");
+    // console.log("iniciando");
     for (let index5 = 0; index5 < retEntidades.data.length; index5++) {
       const entidadeEl = retEntidades.data[index5];
 
@@ -525,23 +525,23 @@ const converterConteudo = async () => {
 
       const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
       if (ret.valido && ret.data.json) {
-        console.log("entidade", entidadeEl.idAntigo);
+        // console.log("entidade", entidadeEl.idAntigo);
         const elementF = ret.data.json.listaGenerica;
         let retString = JSON.stringify(elementF);
         const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-        // console.log("retornoAjustado", retornoAjustado.length);
+        // // console.log("retornoAjustado", retornoAjustado.length);
 
         for (let index = 0; index < retornoAjustado.length; index++) {
-          console.log("executando o index", index);
+          // console.log("executando o index", index);
           const element = retornoAjustado[index];
 
-          // console.log('imagem old', element.imagem);
-          // console.log('new imagem',ajustaLink(element.imagem));
+          // // console.log('imagem old', element.imagem);
+          // // console.log('new imagem',ajustaLink(element.imagem));
           let htmlConteudo = " ";
           if (element.conteudo_html) {
             const links = findLinks(element.conteudo_html);
             htmlConteudo = element.conteudo_html;
-            // console.log("links", links);
+            // // console.log("links", links);
 
             let novoHtml = false;
             if (htmlConteudo) {
@@ -550,13 +550,13 @@ const converterConteudo = async () => {
                 const newLink = getNewLink(oldLink);
                 if (newLink) {
                   htmlConteudo = htmlConteudo.replace(oldLink, newLink);
-                  console.log("substituiu", oldLink, newLink);
+                  // console.log("substituiu", oldLink, newLink);
                   novoHtml = true;
                 }
               }
               if (novoHtml) {
-                // console.log("novo html", htmlConteudo);
-                // console.log("newLinks", newLinks);
+                // // console.log("novo html", htmlConteudo);
+                // // console.log("newLinks", newLinks);
               }
             }
           }
@@ -577,19 +577,19 @@ const converterConteudo = async () => {
 
           const retGrava = await useCustomFetch("conteudo", "post", conteudo, undefined);
           if (retGrava.valido) {
-            console.log("conteudo", conteudo.numero, "inserida com sucesso");
+            // console.log("conteudo", conteudo.numero, "inserida com sucesso");
           } else {
-            console.log("Erro ao inserir conteudo", conteudo);
-            console.log("Erro ao inserir conteudo", element);
+            // console.log("Erro ao inserir conteudo", conteudo);
+            // console.log("Erro ao inserir conteudo", element);
             return;
           }
         }
       } else {
-        console.log("Erro ao buscar conteudo", ret);
+        // console.log("Erro ao buscar conteudo", ret);
         return;
       }
     }
-    // console.log("links", links);
+    // // console.log("links", links);
 
     // const links:any = [];
     // const newLinks: any = [];
@@ -597,9 +597,9 @@ const converterConteudo = async () => {
     //   const element = links[index];
     //   newLinks.push({ oldlink: element, newLink: getNewLink(element) });
     // }
-    // console.log("newLinks", newLinks);
+    // // console.log("newLinks", newLinks);
   } else {
-    console.log("Erro ao buscar entidades", retEntidades);
+    // console.log("Erro ao buscar entidades", retEntidades);
   }
 };
 
@@ -656,13 +656,13 @@ const ajustaCategoriasAntigas = async (modelo: any) => {
         });
       }
     } catch (error) {
-      console.log(error);
-      console.log("Erro ao configurar categoria", ret);
+      // console.log(error);
+      // console.log("Erro ao configurar categoria", ret);
       return false;
     }
     return true;
   } else {
-    console.log("Erro ao buscar categoria", ret);
+    // console.log("Erro ao buscar categoria", ret);
     return false;
   }
 };
@@ -683,7 +683,7 @@ const getTipo = (categoria: any) => {
 const converterNoticias = async () => {
   const retEntidades = await useCustomFetch("entidade/getPopulate", "post", { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
   if (retEntidades.valido) {
-    console.log("iniciando");
+    // console.log("iniciando");
     for (let index5 = 1; index5 < retEntidades.data.length; index5++) {
       const entidadeEl = retEntidades.data[index5];
 
@@ -698,22 +698,22 @@ const converterNoticias = async () => {
 
       const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
       if (ret.valido && ret.data.json) {
-        console.log("entidade", entidadeEl.idAntigo);
+        // console.log("entidade", entidadeEl.idAntigo);
         const elementF = ret.data.json.listaGenerica;
         let retString = JSON.stringify(elementF);
         const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-        // console.log("retornoAjustado", retornoAjustado.length);
+        // // console.log("retornoAjustado", retornoAjustado.length);
 
         for (let index = 0; index < retornoAjustado.length; index++) {
-          console.log("executando o index", index);
+          // console.log("executando o index", index);
           const element = retornoAjustado[index];
 
-          // console.log('imagem old', element.imagem);
-          // console.log('new imagem',ajustaLink(element.imagem));
+          // // console.log('imagem old', element.imagem);
+          // // console.log('new imagem',ajustaLink(element.imagem));
 
           const links = findLinks(element.html_noticia);
           let htmlNoticia = element.html_noticia;
-          // console.log("links", links);
+          // // console.log("links", links);
 
           const newLinks: any = [];
           let novoHtml = false;
@@ -723,19 +723,19 @@ const converterNoticias = async () => {
               const newLink = getNewLink(oldLink);
               if (newLink) {
                 htmlNoticia = htmlNoticia.replace(oldLink, newLink);
-                console.log("substituiu", oldLink, newLink);
+                // console.log("substituiu", oldLink, newLink);
                 novoHtml = true;
               }
             }
             if (novoHtml) {
-              // console.log("novo html", htmlNoticia);
-              // console.log("newLinks", newLinks);
+              // // console.log("novo html", htmlNoticia);
+              // // console.log("newLinks", newLinks);
             }
           }
 
           const grupoNoticia = await findNoticiaGrupo(element.noticia_grupo_id);
           if (grupoNoticia == null) {
-            console.log("Erro ao buscar grupo de noticia", element);
+            // console.log("Erro ao buscar grupo de noticia", element);
             return;
           }
           const noticia: any = {
@@ -765,19 +765,19 @@ const converterNoticias = async () => {
 
           const retGrava = await useCustomFetch("noticia", "post", noticia, undefined);
           if (retGrava.valido) {
-            console.log("noticia", noticia.numero, "inserida com sucesso");
+            // console.log("noticia", noticia.numero, "inserida com sucesso");
           } else {
-            console.log("Erro ao inserir noticia", noticia);
-            console.log("Erro ao inserir noticia", element);
+            // console.log("Erro ao inserir noticia", noticia);
+            // console.log("Erro ao inserir noticia", element);
             return;
           }
         }
       } else {
-        console.log("Erro ao buscar noticia", ret);
+        // console.log("Erro ao buscar noticia", ret);
         return;
       }
     }
-    // console.log("links", links);
+    // // console.log("links", links);
 
     // const links:any = [];
     // const newLinks: any = [];
@@ -785,14 +785,14 @@ const converterNoticias = async () => {
     //   const element = links[index];
     //   newLinks.push({ oldlink: element, newLink: getNewLink(element) });
     // }
-    // console.log("newLinks", newLinks);
+    // // console.log("newLinks", newLinks);
   } else {
-    console.log("Erro ao buscar entidades", retEntidades);
+    // console.log("Erro ao buscar entidades", retEntidades);
   }
 };
 
 const findLinks = (valor: string) => {
-  console.log("valor", valor);
+  // console.log("valor", valor);
   const regex = /(<a href|src)="([^"]*)/g;
   const matches = [...valor.matchAll(regex)];
   return matches.map((match) => match[0]);
@@ -809,10 +809,10 @@ const findNoticiaGrupo = async (idAntigo: number) => {
 const inicioLink = "https://azimuteweb.s3.sa-east-1.amazonaws.com";
 
 const getNewLink = (input: string) => {
-  // console.log("input", input);
+  // // console.log("input", input);
   const regex = /((href|src)=")([^"]*)(\/gerenciador)/;
   const match = input.match(regex);
-  // console.log("match", match);
+  // // console.log("match", match);
 
   if (match) {
     return getNewSigla(input.replace(regex, `$1${inicioLink}$4`));
@@ -823,11 +823,11 @@ const getNewLink = (input: string) => {
 };
 
 const ajustaLink = (input: string) => {
-  // console.log("input", input);
+  // // console.log("input", input);
   const regex = /[^]*(gerenciador)/;
 
   const match = input.match(regex);
-  // console.log("match", match);
+  // // console.log("match", match);
 
   if (match) {
     return getNewSiglaAjuste(input.replace(regex, `$1`));
@@ -838,11 +838,11 @@ const ajustaLink = (input: string) => {
 };
 
 const ajustaLinkEvento = (input: string) => {
-  // console.log("input", input);
+  // // console.log("input", input);
   const regex = /[^]*(gerenciador)/;
 
   const match = input.match(regex);
-  // console.log("match", match);
+  // // console.log("match", match);
 
   if (match) {
     return 'https://azimuteweb.s3.sa-east-1.amazonaws.com/'+getNewSiglaAjuste(input.replace(regex, `$1`));
@@ -853,12 +853,12 @@ const ajustaLinkEvento = (input: string) => {
 };
 
 const getNewSigla = (input: any) => {
-  // console.log("input", input);
+  // // console.log("input", input);
   const regex = /\/gerenciador\/([^\/]*)/;
   const match = input.match(regex);
-  // console.log("match", match);
+  // // console.log("match", match);
   const ret = match ? match[1] : null;
-  // console.log("ret", ret);
+  // // console.log("ret", ret);
   if (ret) {
     switch (ret) {
       case "BAVECO":
@@ -887,7 +887,7 @@ const getNewSigla = (input: any) => {
       case "FOSP":
       case "FPO":
       case "ORIESC": {
-        // console.log("caiu no ret", ret);
+        // // console.log("caiu no ret", ret);
         return input.replace(`/gerenciador/${ret}/`, `/${ret}/site-antigo/`);
       }
 
@@ -897,12 +897,12 @@ const getNewSigla = (input: any) => {
   return input;
 };
 const getNewSiglaAjuste = (input: any) => {
-  // console.log("input", input);
+  // // console.log("input", input);
   const regex = /gerenciador\/([^\/]*)/;
   const match = input.match(regex);
-  // console.log("match", match);
+  // // console.log("match", match);
   const ret = match ? match[1] : null;
-  // console.log("ret", ret);
+  // // console.log("ret", ret);
   if (ret) {
     switch (ret) {
       case "BAVECO":
@@ -931,7 +931,7 @@ const getNewSiglaAjuste = (input: any) => {
       case "FOSP":
       case "FPO":
       case "ORIESC": {
-        // console.log("caiu no ret", ret);
+        // // console.log("caiu no ret", ret);
         return input.replace(`gerenciador/${ret}/`, `${ret}/site-antigo/`);
       }
 
@@ -944,10 +944,10 @@ const getNewSiglaAjuste = (input: any) => {
 const converterGrupoNoticias = async () => {
   const retEntidades = await useCustomFetch("entidade/getPopulate", "post", { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
   if (retEntidades.valido && retEntidades.data.length > 0) {
-    console.log("11");
+    // console.log("11");
     for (let index = 0; index < retEntidades.data.length; index++) {
       const entidadeEl = retEntidades.data[index];
-      console.log("22");
+      // console.log("22");
 
       const formSql = {
         tabelas: [{ nome: "noticia_grupo", nomeAs: "noticia_grupo" }],
@@ -960,16 +960,16 @@ const converterGrupoNoticias = async () => {
 
       const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formSql }, undefined);
       if (ret.valido && ret.data.json) {
-        console.log("ret", ret);
+        // console.log("ret", ret);
 
         const elementF = ret.data.json.listaGenerica;
         let retString = JSON.stringify(elementF);
         const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-        console.log("retornoAjustado", retornoAjustado.length);
+        // console.log("retornoAjustado", retornoAjustado.length);
 
         for (let index = 0; index < retornoAjustado.length; index++) {
           // for (let index = 0; index < 50; index++) {
-          console.log("executando o index", index);
+          // console.log("executando o index", index);
           const element = retornoAjustado[index];
 
           const noticiagrupo: any = {
@@ -984,20 +984,20 @@ const converterGrupoNoticias = async () => {
 
           const retGrava = await useCustomFetch("noticiagrupo", "post", noticiagrupo, undefined);
           if (retGrava.valido) {
-            console.log("noticiagrupo", noticiagrupo.descricao, "inserida com sucesso");
+            // console.log("noticiagrupo", noticiagrupo.descricao, "inserida com sucesso");
           } else {
-            console.log("Erro ao inserir noticiagrupo", noticiagrupo);
-            console.log("Erro ao inserir noticiagrupo", element);
+            // console.log("Erro ao inserir noticiagrupo", noticiagrupo);
+            // console.log("Erro ao inserir noticiagrupo", element);
             return;
           }
         }
       } else {
-        console.log("Erro ao buscar noticiagrupo", ret);
+        // console.log("Erro ao buscar noticiagrupo", ret);
         return;
       }
     }
   } else {
-    console.log("Erro ao buscar entidades", retEntidades);
+    // console.log("Erro ao buscar entidades", retEntidades);
   }
 };
 
@@ -1050,23 +1050,23 @@ const converterPessoas = async () => {
 
   const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: $scope.formSql }, undefined);
   if (ret.valido && ret.data.json) {
-    console.log("ret", ret);
+    // console.log("ret", ret);
 
     const elementF = ret.data.json.listaGenerica;
 
     //somente correção para estavam sem categoria
     if (elementF.length != 118) {
-      console.log("retornoAjustadoresultado inesperado", elementF);
+      // console.log("retornoAjustadoresultado inesperado", elementF);
       return;
     }
 
     let retString = JSON.stringify(elementF);
     const retornoAjustado = JSON.parse(retString.replaceAll("{}", "null"));
-    console.log("retornoAjustado", retornoAjustado.length);
+    // console.log("retornoAjustado", retornoAjustado.length);
 
     for (let index = 0; index < retornoAjustado.length; index++) {
       // for (let index = 0; index < 50; index++) {
-      console.log("executando o index", index);
+      // console.log("executando o index", index);
       const element = retornoAjustado[index];
 
       if (!((await ajustaEndereco(element)) && (await ajustaEnderecosEletronicos(element)) && (await ajustaTelefones(element)))) {
@@ -1101,7 +1101,7 @@ const converterPessoas = async () => {
 
       const retG = await useCustomFetch("pessoa", "post", pessoa, undefined);
       if (retG.valido) {
-        console.log("pessoa", pessoa.nome, "inserida com sucesso");
+        // console.log("pessoa", pessoa.nome, "inserida com sucesso");
 
         if (!(await ajustaFiliacoes(element, pessoa))) {
           return;
@@ -1109,13 +1109,13 @@ const converterPessoas = async () => {
           await ajustaFiliacoesSecundarias(element, pessoa._id);
         }
       } else {
-        console.log("Erro ao inserir pessoa", pessoa);
-        console.log("Erro ao inserir pessoa", element);
+        // console.log("Erro ao inserir pessoa", pessoa);
+        // console.log("Erro ao inserir pessoa", element);
         return;
       }
     }
   } else {
-    console.log("Erro ao buscar pessoas", ret);
+    // console.log("Erro ao buscar pessoas", ret);
   }
 };
 
@@ -1200,10 +1200,10 @@ const converterEntidades = async () => {
 
   const ret = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: $scope.formSql }, undefined);
   if (ret.valido && ret.data.json) {
-    console.log("ret", ret);
+    // console.log("ret", ret);
 
     for (let index = 0; index < ret.data.json.listaGenerica.length; index++) {
-      console.log("executando o index", index);
+      // console.log("executando o index", index);
       const element = ret.data.json.listaGenerica[index];
 
       if (!((await ajustaEndereco(element)) && (await ajustaEnderecosEletronicos(element)) && (await ajustaTelefones(element)))) {
@@ -1237,10 +1237,10 @@ const converterEntidades = async () => {
       if (retG.valido) {
         const retGravaP = await useCustomFetch("acessoSistema", "post", newPerfil(retG.data._id), undefined);
         const retVinculo = await useCustomFetch("vinculo", "post", newVinculo(retG.data._id, retGravaP.data._id), undefined);
-        console.log("entidade", entidade.nome, "inserida com sucesso");
+        // console.log("entidade", entidade.nome, "inserida com sucesso");
       } else {
-        console.log("Erro ao inserir entidade", entidade);
-        console.log("Erro ao inserir entidade", element);
+        // console.log("Erro ao inserir entidade", entidade);
+        // console.log("Erro ao inserir entidade", element);
         return;
       }
     }
@@ -1321,7 +1321,7 @@ const ajustaEndereco = async (element: any) => {
     }
     return true;
   } else {
-    console.log("Errro retEnd", retEnd);
+    // console.log("Errro retEnd", retEnd);
   }
   return false;
 };
@@ -1350,7 +1350,7 @@ const ajustaEnderecosEletronicos = async (element: any) => {
     }
     return true;
   }
-  console.log("Errro retEndEl", retEndEl);
+  // console.log("Errro retEndEl", retEndEl);
   return false;
 };
 
@@ -1842,7 +1842,7 @@ const getISODate = (data: string) => {
       return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]).toISOString();
     }
   } catch (error) {
-    console.log("Erro ao converter data", data);
+    // console.log("Erro ao converter data", data);
   }
   return null;
 };
@@ -1949,7 +1949,7 @@ const getEquipamento = (sicard: any) => {
   }
 };
 const ajustaFiliacoes = async (elemento: any, newPessoaId: any) => {
-  console.log("ajustaFiliacoes");
+  // console.log("ajustaFiliacoes");
   let temporario = false;
   switch (elemento.aprovacao) {
     case null: {
@@ -1994,7 +1994,7 @@ const ajustaFiliacoes = async (elemento: any, newPessoaId: any) => {
       const retGravaCBO = await useCustomFetch("filiacaoPessoa", "post", newFiliacaoPessoaCBO, undefined);
       let retIdCBO: any = null;
       if (!retGravaCBO.valido) {
-        console.log("Erro ao inserir filiação CBO", retGravaCBO);
+        // console.log("Erro ao inserir filiação CBO", retGravaCBO);
         return false;
       } else {
         retIdCBO = retGravaCBO.data._id;
@@ -2013,7 +2013,7 @@ const ajustaFiliacoes = async (elemento: any, newPessoaId: any) => {
           const retGravaClube = await useCustomFetch("filiacaoPessoa", "post", newFiliacaoPessoaClube, undefined);
 
           if (!retGravaClube.valido) {
-            console.log("Erro ao inserir filiação CLube", retGravaClube);
+            // console.log("Erro ao inserir filiação CLube", retGravaClube);
             await useCustomFetch("filiacaoPessoa/delete", "post", { _id: retIdCBO, definitivo: true }, undefined);
             await useCustomFetch("pessoa/delete", "post", { _id: newPessoaId, definitivo: true }, undefined);
             return false;
@@ -2021,12 +2021,12 @@ const ajustaFiliacoes = async (elemento: any, newPessoaId: any) => {
             retIdClube = retGravaClube.data._id;
           }
         } else {
-          console.log("Erro ao buscar clube", elemento.federacao_id);
-          console.log("Erro ao buscar clube", retClube);
+          // console.log("Erro ao buscar clube", elemento.federacao_id);
+          // console.log("Erro ao buscar clube", retClube);
           return false;
         }
       } else {
-        console.log("não tem clube");
+        // console.log("não tem clube");
       }
       if (elemento.federacao_id) {
         const retFederacao = await useCustomFetch("entidade/getPopulate", "post", { filtro: { idAntigo: elemento.federacao_id }, select: { _id: 1 } }, undefined);
@@ -2039,19 +2039,19 @@ const ajustaFiliacoes = async (elemento: any, newPessoaId: any) => {
           const newFiliacaoPessoaFederacao = getNewFiliacaoPessoa(retFederacao.data[0]._id, newPessoaId, elemento, "Estadual", temporario, status);
           const retGravaFederacao = await useCustomFetch("filiacaoPessoa", "post", newFiliacaoPessoaFederacao, undefined);
           if (!retGravaFederacao.valido) {
-            console.log("Erro ao inserir filiação Federacao", retGravaFederacao);
+            // console.log("Erro ao inserir filiação Federacao", retGravaFederacao);
             await useCustomFetch("filiacaoPessoa/delete", "post", { _id: retIdCBO, definitivo: true }, undefined);
             await useCustomFetch("filiacaoPessoa/delete", "post", { _id: retIdClube, definitivo: true }, undefined);
             await useCustomFetch("pessoa/delete", "post", { _id: newPessoaId, definitivo: true }, undefined);
             return false;
           }
         } else {
-          console.log("Erro ao buscar federacao", elemento.federacao_id);
-          console.log("Erro ao buscar federacao", retFederacao);
+          // console.log("Erro ao buscar federacao", elemento.federacao_id);
+          // console.log("Erro ao buscar federacao", retFederacao);
           return false;
         }
       } else {
-        console.log("não tem federação");
+        // console.log("não tem federação");
       }
       return true;
     }
@@ -2083,7 +2083,7 @@ const ajustaFiliacoesSecundarias = async (elemento: any, newPessoaId: string) =>
         const newFiliacaoPessoaFederacao = getNewFiliacaoPessoa(retFederacao.data[0]._id, newPessoaId, elemento, "Estadual", false, status);
         const retGravaFederacao = await useCustomFetch("filiacaoPessoa", "post", newFiliacaoPessoaFederacao, undefined);
         if (!retGravaFederacao.valido) {
-          console.log("Erro ao inserir filiação Federacao", newFiliacaoPessoaFederacao);
+          // console.log("Erro ao inserir filiação Federacao", newFiliacaoPessoaFederacao);
           return false;
         } else {
           if (e.confirmacao_clube) {
@@ -2096,7 +2096,7 @@ const ajustaFiliacoesSecundarias = async (elemento: any, newPessoaId: string) =>
           const newFiliacaoPessoaClube = getNewFiliacaoPessoa(retClube.data[0]._id, newPessoaId, elemento, "Local", false, status);
           const retGravaClube = await useCustomFetch("filiacaoPessoa", "post", newFiliacaoPessoaClube, undefined);
           if (!retGravaClube.valido) {
-            console.log("Erro ao inserir filiação Clube", newFiliacaoPessoaClube);
+            // console.log("Erro ao inserir filiação Clube", newFiliacaoPessoaClube);
             return false;
           }
         }
@@ -2104,7 +2104,7 @@ const ajustaFiliacoesSecundarias = async (elemento: any, newPessoaId: string) =>
     }
     return true;
   } else {
-    console.log("Erro ao buscar filiações secundárias", retFas);
+    // console.log("Erro ao buscar filiações secundárias", retFas);
     return false;
   }
 
@@ -2186,7 +2186,7 @@ const login = async () => {
 
   if (ret) {
     if (ret.valido) {
-      console.log(ret);
+      // console.log(ret);
       pessoaAzimute.value.usuario = ret.json.login;
       logado.value = true;
     } else {
@@ -2230,7 +2230,7 @@ const ajustaCPF = async () => {
         if (element.cpf !== newPessoa.cpf) {
           const retGrava = await useCustomFetch("pessoa/" + element._id, "put", newPessoa, undefined);
           if (!retGrava.valido) {
-            console.log("Erro ao gravar pessoa", retGrava);
+            // console.log("Erro ao gravar pessoa", retGrava);
             return;
           }
         }
@@ -2239,10 +2239,10 @@ const ajustaCPF = async () => {
 
     const restodadivisao = index % 50;
     if (restodadivisao == 0) {
-      console.log("executou: ", index);
+      // console.log("executou: ", index);
     }
   }
-  console.log(listaIdSemcpf.value);
+  // console.log(listaIdSemcpf.value);
 };
 </script>
 <style scoped lang="scss"></style>

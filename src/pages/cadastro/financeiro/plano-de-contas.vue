@@ -91,7 +91,7 @@ const getList = async () => {
       },
       undefined
     );
-    // console.log('Leu o Banco de dados.');
+    // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       listaPlanos.value = ret.data;
       await montaTree();

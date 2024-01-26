@@ -21,7 +21,7 @@ export const useCounter = defineStore('counter', {
     },
 
     changeMe() {
-      console.log('change me to test HMR')
+      // console.log('change me to test HMR')
     },
 
     async fail() {

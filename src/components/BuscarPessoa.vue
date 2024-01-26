@@ -89,7 +89,7 @@ const getFiltro = () => {
       }
     }
   }
-  console.log(filtro);
+  // console.log(filtro);
   return filtro;
 }
 

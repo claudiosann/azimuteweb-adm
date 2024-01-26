@@ -68,13 +68,13 @@ const confirm2 = ()  => {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        // console.log('>>>> OK')
+        // // console.log('>>>> OK')
       }).onOk(() => {
-        // console.log('>>>> second OK catcher')
+        // // console.log('>>>> second OK catcher')
       }).onCancel(() => {
-        // console.log('>>>> Cancel')
+        // // console.log('>>>> Cancel')
       }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
+        // // console.log('I am triggered on both OK and Cancel')
       })
     }
 

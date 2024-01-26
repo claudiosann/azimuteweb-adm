@@ -135,14 +135,14 @@ const getList = async () => {
       },
       undefined
     );
-    // console.log('Leu o Banco de dados.');
+    // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       rows.value = ret.data;
-      console.log(rows.value);
+      // console.log(rows.value);
       $q.loading.hide();
     } else {
       rows.value = [];
-      console.log(ret.data);
+      // console.log(ret.data);
       $q.loading.hide();
       $q.notify({
         color: "negative",
@@ -177,7 +177,7 @@ const deleteRow = async (index, id) => {
         type: "warning",
         message: "Falha ao deletar." + response.data.message,
       });
-      console.log(response.data);
+      // console.log(response.data);
     }
   } else {
     $q.notify({

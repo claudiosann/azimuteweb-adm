@@ -15,7 +15,7 @@ export const useCustomFetch = async (
   const yul = $geralService.configuracoes._urj;
 
   try {
-    // console.log('revalidando');
+    // // console.log('revalidando');
     if (
       await revalidateToken(
         token.value,
@@ -37,7 +37,7 @@ export const useCustomFetch = async (
       if (ret.valido) {
         return ret;
       } else {
-        console.log(ret);
+        // console.log(ret);
         if (ret.data && ret.data.message) { return ret; } else {
               return {
                 valido: false,
@@ -57,7 +57,7 @@ export const useCustomFetch = async (
             entidadeId: geral.entidade._id,
           },
         }).onOk(async (data) => {
-          console.log("OKlogin", data);
+          // console.log("OKlogin", data);
         });
       }, 500);
       return {
@@ -67,7 +67,7 @@ export const useCustomFetch = async (
       };
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return { valido: false, data: { message: "Falha na Comunicação!" } };
   }
 };
@@ -82,8 +82,8 @@ export const useCustomFetchOld = async (url: string, method: any, data: any, pes
   const yul = $geralService.configuracoes._urj;
 
   try {
-    console.log(pessoa);
-    console.log(pessoa);
+    // console.log(pessoa);
+    // console.log(pessoa);
     
        if (await revalidateToken(token.value, tkMaster.value, yul, geral.pessoa._id)) {
          const ret: any = await $fetch(`https://www.cbo.org.br/azimuteweb_ws/webresources/${url}`, {
@@ -108,7 +108,7 @@ export const useCustomFetchOld = async (url: string, method: any, data: any, pes
              persistent: true,
              componentProps: {},
            }).onOk(async (data) => {
-             // console.log("OKlogin", data);
+             // // console.log("OKlogin", data);
            });
          }, 500);
          return {
@@ -118,7 +118,7 @@ export const useCustomFetchOld = async (url: string, method: any, data: any, pes
          };
        }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return { valido: false, data: { message: "Falha na Comunicação!" } };
   }
 };

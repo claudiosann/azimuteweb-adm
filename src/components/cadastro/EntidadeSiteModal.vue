@@ -482,7 +482,7 @@ const inserir = ref(true);
 
 
 onBeforeMount(async () => {
-    console.log(props.id);
+    // console.log(props.id);
     if (props.id) {
         const ret: any = await useCustomFetch('entidadeSite/getPopulate', 'post', {
             filtro: {
@@ -501,7 +501,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.entidadeSite = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (props.copia) {
                 state.entidadeSite.nome = state.entidadeSite.nome + " (Cópia)";
                 state.entidadeSite._id = undefined;
@@ -646,13 +646,13 @@ const save = async () => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
     }
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",

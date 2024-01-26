@@ -95,7 +95,7 @@ const getEvento = async () => {
     null,
     undefined
   );
-  console.log('ret', ret);
+  // console.log('ret', ret);
   if (ret.valido) {
     evento.value = ret.data[0];
   }

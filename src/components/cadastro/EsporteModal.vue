@@ -101,7 +101,7 @@ onBeforeMount(async () => {
         }, undefined);
         if (ret.valido) {
             state.esporte = ret.data[0];
-            console.log(ret.data);
+            // console.log(ret.data);
             if (props.copia) {
                 state.esporte.descricao = state.esporte.descricao + " (Cópia)";
                 state.esporte._id = undefined;
@@ -205,7 +205,7 @@ const beforeSave = () => {
 };
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -244,7 +244,7 @@ const save = async (newDestaque: any, nomeTempFile: any) => {
         });
         onDialogOK(ret.data);
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.loading.hide();
         if (nomeTempFile) {
             $geralService.deleteImagem(nomeTempFile);

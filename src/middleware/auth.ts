@@ -26,10 +26,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
           geral.pessoa._id
         )
       ) {
-        console.log("token validado");
+        // console.log("token validado");
       } else {
-        // console.log("token inválido");
-        console.log("aquijjjjjjjjj");
+        // // console.log("token inválido");
+        // console.log("aquijjjjjjjjj");
         geral.reset();
         usuario.value = undefined;
         token.value = undefined;

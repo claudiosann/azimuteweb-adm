@@ -338,7 +338,7 @@ const GeralService = {
   },
 
   getDataFormatada(dt, formato) {
-    // console.log("eta"+moment.locale('pt-br'));
+    // // console.log("eta"+moment.locale('pt-br'));
     if (!dt) {
       return "";
     }
@@ -452,7 +452,7 @@ const GeralService = {
 
   validateDate(date) {
     let dateformat = /^(0?[1-9]|[1-2][0-9]|3[01])[\/](0?[1-9]|1[0-2])/;
-    // console.log(date);
+    // // console.log(date);
 
     // Matching the date through regular expression
     if (date.match(dateformat)) {
@@ -465,9 +465,9 @@ const GeralService = {
       }
       let day = parseInt(datepart[0]);
       let month = parseInt(datepart[1]);
-      // console.log(datepart[2]);
+      // // console.log(datepart[2]);
       if (datepart[2].length < 4) {
-        // console.log(datepart[2]);
+        // // console.log(datepart[2]);
         return false;
       }
       let year = parseInt(datepart[2]);
@@ -477,7 +477,7 @@ const GeralService = {
       if (month == 1 || month > 2) {
         if (day > ListofDays[month - 1]) {
           //to check if the date is out of range
-          console.log("Invalid date");
+          // console.log("Invalid date");
           return false;
         }
         if (month > 12 || month < 1) {
@@ -487,10 +487,10 @@ const GeralService = {
         let leapYear = false;
         if ((!(year % 4) && year % 100) || !(year % 400)) leapYear = true;
         if (leapYear == false && day >= 29) {
-          console.log("Invalid date");
+          // console.log("Invalid date");
           return false;
         } else if (leapYear == true && day > 29) {
-          console.log("Invalid date format!");
+          // console.log("Invalid date format!");
           return false;
         }
       }
@@ -702,7 +702,7 @@ const GeralService = {
     if (ret.data && ret.valido) {
       return true;
     } else {
-      console.log(ret);
+      // console.log(ret);
       Loading.hide();
       console.error(ret.data);
       Notify.create({
@@ -721,7 +721,7 @@ const GeralService = {
     if (thumbnails) {
       fd.append('thumbnails', JSON.stringify(thumbnails));
     }
-    console.log(fd);
+    // console.log(fd);
 
     try {
       const ret = await useCustomFetch("api/uploadS3", "post", fd, undefined);
@@ -736,10 +736,10 @@ const GeralService = {
           icon: 'warning'
         });
       } else {
-        console.log(ret);
+        // console.log(ret);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return false;
     }
     return true;
@@ -760,10 +760,10 @@ const GeralService = {
           icon: 'warning'
         });
       } else {
-        console.log(ret);
+        // console.log(ret);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return false;
     }
     return true;
@@ -1101,7 +1101,7 @@ const GeralService = {
   },
 
   validaCartao(pagamento, modoSandBox) {
-    console.log('aqui');
+    // console.log('aqui');
     if (modoSandBox) {
       if (
         pagamento.cartao.CardNumber &&
@@ -1125,7 +1125,7 @@ const GeralService = {
             this.cardIsValid(
               pagamento.cartao.CardNumber
             );
-          // console.log("cartao i: " + $scope.cartaoValido);
+          // // console.log("cartao i: " + $scope.cartaoValido);
         } else {
           pagamento.cartao.cartaoValido = false;
         }

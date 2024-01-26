@@ -136,13 +136,13 @@ const getList = async () => {
             },
             undefined
         );
-        // console.log('Leu o Banco de dados.');
+        // // console.log('Leu o Banco de dados.');
         if (ret.valido) {
             rows.value = ret.data;
             $q.loading.hide();
         } else {
             rows.value = [];
-            console.log(ret.data);
+            // console.log(ret.data);
             $q.loading.hide();
             $q.notify({
                 color: "negative",
@@ -173,7 +173,7 @@ const deleteRow = async (index, id) => {
             });
             rows.value.splice(index, 1);
         } else {
-            console.log(ret.data);
+            // console.log(ret.data);
             $q.notify({
                 type: "warning",
                 message: "Falha ao deletar." + ret.data.message,
@@ -220,18 +220,18 @@ const openModal = (index, id, copy) => {
             id: idSelecionado.value,
         },
     }).onOk(async (data) => {
-        console.log(data);
-        console.log('aqui');
+        // console.log(data);
+        // console.log('aqui');
         confirmSave();
     }).onCancel(() => {
-        console.log('ops');
+        // console.log('ops');
     });
 }
 
 const confirmSave = () => {
     getList();
     indexSelecionado.value = -1;
-    console.log('atualizou');
+    // console.log('atualizou');
 };
 
 </script>

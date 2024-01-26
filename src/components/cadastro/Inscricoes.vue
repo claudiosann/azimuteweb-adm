@@ -196,7 +196,7 @@ const getList = async () => {
       },
       undefined
     );
-    // console.log('Leu o Banco de dados.');
+    // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       rows.value = ret.data;
       $q.loading.hide();
@@ -232,8 +232,8 @@ const deleteRow = async (index, inscricao) => {
         });
         try {
             // primeiro excluir o pagamento
-          console.log(inscricao.pagamento._id )
-          console.log(inscricao._id )
+          // console.log(inscricao.pagamento._id )
+          // console.log(inscricao._id )
 
           const ret = await useCustomFetch("pagamento/delete", "post", { _id: inscricao.pagamento._id }, undefined);
           if (ret.valido) {

@@ -78,8 +78,8 @@ const testeImageUpload = () => {
      
     },
   }).onOk(async (ret) => {
-    console.log("Image Retorno", ret.data);
-    console.log("fileName Retorno", ret.fileName);
+    // console.log("Image Retorno", ret.data);
+    // console.log("fileName Retorno", ret.fileName);
   });
 }
 

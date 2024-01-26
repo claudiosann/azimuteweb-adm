@@ -95,7 +95,7 @@ const excluir = () => {
 }
 
 const filterFn = (val: any, update: Function) => {
-    console.log(val);
+    // console.log(val);
     if (val === '') {
         update(() => {
             listaIcones.value = icones;

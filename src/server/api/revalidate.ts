@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const yul = $geralService.configuracoes._urj;
  // const body = await readBody(event);
     if (tkMaster && usuario) {
-      console.log("Ravalidate ");
+      // console.log("Ravalidate ");
       const ret = await $fetch(`${runTimeConfig.public.baseUrl}revalidate`, {
         method: "post",
         body: {

@@ -269,7 +269,7 @@ const changeTipo = (value: String) => {
     } else {
         listaTipo.value = ['Masculino', 'Feminino', 'Misto'];
     }
-    console.log(listaTipo.value);
+    // console.log(listaTipo.value);
 }
 
 const changeTipoCategoria = (value: String, index: number) => {
@@ -318,7 +318,7 @@ onBeforeMount(async () => {
                 changeTipo(state.modeloCategoria.tipo);
             }
         } else {
-            console.log('passou aquidsdsdsds');
+            // console.log('passou aquidsdsdsds');
             setTimeout(async () => {
                 await cancel();
                 // navigateTo('/login');
@@ -332,7 +332,7 @@ onBeforeMount(async () => {
 });
 
 const cancel = async () => {
-    console.log('passou aquitttt');
+    // console.log('passou aquitttt');
     onDialogCancel();
     $q.notify({
         position: "top",
@@ -344,7 +344,7 @@ const cancel = async () => {
 };
 // TO save
 const save = async () => {
-    // console.log($v.value.modeloCategoria);
+    // // console.log($v.value.modeloCategoria);
     $v.value.modeloCategoria.$touch();
 
     if ($v.value.modeloCategoria.$error) {
@@ -364,7 +364,7 @@ const save = async () => {
         url += "/" + props.id;
         tipo = "put";
     }
-    console.log(state.modeloCategoria);
+    // console.log(state.modeloCategoria);
     // const ret = await this.$geralService.comunicaAsync(url, tipo, this.modeloCategoria, "salvar modeloCategoria");
     const ret: any = await useCustomFetch(url, tipo, state.modeloCategoria, undefined);
     if (ret.valido) {
@@ -374,7 +374,7 @@ const save = async () => {
             message: "Registro salvo com sucesso!",
         });
     } else {
-        console.log(ret);
+        // console.log(ret);
         $q.notify({
             type: "negative",
             message: "Falha ao salvar",

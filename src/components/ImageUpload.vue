@@ -91,7 +91,7 @@ defineEmits([
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
 
 const change = ({ coordinates, canvas }) => {
-    console.log(coordinates);
+    // console.log(coordinates);
     cropImg.value = canvas.toDataURL();
     // if (crop.value) {
     //     const { coordinates, imageSize } = crop.value;
@@ -110,7 +110,7 @@ const change = ({ coordinates, canvas }) => {
     //             (crop.value.imageSize.width - crop.value.sizeRestrictions.minWidth);
     //     }
     // }
-    // console.log(zoom.value);
+    // // console.log(zoom.value);
 }
 
 const flip = (x, y) => {

@@ -96,12 +96,12 @@ onMounted(() => {
     file.value.click();
   }, 500);
 
-  console.log(props.winit);
-  console.log(props.hinit);
+  // console.log(props.winit);
+  // console.log(props.hinit);
 });
 
 const flipX = () => {
-  console.log(cropper.value);
+  // console.log(cropper.value);
   fx.value = fx.value ? -fx.value : -1;
   cropper.value.scaleX(fx.value);
 };

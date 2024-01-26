@@ -279,7 +279,7 @@ const getList = async () => {
     } else {
       listaConta.value = [];
       rows.value = [];
-      console.log(ret.data);
+      // console.log(ret.data);
       $q.loading.hide();
       $q.notify({
         color: "negative",
@@ -335,7 +335,7 @@ const deleteRow = async (index, id) => {
       });
       rows.value.splice(index, 1);
     } else {
-      console.log(ret.data);
+      // console.log(ret.data);
       $q.notify({
         type: "warning",
         message: "Falha ao deletar." + ret.data.message,

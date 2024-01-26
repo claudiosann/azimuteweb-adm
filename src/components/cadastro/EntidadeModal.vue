@@ -602,7 +602,7 @@ onBeforeMount(async () => {
       await iniciaListaTaxas();
       await iniciaListaConta();
       state.entidade = ret.data[0];
-      console.log(ret.data);
+      // console.log(ret.data);
       if (!state.entidade.configuracoes) {
         state.entidade.configuracoes = getNewConfiguracoes();
       }
@@ -645,8 +645,8 @@ onBeforeMount(async () => {
     state.entidade = await getNewEntidade();
     inserir.value = true;
   }
-  console.log($v.value);
-  console.log(state.entidade);
+  // console.log($v.value);
+  // console.log(state.entidade);
 });
 
 const iniciaListaConta = async () => {
@@ -705,7 +705,7 @@ const getListaAcessos = async () => {
   if (ret1.valido) {
     listaAcessosSistema.value = ret1.data;
   }
-  console.log(ret1);
+  // console.log(ret1);
 };
 
 const confirmSelecaoAdm = (pessoa: any) => {
@@ -852,7 +852,7 @@ const iniciaListaTaxas = async () => {
         obj: taxa,
       };
     });
-    console.log(listaTaxas.value);
+    // console.log(listaTaxas.value);
   } else {
     listaTaxas.value = [];
   }
@@ -1036,7 +1036,7 @@ const save = async (newEntidade: any, nomeTempFile: any) => {
     });
     onDialogOK(ret.data);
   } else {
-    console.log(ret);
+    // console.log(ret);
     if (nomeTempFile) {
       $geralService.deleteImagem(nomeTempFile);
       $q.loading.hide();
@@ -1069,7 +1069,7 @@ const filterFn = (val: any, update: any) => {
 };
 const getNewEntidade = async () => {
   const ret = await useCustomFetch("id", "get", undefined, undefined);
-  console.log(ret);
+  // console.log(ret);
   if (ret.valido) {
     return {
       ativo: true,

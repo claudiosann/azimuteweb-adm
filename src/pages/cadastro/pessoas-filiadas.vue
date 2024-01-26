@@ -184,13 +184,13 @@ const getList = async () => {
       undefined
     );
 
-    // console.log('Leu o Banco de dados.');
+    // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       rows.value = ret.data;
       $q.loading.hide();
     } else {
       rows.value = [];
-      console.log(ret.data);
+      // console.log(ret.data);
       $q.loading.hide();
       $q.notify({
         color: "negative",
@@ -221,7 +221,7 @@ const deleteRow = async (index, id) => {
       });
       rows.value.splice(index, 1);
     } else {
-      console.log(ret.data);
+      // console.log(ret.data);
       $q.notify({
         type: "warning",
         message: "Falha ao deletar." + ret.data.message,
@@ -236,7 +236,7 @@ const deleteRow = async (index, id) => {
 };
 
 const editRow = (index, id, copy) => {
-  console.log("editRow", index, id, copy);
+  // console.log("editRow", index, id, copy);
   if (geral.verificaAcesso("pessoaEditar")) {
     openModal(index, id, copy);
   }
