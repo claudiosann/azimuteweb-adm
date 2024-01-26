@@ -992,42 +992,6 @@ const constantes = {
     },
     {
       "id": 111,
-      "descricao": "Consumível - Acessar",
-      "variavel": "consumivelAcessar",
-      "grupo": {
-        "id": 3,
-        "descricao": "Técnico"
-      }
-    },
-    {
-      "id": 112,
-      "descricao": "Consumível - Inserir",
-      "variavel": "consumivelInserir",
-      "grupo": {
-        "id": 3,
-        "descricao": "Técnico"
-      }
-    },
-    {
-      "id": 113,
-      "descricao": "Consumível - Editar",
-      "variavel": "consumivelEditar",
-      "grupo": {
-        "id": 3,
-        "descricao": "Técnico"
-      }
-    },
-    {
-      "id": 114,
-      "descricao": "Consumível - Deletar",
-      "variavel": "consumivelDeletar",
-      "grupo": {
-        "id": 3,
-        "descricao": "Técnico"
-      }
-    },
-    {
-      "id": 115,
       "descricao": "Lote Inscrição - Acessar",
       "variavel": "loteInscricaoAcessar",
       "grupo": {
@@ -1036,7 +1000,7 @@ const constantes = {
       }
     },
     {
-      "id": 116,
+      "id": 112,
       "descricao": "Lote Inscrição - Inserir",
       "variavel": "loteInscricaoInserir",
       "grupo": {
@@ -1045,7 +1009,7 @@ const constantes = {
       }
     },
     {
-      "id": 117,
+      "id": 113,
       "descricao": "Lote Inscrição - Editar",
       "variavel": "loteInscricaoEditar",
       "grupo": {
@@ -1054,7 +1018,7 @@ const constantes = {
       }
     },
     {
-      "id": 118,
+      "id": 114,
       "descricao": "Lote Inscrição - Deletar",
       "variavel": "loteInscricaoDeletar",
       "grupo": {
@@ -1063,7 +1027,7 @@ const constantes = {
       }
     },
     {
-      "id": 119,
+      "id": 115,
       "descricao": "Gerenciador de Arquivos - Acessar",
       "variavel": "arquivosAcessar",
       "grupo": {
@@ -1072,7 +1036,7 @@ const constantes = {
       }
     },
     {
-      "id": 120,
+      "id": 116,
       "descricao": "Gerenciador de Arquivos - Inserir",
       "variavel": "arquivosInserir",
       "grupo": {
@@ -1081,7 +1045,7 @@ const constantes = {
       }
     },
     {
-      "id": 121,
+      "id": 117,
       "descricao": "Gerenciador de Arquivos - Editar",
       "variavel": "arquivosEditar",
       "grupo": {
@@ -1090,7 +1054,7 @@ const constantes = {
       }
     },
     {
-      "id": 122,
+      "id": 118,
       "descricao": "Gerenciador de Arquivos - Deletar",
       "variavel": "arquivosDeletar",
       "grupo": {

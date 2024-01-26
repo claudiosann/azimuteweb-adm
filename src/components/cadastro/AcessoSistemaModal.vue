@@ -17,6 +17,7 @@
               <div class="col-sm-6 col-md-6 col-12">
                 <q-input type="text" hide-bottom-space outlined v-model="acessoSistema.descricao" label="Nome" :dense="dense" @blur="$v.descricao.$touch" :error="$v.descricao.$error" error-message="Campo obrigatório" />
               </div>
+              <pre>{{ acessoSistema.funcoesSistema }}</pre>
               <div class="col-sm-6 col-md-6 col-12">
                 <q-select hint="Digite o @ para filtrar por Grupo" hide-bottom-space outlined hide-selected v-model="acessoSistema.funcoesSistema" use-input @filter="filterFn" :options="funcoesSistemaFilter" label="Buscar Funções" :dense="dense" option-value="id" :emit-value="true" option-label="descricao" map-options @blur="$v.funcoesSistema.$touch" :error="$v.funcoesSistema.$error" error-message="Campo obrigatório" multiple stack-label>
                   <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
@@ -101,9 +102,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 const geral = useGeral();
 // GO data
 const acessoSistema: any = ref({ descricao: "", funcoesSistema: [] });
-const funcoesSistema: Array<any> = constantes.FUNCOES_SISTEMA.sort((a: any, b: any) => {
-  return a.grupo.id - b.grupo.id;
-});
+const funcoesSistema: Array<any> = constantes.FUNCOES_SISTEMA;
 
 for (let index = 0; index < funcoesSistema.length; index++) {
   const element = funcoesSistema[index];

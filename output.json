@@ -991,42 +991,6 @@
   },
   {
     "id": 111,
-    "descricao": "Consumível - Acessar",
-    "variavel": "consumivelAcessar",
-    "grupo": {
-      "id": 3,
-      "descricao": "Técnico"
-    }
-  },
-  {
-    "id": 112,
-    "descricao": "Consumível - Inserir",
-    "variavel": "consumivelInserir",
-    "grupo": {
-      "id": 3,
-      "descricao": "Técnico"
-    }
-  },
-  {
-    "id": 113,
-    "descricao": "Consumível - Editar",
-    "variavel": "consumivelEditar",
-    "grupo": {
-      "id": 3,
-      "descricao": "Técnico"
-    }
-  },
-  {
-    "id": 114,
-    "descricao": "Consumível - Deletar",
-    "variavel": "consumivelDeletar",
-    "grupo": {
-      "id": 3,
-      "descricao": "Técnico"
-    }
-  },
-  {
-    "id": 115,
     "descricao": "Lote Inscrição - Acessar",
     "variavel": "loteInscricaoAcessar",
     "grupo": {
@@ -1035,7 +999,7 @@
     }
   },
   {
-    "id": 116,
+    "id": 112,
     "descricao": "Lote Inscrição - Inserir",
     "variavel": "loteInscricaoInserir",
     "grupo": {
@@ -1044,7 +1008,7 @@
     }
   },
   {
-    "id": 117,
+    "id": 113,
     "descricao": "Lote Inscrição - Editar",
     "variavel": "loteInscricaoEditar",
     "grupo": {
@@ -1053,7 +1017,7 @@
     }
   },
   {
-    "id": 118,
+    "id": 114,
     "descricao": "Lote Inscrição - Deletar",
     "variavel": "loteInscricaoDeletar",
     "grupo": {
@@ -1062,7 +1026,7 @@
     }
   },
   {
-    "id": 119,
+    "id": 115,
     "descricao": "Gerenciador de Arquivos - Acessar",
     "variavel": "arquivosAcessar",
     "grupo": {
@@ -1071,7 +1035,7 @@
     }
   },
   {
-    "id": 120,
+    "id": 116,
     "descricao": "Gerenciador de Arquivos - Inserir",
     "variavel": "arquivosInserir",
     "grupo": {
@@ -1080,7 +1044,7 @@
     }
   },
   {
-    "id": 121,
+    "id": 117,
     "descricao": "Gerenciador de Arquivos - Editar",
     "variavel": "arquivosEditar",
     "grupo": {
@@ -1089,7 +1053,7 @@
     }
   },
   {
-    "id": 122,
+    "id": 118,
     "descricao": "Gerenciador de Arquivos - Deletar",
     "variavel": "arquivosDeletar",
     "grupo": {
