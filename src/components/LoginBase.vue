@@ -4,8 +4,11 @@
             <q-card class="q-ma-md !rounded-xl">
                 <q-card-section>
                     <div class="row text-h5 text-gray-600 dark:text-gray-200">{{ modal ? 'Revalidar Login' : 'Login' }}</div>
+                    
+                    
+                    <div class="row justify-center text-lg text-gray-600 dark:text-gray-200">Plataforma</div>
                     <div class="row justify-center">
-                        <div class="row"><img style="max-height: 50px" :src="'nova_logo.svg'" class="image mb-2xl" /></div>
+                        <div class="row"><img style="max-height: 50px" src="https://azimuteweb.s3.sa-east-1.amazonaws.com/nova_logo.svg" class="image mb-2xl" /></div>
                     </div>
                     <div style="width: 100%; max-width: 360px" class="row justify-center">
                         <q-input outlined class="full-width q-mb-md" input-class="rounded-md" v-model="v$.login.$model"

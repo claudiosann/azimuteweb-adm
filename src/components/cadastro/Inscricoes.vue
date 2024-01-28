@@ -34,7 +34,7 @@
                     </q-item-section>
                     <q-item-section avatar> Editar </q-item-section>
                   </q-item>
-                  <q-item v-if="(geral.pessoa._id = '5aff4d2f47667633c7ace227')" clickable @click="deleteRow(props.rowIndex, props.row )" v-close-popup>
+                  <q-item v-if="(geral.pessoa._id = '5aff4d2f47667633c7ace227')" clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="red-7" text-color="white" icon="fas fa-trash" />
                     </q-item-section>
@@ -186,11 +186,17 @@ const getList = async () => {
         populateObj: [
           {
             path: "pessoa",
-            select: "nome foto",
+            select: { nome: 1, foto: 1 },
+          },
+          {
+            path: "inscritos.pessoa",
+            select: { nome: 1, foto: 1 },
           },
           {
             path: "pagamento",
-            select: "tipo",
+          },
+          {
+            path: "inscritos.consumiveis.consumivel",
           },
         ],
       },
@@ -199,6 +205,7 @@ const getList = async () => {
     // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       rows.value = ret.data;
+      console.log(ret.data);
       $q.loading.hide();
     } else {
       rows.value = [];
@@ -213,9 +220,26 @@ const getList = async () => {
   }
 };
 
-const deleteRow = async (index, inscricao) => {
+// const gerarListagemValores = (lista) => {
+//   let listaInscricoes = [];
+//   for (let index = 0; index < rows.value.length; index++) {
+//     const i = rows.value[index];
+//     if (element.status == "Finalizada") {
+//       for (let index2 = 0; index2 < i.inscritos.length; index2++) {
+//         const ai = array[index2];
+//         for (let index3 = 0; index3 < ai.consumiveis.length; index3++) {
+//           const it = inscrito.consumiveis[index3];
+//           const insc = {inscricao: i._d, pr: i.pessoa._id, pi: }
+//         }
+//       }
+//     }
+//   }
+// };
 
-  if (geral.pessoa._id = '5aff4d2f47667633c7ace227' && inscricao.status != 'Finalizada') {
+
+
+const deleteRow = async (index, inscricao) => {
+  if ((geral.pessoa._id = "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
     $q.dialog({
       title: "Excluir",
       message: "Deseja realmente excluir o registro?",
@@ -231,7 +255,7 @@ const deleteRow = async (index, inscricao) => {
           messageColor: "white",
         });
         try {
-            // primeiro excluir o pagamento
+          // primeiro excluir o pagamento
           // console.log(inscricao.pagamento._id )
           // console.log(inscricao._id )
 

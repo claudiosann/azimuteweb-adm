@@ -23,7 +23,7 @@
                 <EssentialLink link="/cadastro/pessoas-filiadas" color="bg-gradient-to-l from-emerald-500 to-emerald-700"
                     icon="fas fa-id-card" title="Pessoas Filiadas"
                     :caption="`Pessoas filiadas ${(geral.entidade.tratamentoMasculino ? 'ao' : 'à')} ${geral.entidade.sigla}`"
-                    v-if="geral.funcoesAcessos.pessoaAcessar" />
+                    v-if="geral.funcoesAcessos.filiacaoAcessar" />
                 <EssentialLink link="/cadastro/pessoas" color="bg-gradient-to-l from-fuchsia-500 to-fuchsia-700"
                     icon="person" title="Pessoas"
                     :caption="`Cadastro Geral de Pessoas`"

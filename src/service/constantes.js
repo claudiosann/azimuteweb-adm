@@ -1061,7 +1061,43 @@ const constantes = {
         "id": 1,
         "descricao": "Administrativo"
       }
-    }
+    },
+    {
+      "id": 119,
+      "descricao": "Filiações - Acessar",
+      "variavel": "filiacaoAcessar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    {
+      "id": 120,
+      "descricao": "Filiações - Inserir",
+      "variavel": "filiacaoInserir",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    {
+      "id": 121,
+      "descricao": "Filiações - Editar",
+      "variavel": "filiacaoEditar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    {
+      "id": 122,
+      "descricao": "Filiações - Deletar",
+      "variavel": "filiacaoDeletar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
   ],
   formatMoney: {
     decimal: ",",
