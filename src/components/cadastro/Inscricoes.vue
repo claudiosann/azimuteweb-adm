@@ -5,14 +5,14 @@
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
           <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-amber-400 to-amber-700" name="how_to_reg" size="30px" />
           <q-toolbar-title><span class="mr-3 text-weight-medium">Inscrições</span></q-toolbar-title>
-          <!-- <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Inserir" v-if="geral.funcoesAcessos.consumivelInserir" @click="insertRow" aria-label="Menu Sistema" icon="add">
-            <q-tooltip>Inserir Novo Registro</q-tooltip>
+          <!-- <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarListagemValores()">
+            <q-tooltip>Gerar Arranjo</q-tooltip>
           </q-btn> -->
         </q-toolbar>
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="_id">{{ props.row.pessoa._id }}</q-td>
+          <q-td key="_id">{{ props.row._id }}</q-td>
           <q-td key="pessoa.foto"> <q-img v-if="props.row.pessoa.foto" class="rounded" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img></q-td>
           <q-td key="pessoa.nome">{{ props.row.pessoa.nome }}</q-td>
           <q-td key="created_at">{{ $geralService.getDataHoraFormatada(props.row.created_at) }}</q-td>
@@ -194,9 +194,17 @@ const getList = async () => {
           },
           {
             path: "pagamento",
+            pupulate: {
+              path: "pagamento",
+              select: { tipo: 1, tef: 1 },
+            },
           },
           {
             path: "inscritos.consumiveis.consumivel",
+            populate: {
+              path: "arranjoPagamento.entidade",
+              select: { sigla: 1 },
+            },
           },
         ],
       },
@@ -220,23 +228,127 @@ const getList = async () => {
   }
 };
 
-// const gerarListagemValores = (lista) => {
-//   let listaInscricoes = [];
-//   for (let index = 0; index < rows.value.length; index++) {
-//     const i = rows.value[index];
-//     if (element.status == "Finalizada") {
-//       for (let index2 = 0; index2 < i.inscritos.length; index2++) {
-//         const ai = array[index2];
-//         for (let index3 = 0; index3 < ai.consumiveis.length; index3++) {
-//           const it = inscrito.consumiveis[index3];
-//           const insc = {inscricao: i._d, pr: i.pessoa._id, pi: }
-//         }
-//       }
-//     }
-//   }
-// };
+const gerarListagemValores = () => {
+  let listaInscricoes = [];
+  for (let index = 0; index < rows.value.length; index++) {
+    const i = rows.value[index];
+    if (i.status == "Finalizada") {
+      for (let index2 = 0; index2 < i.inscritos.length; index2++) {
+        const ai = i.inscritos[index2];
+        for (let index3 = 0; index3 < ai.consumiveis.length; index3++) {
+          const it = ai.consumiveis[index3];
+          // console.log(it);
+          const insc = {
+            inscricao: i._id,
+            responsavel_id: i.pessoa._id,
+            responsavel_nome: i.pessoa.nome,
+            inscrito_id: ai.pessoa._id,
+            inscrito_nome: ai.pessoa.nome,
+            consumivel_id: it.consumivel._id,
+            consumivel_descricao: it.consumivel.descricao,
+            consumivel_bruto: it.totalBruto,
+            consumivel_liquido: it.totalLiquido,
+            cadUnico: verificaCadUnico(it),
+          };
+          insc.arranjoPagamento = gerarTaxaConsumivel(it, i);
+          if (insc.arranjoPagamento == null) {
+            console.log("Falha ao gerar arranjo de pagamento");
+            console.log(insc);
+            return;
+          } else {
+            listaInscricoes.push(insc);
+          }
+        }
+      }
+    }
+  }
+  console.log(listaInscricoes);
+};
 
+const verificaCadUnico = (item) => {
+  for (let index = 0; index < item.descontos.length; index++) {
+    if (item.descontos[index].cadUnico) {
+      return true;
+    }
+  }
+  return false;
+};
 
+const gerarTaxaConsumivel = (item, insc) => {
+  if (item.totalLiquido <= 0 || item.equipamentoProprio) {
+    return [];
+  }
+
+  let saldo = item.totalLiquido;
+
+  const arranjoCalculado = [];
+
+  if (insc.cadUnico) {
+    for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
+      const taxaEntidade = {};
+      const arranjo = item.consumivel.arranjoPagamento[index2];
+      if (arranjo.entidade._id == props.evento.entidadeResponsavel._id) {
+        taxaEntidade.descricao = arranjo.entidade.sigla + "_p1";
+      }
+    }
+    return;
+  }
+
+  // Deduzir os valores fixos independente de qualquer coisa
+  for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
+    const arranjo = item.consumivel.arranjoPagamento[index2];
+    if (arranjo.tipo == "Valor") {
+      if (saldo > arranjo.valor) {
+        arranjoCalculado.push({
+          entidade: arranjo.entidade._id,
+          valor: arranjo.valor,
+        });
+        saldo -= arranjo.valor;
+      } else {
+        arranjoCalculado.push({
+          entidade: arranjo.entidade._id,
+          faltouSaldo: true,
+          valor: 0,
+        });
+      }
+    }
+  }
+
+  // Deduzir os valores percentuais das outras entidades que não são a responsável
+  for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
+    const arranjo = item.consumivel.arranjoPagamento[index2];
+    console.log(props.evento);
+    if (arranjo.tipo == "Percentual" && arranjo.entidade._id != props.evento.entidadeResponsavel._id) {
+      let novoValor = $geralService.arredonda((arranjo.valor / 100) * item.totalLiquido);
+      if (!insc.cadUnico) {
+        arranjoCalculado.push({
+          entidade: arranjo.entidade._id,
+          valor: novoValor,
+        });
+        saldo -= novoValor;
+      }
+    }
+  }
+
+  if (saldo <= 0) {
+    console.log("distrubuição dos valores falhou");
+    return null;
+  }
+
+  for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
+    const arranjo = item.consumivel.arranjoPagamento[index2];
+    if (arranjo.tipo == "Percentual" && arranjo.entidade._id == props.evento.entidadeResponsavel._id) {
+      //Caso seja cadUnico o saldo descontato os valores fixos vão 100% para o responsável e tembém garante que to o saldo va para os responsáveis
+
+      arranjoCalculado.push({
+        entidade: arranjo.entidade._id,
+        valor: $geralService.arredonda(saldo),
+      });
+      saldo -= saldo;
+    }
+  }
+  return arranjoCalculado;
+};
 
 const deleteRow = async (index, inscricao) => {
   if ((geral.pessoa._id = "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {

@@ -12,7 +12,7 @@
                     </div>
                     <div style="width: 100%; max-width: 360px" class="row justify-center">
                         <q-input outlined class="full-width q-mb-md" input-class="rounded-md" v-model="v$.login.$model"
-                            label="Longin" error-message="Login é obrigatório" :error="v$.login.$invalid" />
+                            label="Login" error-message="Login é obrigatório" placeholder="e-mail ou cpf (somente números)" :error="v$.login.$invalid" />
                         <q-input ref="passInput" outlined class="full-width" :type="isPwd ? 'password' : 'text'"
                             v-model="v$.senha.$model" label="Senha" error-message="Senha é obrigatória"
                             :error="v$.senha.$invalid">

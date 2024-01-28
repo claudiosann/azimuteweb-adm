@@ -47,7 +47,7 @@
             <CadastroLotesInscricoes :eventoId="eventoId"></CadastroLotesInscricoes>
           </q-tab-panel>
           <q-tab-panel class="p-0 sm:p-2" name="inscricao">
-            <CadastroInscricoes :eventoId="eventoId"></CadastroInscricoes>
+            <CadastroInscricoes :eventoId="eventoId" :evento="evento"></CadastroInscricoes>
           </q-tab-panel>
         </q-tab-panels>
 

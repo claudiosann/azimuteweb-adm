@@ -45,7 +45,7 @@
               <q-input ref="url" hide-bottom-space outlined v-model="documento.url" label="Url" :error="!documento.url"
                 error-message="Campo obrigatório">
                 <template v-slot:append>
-                  <q-btn btn-scale @click="abrirGerenciadorArquivo(index)" color="primary" round dense icon="search">
+                  <q-btn btn-scale @click="abrirGerenciadorArquivo(indexLink)" color="primary" round dense icon="search">
                     <q-tooltip>Abre o gerenciador de arquivos</q-tooltip>
                   </q-btn>
                 </template>
@@ -173,6 +173,7 @@ const excluirGrupoLink = () => {
 }
 
 const confirmGerenciadorArquivo = (url: String) => {
+  console.log(indexLink.value);
   grupoLink.value.links[indexLink.value].url = url;
 };
 onMounted(() => {
@@ -181,7 +182,7 @@ onMounted(() => {
 
 const abrirGerenciadorArquivo = (iLink: number) => {
   indexLink.value = iLink;
-
+  console.log(indexLink.value);
   $q.dialog({
     component: GerenciadorArquivoModal,
     persistent: true,
