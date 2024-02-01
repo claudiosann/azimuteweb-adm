@@ -1,7 +1,5 @@
 <template>
     <q-list :dark="false" class="rounded-borders">
-
-
         <span v-if="geral.funcoesAcessos">
             <q-expansion-item :dark="false" v-if="geral.funcoesAcessos.administrativoAcessar" class="menuItem"
                 icon="show_chart" label="Administrativo" :content-inset-level="0.5">
@@ -138,6 +136,13 @@
                 <EssentialLink link="/cadastro/financeiro/plano-de-contas" icon="format_list_numbered"
                     title="Plano de Contas" :caption="`Plano de Contas`" color="bg-gradient-to-r from-teal-700 to-lime-400"
                     v-if="geral.funcoesAcessos.financeiroContaAcessar" />
+                <EssentialLink link="/inscricoes" icon="list"
+                    title="Inscrições Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-violet-700 to-lime-400"
+                    v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
+                <EssentialLink link="/rateios" icon="fork_right"
+                    title="Recebíveis Gerados Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-sky-700 to-red-400"
+                    v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
+                    
 
             </q-expansion-item>
         </span>

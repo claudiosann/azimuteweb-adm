@@ -5,9 +5,9 @@
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
           <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-amber-400 to-amber-700" name="how_to_reg" size="30px" />
           <q-toolbar-title><span class="mr-3 text-weight-medium">Inscrições</span></q-toolbar-title>
-          <!-- <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarListagemValores()">
+          <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarListagemValores()">
             <q-tooltip>Gerar Arranjo</q-tooltip>
-          </q-btn> -->
+          </q-btn>
         </q-toolbar>
       </template>
       <template v-slot:body="props">
