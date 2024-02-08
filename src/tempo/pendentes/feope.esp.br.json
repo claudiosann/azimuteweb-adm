@@ -1,0 +1,102 @@
+{
+  "geral": { "tratamento": "a", "tratamento2": "da" },
+  "entidade": { "entidadePaiId": 13, "ufId": 16, "estadoPadraoSigla": "PE", "sigla": "FEOPE", "nomeRazao": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o de Pernambuco", "nomeFantasia": "FEOPE", "cnpj": "08.839.936/0001-12", "tipo": "federa\u00e7\u00e3o" },
+  "pagina": {
+    "og_image": "https://feope.esp.br/assets/img/logo/logo_feope.png",
+    "og_type": "Facebook type",
+    "titulo": "Federa\u00e7\u00e3o de Orienta\u00e7\u00e3o de Pernambuco",
+    "subTitulo": "",
+    "meta_robots": "ranking, noticias, novaFiliacao",
+    "meta_keywords": "Orienta\u00e7\u00e3o, FEOPE, Clude de Orienta\u00e7\u00e3o, prisma, b\u00fassola, esporte da natureza, esporte de aventura, esporte radical",
+    "analiticsId": "UA-75281480-1",
+    "corBotoesFundo": "#033769",
+    "corBotoesTexto": "#ffffff",
+    "urlLogo": "assets/img/logo/logo_feope.png",
+    "urlFavIcon": "assets/img/logo/favicon_feope.ico",
+    "logoAltura": "100px",
+    "logoMargin": "2px",
+    "personaCSS": "assets/css/persona_feope.css",
+    "linhaSeparadoraMenuCor": "yellow",
+    "linhaSeparadoraMenuTamanho": "3px",
+    "menuInclude": "destaque,separador:2px:#FF0000:true,separador:2px:#FFF212:true,separador:2px:#009933:true,principal,conta",
+    "menuNaDireita": true,
+    "menuFixo": true,
+    "mostrarCampanha": false,
+    "tituloHomeGrad": false,
+    "destaqueSombra": false,
+    "destaqueTamanho": "2.5vw",
+    "destaqueMarginTop": "39px;",
+    "destaqueCorTexto": "#ffffff",
+    "destaqueCorSombra": "#ffff80",
+    "destaqueFonte": "Helvetica Light, sans-serif",
+    "rodapeCorTexto": "#033769",
+    "mostrarNoticiasCBO": true
+  },
+  "conta": { "nomeBanco": "Banco do Brasil", "agencia": "1814-7", "contaCorrente": "21864-2", "corFundo": "#ffff00", "corTexto": "#000066" },
+  "caminho": { "baseHtml": "/", "base": "https://feope.esp.br", "baseRest": "https://www.cbo.org.br/azimuteweb_ws/webresources" },
+  "youtube": { "playList": "PL2QckfVtY69zyQ7FackUUB5fbY_-RQVfZ", "apiKey": "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg", "descricao": "FEOPE Filmes" },
+  "facebook": { "fanpage": "feope1", "apiId": "213917059342947", "versao": "v2.12", "token": "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8" },
+  "maps": { "key": "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s" },
+  "endereco": { "logradouro": "Rua Sargento Wolff, 113", "bairro": "Afogados", "cidade": "Recife", "uf": "PE", "cep": "50830-400" },
+  "contatos": [{ "nome": "", "email": "contato@feope.esp.br", "fone": "+55 81 97914-7898" }],
+  "menu": {
+    "title": "Principal",
+    "background": "#033769",
+    "color": "#ffffff",
+    "align": "rigth",
+    "menus": [
+      { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "home", "icon": "fa fa-home", "iconSize": "fa-1" },
+      {
+        "title": "FEOPE",
+        "tooltip": "FEOPE",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Institucional", "href": "conteudo/Institucional" },
+          { "title": "Regras da Orienta\u00e7\u00e3o", "href": "arquivo?caminho=Regras" },
+          { "title": "Secretaria", "href": "arquivo?caminho=Secretaria" },
+          { "title": "Financas / Transparar\u00eancia", "href": "arquivo?caminho=Finan\u00e7as" }
+        ]
+      },
+      { "title": "Fotos", "tooltip": "Fotos", "href": "https://www.facebook.com/feope1/photos", "icon": "fa fa-camera", "iconSize": "fa-1", "target": "blank" },
+      {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Mapa de Eventos", "href": "eventosMapa" },
+          { "title": "Agenda", "href": "agenda" },
+          { "title": "Eventos 2018", "href": "eventos" },
+          { "title": "Resultados", "href": "arquivo?caminho=Resultados", "icon": "fa fa-trophy" }
+        ]
+      },
+      {
+        "title": "Ranking",
+        "tooltip": "Ranking",
+        "icon": "fa fa-trophy",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "Nacional", "tooltip": "", "href": "ranking", "icon": "", "iconSize": "fa-1" },
+          { "title": "Estadual", "tooltip": "", "href": "arquivo?caminho=Ranking", "icon": "", "iconSize": "fa-1x" }
+        ]
+      },
+      {
+        "title": "Clubes",
+        "tooltip": "Clubes",
+        "icon": "fa fa-flag-checkered",
+        "iconSize": "fa-1",
+        "children": [
+          { "title": "COSW", "tooltip": "", "href": "conteudo/cosw", "icon": "", "iconSize": "" },
+          { "title": "Bravo", "tooltip": "", "href": "conteudo/bravo", "icon": "", "iconSize": "" },
+          { "title": "A21 Carrapicho", "tooltip": "", "href": "conteudo/52", "icon": "", "iconSize": "" },
+          { "title": "COVASF", "tooltip": "", "href": "conteudo/covasf", "icon": "", "iconSize": "" }
+        ]
+      },
+      { "title": "Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+      { "title": "Cursos", "tooltip": "", "href": "conteudo/cursos", "icon": "", "iconSize": "fa-1x" }
+    ]
+  },
+  "domain": "feope.esp.br",
+  "conteudoGeral": { "corFundo": "#FFDF00", "corTexto": "black", "conteudo": "" }
+}

@@ -1098,6 +1098,42 @@ const constantes = {
         "descricao": "Administrativo"
       }
     },
+    {
+      "id": 123,
+      "descricao": "Taxas - Acessar",
+      "variavel": "taxaAcessar",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
+    {
+      "id": 124,
+      "descricao": "Taxas - Inserir",
+      "variavel": "taxaInserir",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
+    {
+      "id":125,
+      "descricao": "Taxas - Editar",
+      "variavel": "taxaEditar",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
+    {
+      "id": 126,
+      "descricao": "Taxas - Deletar",
+      "variavel": "taxaDeletar",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
   ],
   formatMoney: {
     decimal: ",",

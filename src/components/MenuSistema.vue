@@ -136,11 +136,14 @@
                 <EssentialLink link="/cadastro/financeiro/plano-de-contas" icon="format_list_numbered"
                     title="Plano de Contas" :caption="`Plano de Contas`" color="bg-gradient-to-r from-teal-700 to-lime-400"
                     v-if="geral.funcoesAcessos.financeiroContaAcessar" />
-                <EssentialLink link="/inscricoes" icon="list"
-                    title="Inscrições Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-violet-700 to-lime-400"
+                <EssentialLink link="/cadastro/financeiro/taxas" icon="attach_money" title="Taxas"
+                    :caption="`Taxas`" color="bg-gradient-to-r from-rose-700 to-pink-400"
+                    v-if="geral.funcoesAcessos.taxaAcessar" />
+                <EssentialLink link="/inscricoes" icon="how_to_reg"
+                    title="Inscrições Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-teal-700 to-cyan-400"
                     v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
                 <EssentialLink link="/rateios" icon="fork_right"
-                    title="Recebíveis Gerados Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-sky-700 to-red-400"
+                    title="Recebíveis Gerados Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-violet-800 to-violet-400"
                     v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
                     
 

@@ -1,9 +1,9 @@
 <template>
   <div class="p-1 sm:p-4">
-    <q-table :rows="rows" :columns="columns" row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
+    <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true"  row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
-          <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-amber-400 to-amber-700" name="how_to_reg" size="30px" />
+          <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-r from-teal-700 to-cyan-400" name="how_to_reg" size="30px" />
           <q-toolbar-title><span class="mr-3 text-weight-medium">Inscrições</span></q-toolbar-title>
           <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarRateio">
             <q-tooltip>Gerar Arranjo</q-tooltip>
@@ -26,11 +26,14 @@
             <div class="col-md-3 col-sm-4 col-12">
               <q-input dense outlined v-model="filtro.numero" type="text" label="Evento Número" />
             </div>
-            <!-- <div class="col-md-3 col-sm-4 col-12">
-              <q-checkbox left-label v-model="filtro.rateioValidado" label="Rateio Validado" />
-            </div> -->
+            <div class="col-md-3 col-sm-4 col-12">
+              <q-checkbox left-label v-model="filtro.cadUnico" label="CadÚnico" />
+            </div>
             <div class="col-12">
               <q-btn color="primary" icon="check" label="Aplicar Filtro" @click="getList" />
+            </div>
+            <div class="col-12">
+              <q-btn v-if="rows.length>0 && filtro.numero" color="primary" icon="check" label="Exportar" @click="exportCSV" />
             </div>
           </div>
         </q-expansion-item>
@@ -38,8 +41,8 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="_id">{{ props.row._id }}</q-td>
-          <q-td key="pessoa.foto"> <q-img v-if="props.row.pessoa.foto" class="rounded" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img></q-td>
-          <q-td key="pessoa.nome">{{ props.row.pessoa.nome }}</q-td>
+          <q-td key="evento.numero"> {{ props.row.evento.numero }} - {{ props.row.evento.sigla }} - {{ props.row.evento.ano }}</q-td>
+          <q-td key="pessoa.nome"><q-img v-if="props.row.pessoa.foto" class="rounded" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img> {{ props.row.pessoa.nome }}</q-td>
           <q-td key="created_at">{{ $geralService.getDataHoraFormatada(props.row.created_at) }}</q-td>
           <q-td key="pagamento.tipo">{{ props.row.pagamento.tipo }}</q-td>
           <q-td key="totalLiquido">{{ $geralService.numeroParaMoeda(props.row.totalLiquido) }}</q-td>
@@ -71,6 +74,12 @@
                     </q-item-section>
                     <q-item-section avatar> Consultar Pagamento </q-item-section>
                   </q-item>
+                  <q-item  clickable @click="confirmaInscricaoPIXManual(props.rowIndex, props.row)" v-close-popup>
+                    <q-item-section avatar>
+                      <q-avatar rounded-xl color="amber-7" text-color="white" icon="search" />
+                    </q-item-section>
+                    <q-item-section avatar> Confirmar Inscrição PIX Manual</q-item-section>
+                  </q-item>
                   <q-item clickable @click="verificaSeTemTef(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="blue-7" text-color="white" icon="search" />
@@ -83,7 +92,7 @@
           </q-td>
         </q-tr>
       </template>
-    </q-table>
+    </q-grid>
   </div>
 </template>
 
@@ -136,11 +145,11 @@ const columns = ref([
     sortable: true,
   },
   {
-    name: "foto",
+    name: "evento.numero",
     required: true,
-    label: "Foto",
+    label: "Evento",
     align: "left",
-    field: "pessoa.foto",
+    field: "evento.numero",
     sortable: true,
   },
   {
@@ -220,6 +229,28 @@ const verificaPagamentoInscricaoPIX = async (index, inscricao) => {
     console.log(error);
   }
 };
+const confirmaInscricaoPIXManual = async (index, inscricao) => {
+  try {
+    const ret = await useCustomFetch(`confirmaInscricaoPIXManual/${inscricao._id}/${inscricao.pagamento._id}`, undefined, undefined);
+     console.log(ret);
+    if (ret.valido && ret.data.status == "CONCLUIDA") {
+      // toast.add({ severity: "success", summary: "Pagamento Recebido", detail: "Inscrição concluída e enviada com sucesso.", life: 6000 });
+      getList();
+      $q.notify({
+        color: "positive",
+        message: "Pagamento Recebido",
+      });
+    } else {
+     
+      $q.notify({
+        color: "negative",
+        message: "Pagamento não recebido",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 const verificaSeTemTef = async (index, inscricao) => {
   try {
     const ret = await useCustomFetch(`tef/getPopulate`,'post', {filtro: {identificador: inscricao._id}}, undefined);
@@ -275,6 +306,7 @@ const getList = async () => {
           lixo: false,
           estagioRateio: filtro.value.estagioRateio?filtro.value.estagioRateio: {$ne: 'Finalizado'},
           status: filtro.value.status || undefined,
+          'inscritos.consumiveis.descontos.cadUnico': filtro.value.cadUnico==true ? true: undefined,
           evento: eventoId || undefined,
           created_at:
             filtro.value.inicio || filtro.value.fim
@@ -334,6 +366,37 @@ const getList = async () => {
   } catch (error) {
     $q.loading.hide();
   }
+};
+
+
+
+const exportCSV = async () => {
+  let CSV = "";
+  for (let index = 0; index < columns.value.length; index++) {
+    const col = columns.value[index];
+    if (col.field && col.name!="foto") CSV += col.label + ";";
+  }
+
+  CSV += "Inscritos;"
+
+  CSV += "\r\n";
+  for (let index = 0; index < rows.value.length; index++) {
+    const row = rows.value[index];
+    CSV += row._id + ";" + row.pessoa.nome + ";" + $geralService.getDataHoraFormatada(row.created_at) + ";" + row.pagamento.tipo + ";" + $geralService.numeroParaMoeda(row.totalBruto) + ";" + row.status+ ";" + row.inscritos.length;
+    CSV += "\r\n";
+  }
+
+  let fileName = ("inscricoes_ate_" +filtro.value.numero+ $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+  let link = document.createElement("a");
+  link.href = uri;
+  // @ts-ignore
+  link.style = "visibility:hidden";
+  link.download = fileName + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
 };
 
 const gerarRateio = async () => {
@@ -654,6 +717,7 @@ const deleteRow = async (index, inscricao) => {
               });
               getList();
             } else {
+              console.log(ret2);
               $q.loading.hide();
               $q.notify({
                 color: "negative",

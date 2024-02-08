@@ -1,20 +1,22 @@
 <template>
   <div class="p-1 sm:p-4">
-    <q-table :rows="rows" :columns="columns" row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
+
+
+    <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true"  row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
+    
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
           <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-amber-400 to-amber-700" name="how_to_reg" size="30px" />
           <q-toolbar-title><span class="mr-3 text-weight-medium">Inscrições</span></q-toolbar-title>
-          <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarListagemValores()">
+          <!-- <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarListagemValores()">
             <q-tooltip>Gerar Arranjo</q-tooltip>
-          </q-btn>
+          </q-btn> -->
         </q-toolbar>
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="_id">{{ props.row._id }}</q-td>
-          <q-td key="pessoa.foto"> <q-img v-if="props.row.pessoa.foto" class="rounded" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img></q-td>
-          <q-td key="pessoa.nome">{{ props.row.pessoa.nome }}</q-td>
+          <q-td key="pessoa.nome"><q-img v-if="props.row.pessoa.foto" class="rounded" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img> {{ props.row.pessoa.nome }}</q-td>
           <q-td key="created_at">{{ $geralService.getDataHoraFormatada(props.row.created_at) }}</q-td>
           <q-td key="pagamento.tipo">{{ props.row.pagamento.tipo }}</q-td>
           <q-td key="totalLiquido">{{ $geralService.numeroParaMoeda(props.row.totalLiquido) }}</q-td>
@@ -46,7 +48,7 @@
           </q-td>
         </q-tr>
       </template>
-    </q-table>
+    </q-grid>
   </div>
 </template>
 
@@ -99,14 +101,6 @@ const columns = ref([
     sortable: true,
   },
   {
-    name: "foto",
-    required: true,
-    label: "Foto",
-    align: "left",
-    field: "pessoa.foto",
-    sortable: true,
-  },
-  {
     name: "pessoa.nome",
     required: true,
     label: "Nome Responsável",
@@ -121,6 +115,7 @@ const columns = ref([
     align: "left",
     field: "created_at",
     sortable: true,
+    type:"date",
   },
   {
     name: "papamento.tipo",
@@ -145,6 +140,9 @@ const columns = ref([
     align: "left",
     field: "status",
     sortable: true,
+    filtro: "",
+    filter_type: "select",
+    column_options: ["Finalizada", "Aguardando o Pagamento", "Cancelada"],
   },
   {
     name: "action",
@@ -228,7 +226,36 @@ const getList = async () => {
   }
 };
 
+
+const exportCSV = async () => {
+  let CSV = "";
+  for (let index = 0; index < columns.value.length; index++) {
+    const col = columns.value[index];
+    if (col.field) CSV += col.label + ";";
+  }
+  CSV += "\r\n";
+  for (let index = 0; index < rows.value.length; index++) {
+    const row = rows.value[index];
+    CSV += row.identificador + ";" + row.tipo + ";" + row.entidade.sigla + ";" + row.evento.sigla + ";" + $geralService.getDataHoraFormatada(row.dataLiberado) + ";" + $geralService.getDataHoraFormatada(row.dataPrevisao) + ";" + $geralService.getDataHoraFormatada(row.dataPagamento) + ";" + $geralService.numeroParaMoeda(row.valor) + ";" + row.status;
+    CSV += "\r\n";
+  }
+
+  let fileName = (entidade.value?(entidade.value.sigla+"_"):"")+("rateio_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+  let link = document.createElement("a");
+  link.href = uri;
+  // @ts-ignore
+  link.style = "visibility:hidden";
+  link.download = fileName + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+};
+
 const gerarListagemValores = () => {
+  let CSV = "";
+
   let listaInscricoes = [];
   for (let index = 0; index < rows.value.length; index++) {
     const i = rows.value[index];
@@ -242,27 +269,41 @@ const gerarListagemValores = () => {
             inscricao: i._id,
             responsavel_id: i.pessoa._id,
             responsavel_nome: i.pessoa.nome,
+            inscricaoTotal: i.totalBruto,
             inscrito_id: ai.pessoa._id,
             inscrito_nome: ai.pessoa.nome,
             consumivel_id: it.consumivel._id,
             consumivel_descricao: it.consumivel.descricao,
-            consumivel_bruto: it.totalBruto,
+            consumivel_quantidade: it.quantidade,
             consumivel_liquido: it.totalLiquido,
+            consumivel_descontos: it.descontos.map((desc) => (desc.descricao+': '+$geralService.numeroParaMoeda(desc.valor))).join(", "),
             cadUnico: verificaCadUnico(it),
           };
-          insc.arranjoPagamento = gerarTaxaConsumivel(it, i);
-          if (insc.arranjoPagamento == null) {
-            console.log("Falha ao gerar arranjo de pagamento");
-            console.log(insc);
-            return;
-          } else {
-            listaInscricoes.push(insc);
+
+          for (let index4 = 0; index4 < it.arranjoPagamento.length; index4++) {
+            const arranjo = array[index4];
+            insc[arranjo.entidade.sigla] = arranjo.valor;            
           }
+          
+          listaInscricoes.push(insc);
         }
       }
     }
   }
-  console.log(listaInscricoes);
+  // console.log(listaInscricoes);
+
+  // CSV = listaInscricoes[0].forEach((item) => {
+  //   return Object.keys(item).join(";");
+  // });
+
+  // for (let index = 0; index < listaInscricoes.length; index++) {
+  //   const insc = listaInscricoes[index];
+  //   for (let index2 = 0; index2 < columns.value.length; index2++) {
+  //     const col = columns.value[index2];
+  //     if (col.field) CSV += insc[col.field] + ";";
+  //   }
+  //   CSV += "\r\n";
+  // }
 };
 
 const verificaCadUnico = (item) => {
@@ -274,81 +315,6 @@ const verificaCadUnico = (item) => {
   return false;
 };
 
-const gerarTaxaConsumivel = (item, insc) => {
-  if (item.totalLiquido <= 0 || item.equipamentoProprio) {
-    return [];
-  }
-
-  let saldo = item.totalLiquido;
-
-  const arranjoCalculado = [];
-
-  if (insc.cadUnico) {
-    for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
-      const taxaEntidade = {};
-      const arranjo = item.consumivel.arranjoPagamento[index2];
-      if (arranjo.entidade._id == props.evento.entidadeResponsavel._id) {
-        taxaEntidade.descricao = arranjo.entidade.sigla + "_p1";
-      }
-    }
-    return;
-  }
-
-  // Deduzir os valores fixos independente de qualquer coisa
-  for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
-    const arranjo = item.consumivel.arranjoPagamento[index2];
-    if (arranjo.tipo == "Valor") {
-      if (saldo > arranjo.valor) {
-        arranjoCalculado.push({
-          entidade: arranjo.entidade._id,
-          valor: arranjo.valor,
-        });
-        saldo -= arranjo.valor;
-      } else {
-        arranjoCalculado.push({
-          entidade: arranjo.entidade._id,
-          faltouSaldo: true,
-          valor: 0,
-        });
-      }
-    }
-  }
-
-  // Deduzir os valores percentuais das outras entidades que não são a responsável
-  for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
-    const arranjo = item.consumivel.arranjoPagamento[index2];
-    console.log(props.evento);
-    if (arranjo.tipo == "Percentual" && arranjo.entidade._id != props.evento.entidadeResponsavel._id) {
-      let novoValor = $geralService.arredonda((arranjo.valor / 100) * item.totalLiquido);
-      if (!insc.cadUnico) {
-        arranjoCalculado.push({
-          entidade: arranjo.entidade._id,
-          valor: novoValor,
-        });
-        saldo -= novoValor;
-      }
-    }
-  }
-
-  if (saldo <= 0) {
-    console.log("distrubuição dos valores falhou");
-    return null;
-  }
-
-  for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
-    const arranjo = item.consumivel.arranjoPagamento[index2];
-    if (arranjo.tipo == "Percentual" && arranjo.entidade._id == props.evento.entidadeResponsavel._id) {
-      //Caso seja cadUnico o saldo descontato os valores fixos vão 100% para o responsável e tembém garante que to o saldo va para os responsáveis
-
-      arranjoCalculado.push({
-        entidade: arranjo.entidade._id,
-        valor: $geralService.arredonda(saldo),
-      });
-      saldo -= saldo;
-    }
-  }
-  return arranjoCalculado;
-};
 
 const deleteRow = async (index, inscricao) => {
   if ((geral.pessoa._id = "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {

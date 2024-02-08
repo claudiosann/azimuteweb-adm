@@ -3,7 +3,7 @@
     <q-table :rows="rows" :columns="columns" row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
-          <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-sky-400 to-red-700" name="fork_right" size="30px" />
+          <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-r from-violet-800 to-violet-400" name="fork_right" size="30px" />
           <q-toolbar-title
             ><span class="mr-3 text-weight-medium"
               >Recebíveis({{ rows.length }}) <q-img v-if="entidade && entidade.logo" class="rounded" style="width: 40px" :ratio="200 / 200" :src="getUrlImagemThumb(entidade.logo)"></q-img> <q-badge v-if="filtroAplicado.status" :color="getCorStatus(filtroAplicado.status)">{{ filtroAplicado.status }}</q-badge></span

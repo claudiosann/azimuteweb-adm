@@ -166,6 +166,15 @@ const getList = async () => {
     });
 
     try {
+
+        if (!geral || !geral.pessoa || !geral.pessoa._id) {
+            $q.loading.hide();
+             $q.notify({
+                color: "negative",
+                message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter os eventos logout e logue novamente!",
+             });
+            return
+        }
         const ret = await useCustomFetch(
             "evento/getPopulate",
             "post",
