@@ -83,6 +83,8 @@
               </q-item-section>
               <q-item-section class="" v-if="!travarDeletar" side>
                 <div class="flex items-center flex-nowrap">
+                  
+                  <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-external-link-alt" target="_blank" :href="$geralService.configuracoes.BASE_S3 + file.Key" />
                   <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-copy" @click="clipboard(file.Key)" />
                   <q-btn v-if="geral.funcoesAcessos.arquivosDeletar" size="14px" flat dense round icon="delete" @click="deleteFile(file)" />
                 </div>
