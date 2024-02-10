@@ -270,10 +270,12 @@ const getFiliacoesObrigatorias = async () => {
         if (element2 == element) {
           achou = true;
 
-          for (let index3 = 0; index3 < state.filiacaoPessoa.filiacaoPessoaLancamento.entidades.length; index3++) {
-            const entidade = state.filiacaoPessoa.filiacaoPessoaLancamento.entidades[index3];
-            if (element == entidade._id) {
-              entidade.status = "Ativa";
+          if (state.filiacaoPessoa.filiacaoPessoaLancamento) {
+            for (let index3 = 0; index3 < state.filiacaoPessoa.filiacaoPessoaLancamento.entidades.length; index3++) {
+              const entidade = state.filiacaoPessoa.filiacaoPessoaLancamento.entidades[index3];
+              if (element == entidade._id) {
+                entidade.status = "Ativa";
+              }
             }
           }
 
@@ -609,7 +611,10 @@ const gravaFiliacaoPessoa = async (descricaoHistorico: string) => {
     });
     const newfiliacao = JSON.parse(JSON.stringify(state.filiacaoPessoa));
     newfiliacao.entidade = newfiliacao.entidade._id;
-    newfiliacao.filiacaoPessoaLancamento = newfiliacao.filiacaoPessoaLancamento._id;
+
+    if (newfiliacao.filiacaoPessoaLancamento) {
+      newfiliacao.filiacaoPessoaLancamento = newfiliacao.filiacaoPessoaLancamento._id;
+    }
 
     url += "/" + newfiliacao._id;
     tipo = "put";
@@ -618,7 +623,7 @@ const gravaFiliacaoPessoa = async (descricaoHistorico: string) => {
     if (ret.valido) {
       retorno = true;
       gravouFiliacao.value = true;
-      // console.log("gravou filiação");
+       console.log("gravou filiação");
     } else {
       $q.notify({
         position: "top",

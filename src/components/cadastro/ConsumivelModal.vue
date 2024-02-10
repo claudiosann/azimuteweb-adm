@@ -21,9 +21,8 @@
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="dados">
               <div class="row q-ma-sm q-col-gutter-sm">
-                 <div v-if="listaPercurso" class="col-md-6 col-sm-6 col-12">
-                  <q-select hide-bottom-space clearable outlined v-model="state.consumivel.percurso" @update:model-value="changePercurso" @clear="changePercurso" label="Percurso" :dense="dense" option-label="descricao" :emit-value="true" map-options :option-value="(obj) => (obj ? obj._id : '')" :options="listaPercurso">
-                  </q-select>
+                <div v-if="listaPercurso" class="col-md-6 col-sm-6 col-12">
+                  <q-select hide-bottom-space clearable outlined v-model="state.consumivel.percurso" @update:model-value="changePercurso" @clear="changePercurso" label="Percurso" :dense="dense" option-label="descricao" :emit-value="true" map-options :option-value="(obj) => (obj ? obj._id : '')" :options="listaPercurso"> </q-select>
                 </div>
                 <div class="col-md-6 col-sm-6 col-12">
                   <q-input counter maxlength="100" ref="busca" hide-bottom-space outlined v-model="state.consumivel.descricao" :label="$v.consumivel.descricao.$error ? 'Descrição (Campo Obrigatório)' : 'Descrição'" @blur="$v.consumivel.descricao.$touch" :error="$v.consumivel.descricao.$error" />
@@ -34,18 +33,22 @@
                 <div class="col-md-3 col-sm-6 col-12">
                   <q-select hide-bottom-space outlined v-model="state.consumivel.tipo" :options="['Participação', 'Produto', 'Aluguel']" label="Tipo" :dense="dense" />
                 </div>
-                <div v-if="state.consumivel.tipo=='Aluguel'" class="col-md-3 col-sm-6 col-12">
-                          <q-field outlined>
-                            <q-checkbox v-model="state.consumivel.identificacarEquipamentoProprio" label="Identificar equipamento próprio" />
-                          </q-field>
-                   
+                <div v-if="state.consumivel.tipo == 'Aluguel'" class="col-md-3 col-sm-6 col-12">
+                  <q-field outlined>
+                    <q-checkbox v-model="state.consumivel.identificacarEquipamentoProprio" label="Identificar equipamento próprio" />
+                  </q-field>
                 </div>
-               
+
                 <div class="col-md-3 col-sm-6 col-12">
                   <q-input type="number" :step="1" hint="Zero para ilimitado" min="0" outlined v-model="state.consumivel.quantidadeDisponivel" label="Quantidade Disponivel" :dense="dense" />
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
                   <q-input type="number" :step="1" hint="Zero para ilimitado" min="0" outlined v-model="state.consumivel.quantidadeMaximaPorAtleta" label="Máximo por Pessoa" :dense="dense" />
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                  <q-field outlined>
+                    <q-checkbox v-model="state.consumivel.publicar" label="Publicar lista de inscritos" />
+                  </q-field>
                 </div>
 
                 <div class="col-md-2 col-sm-6 col-12">
@@ -199,7 +202,7 @@
                           <div class="col-xs-6 col-sm-2">
                             <q-select :readonly="arranjo.travado" hide-bottom-space outlined v-model="arranjo.tipo" :options="['Percentual', 'Valor']" label="Tipo" :dense="dense" />
                           </div>
-                          
+
                           <div class="col-xs-6 col-sm-2">
                             <q-item style="padding: 0px">
                               <q-item-section class="text-subtitle1 text-bold">
@@ -378,7 +381,7 @@ const inserir = ref(true);
 //   async (value) => {
 //     // console.log("percurso", value);
 //     validaTaxasEventoRendimento();
-    
+
 //   }
 // );
 
@@ -415,7 +418,7 @@ const validaTaxasEventoRendimento = async () => {
                 travado: true,
               });
               if (taxa.tipo == "Percentual") {
-                 totalPercentual -= taxa.valor;
+                totalPercentual -= taxa.valor;
               }
             }
           });
@@ -453,34 +456,42 @@ const validaTaxasEventoRendimento = async () => {
         }
       }
     } else {
-        removeTaxasRendimento();
+      removeTaxasRendimento();
     }
   } else {
-    removeTaxasRendimento()
+    removeTaxasRendimento();
   }
   ajustaListaConta();
   $q.notify({
-      color: "warning",
-      position: "top",
-     icon: "check",
+    color: "warning",
+    position: "top",
+    icon: "check",
     caption: "Por favor, verifique na aba (Divisão dos Valores).",
-      
-      multiLine: true,
+
+    multiLine: true,
     message: "Divisão dos valores alterada!",
-       actions: [
-            { color: 'white', label: 'Verificar',  handler: () => { tab.value = 'arranjo'  } }
-          ],
-    });
+    actions: [
+      {
+        color: "white",
+        label: "Verificar",
+        handler: () => {
+          tab.value = "arranjo";
+        },
+      },
+    ],
+  });
 };
 
 const removeTaxasRendimento = async () => {
-  state.consumivel.arranjoPagamento = [{
-            entidade: props.evento.entidadeResponsavel,
-            financeiroConta: props.evento.entidadeResponsavel.financeiroContaPrincipal,
-            open: true,
-            tipo: "Percentual",
-            valor: 100,
-          }];
+  state.consumivel.arranjoPagamento = [
+    {
+      entidade: props.evento.entidadeResponsavel,
+      financeiroConta: props.evento.entidadeResponsavel.financeiroContaPrincipal,
+      open: true,
+      tipo: "Percentual",
+      valor: 100,
+    },
+  ];
 };
 
 onBeforeMount(async () => {
@@ -876,7 +887,7 @@ const beforeSave = async () => {
     return;
   }
 
-  if(await verificaExisteConsumivel()){
+  if (await verificaExisteConsumivel()) {
     $q.loading.hide();
     return;
   }
@@ -919,7 +930,7 @@ const verificaExisteConsumivel = async () => {
       {
         filtro: {
           lixo: false,
-          _id: props.id?{ $ne: props.id }:undefined,
+          _id: props.id ? { $ne: props.id } : undefined,
           evento: props.eventoId,
           percurso: state.consumivel.percurso,
         },
