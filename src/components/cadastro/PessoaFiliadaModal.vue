@@ -137,10 +137,12 @@
                           </q-item-section>
                         </q-item>
                         <q-stepper-navigation>
+                          <div v-if="geral.funcoesAcessos.filiacaoEditar">
                           <q-btn mr-3 v-if="state.filiacaoPessoa.status == 'Em Análise'" color="negative" label="Recusar Filiação" @click="recusarFiliacao" class="q-ml-sm" />
                           <q-btn v-if="state.filiacaoPessoa.status == 'Em Análise' && documentosValidados" class="btn-scale" color="primary" @click="aceitarFiliacao" label="Aceitar / Ativar Filiação" />
                           <q-btn v-if="state.filiacaoPessoa.status == 'Ativa'" class="btn-scale" color="red" @click="desativarFiliacao" label="Desativar Filiação" />
                           <q-btn v-if="state.filiacaoPessoa.status == 'Desativada'" class="btn-scale" color="primary" @click="ativarFiliacao" label="Reativar Filiação" />
+                          </div>
                           <q-btn flat @click="etapa = 3" color="primary" label="Voltar" class="q-ml-sm btn-scale" />
                         </q-stepper-navigation>
                       </q-step>

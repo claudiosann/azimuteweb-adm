@@ -142,10 +142,12 @@
                 <EssentialLink link="/inscricoes" icon="how_to_reg"
                     title="Inscrições Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-teal-700 to-cyan-400"
                     v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
-                <EssentialLink link="/rateios" icon="fork_right"
+                <EssentialLink link="/recebiveis" icon="fork_right"
                     title="Recebíveis Gerados Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-violet-800 to-violet-400"
                     v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
-                    
+                <EssentialLink link="/repasses" icon="currency_exchange"
+                    title="Repasses" :caption="`Valores repassados`" color="bg-gradient-to-r from-green-800 to-red-400"
+                    v-if="geral.funcoesAcessos.repasseAcessar" />
 
             </q-expansion-item>
         </span>

@@ -23,17 +23,11 @@
                   <q-item>
                     <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
                   </q-item>
-                  <q-item v-if="geral.funcoesAcessos.entidadeInserir" clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
+                  <q-item v-if="geral.funcoesAcessos.filiacaoAcessar" clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="edit" />
                     </q-item-section>
                     <q-item-section avatar> Editar </q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
-                    <q-item-section avatar>
-                      <q-avatar rounded-xl color="red-7" text-color="white" icon="preview" />
-                    </q-item-section>
-                    <q-item-section> Visualizar </q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>

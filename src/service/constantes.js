@@ -1117,7 +1117,7 @@ const constantes = {
       }
     },
     {
-      "id":125,
+      "id": 125,
       "descricao": "Taxas - Editar",
       "variavel": "taxaEditar",
       "grupo": {
@@ -1129,6 +1129,33 @@ const constantes = {
       "id": 126,
       "descricao": "Taxas - Deletar",
       "variavel": "taxaDeletar",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
+    {
+      "id": 127,
+      "descricao": "Repasses - Acessar",
+      "variavel": "repasseAcessar",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
+    {
+      "id": 128,
+      "descricao": "Recebíveis - Acessar",
+      "variavel": "recebiveisAcessar",
+      "grupo": {
+        "id": 4,
+        "descricao": "Financeiro"
+      }
+    },
+    {
+      "id": 129,
+      "descricao": "Recebíveis - Editar",
+      "variavel": "recebiveisEditar",
       "grupo": {
         "id": 4,
         "descricao": "Financeiro"
