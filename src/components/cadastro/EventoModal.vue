@@ -91,6 +91,10 @@
                         <div class="col-sm-3 col-12">
                           <CinputDate outlined :error="$v.evento.fim.$error" :error-message="'Data inválida'" :dense="false" v-model="state.evento.fim" label="Fim" />
                         </div>
+                        <!-- GO Correções -->
+                        <div class="col-sm-3 col-12">
+                          <CinputDate tipo="datetime" outlined :error-message="'Data inválida'" :dense="false" v-model="state.evento.limiteCorrecao" label="Limite para Correções" />
+                        </div>
                         <div class="col-12 col-sm-6">
                           <q-field outlined :hint="state.evento.taxaAzimuteCertoAbsorver ? 'Não será cobrado do atleta a taxa de inscrição' : 'Será repassada ao atleta a taxa de inscrição'">
                             <q-checkbox v-model="state.evento.taxaAzimuteCertoAbsorver" label="Absorver Taxa de Inscrição" />
