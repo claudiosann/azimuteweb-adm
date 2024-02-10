@@ -231,14 +231,10 @@ const deleteRow = async (index, id) => {
 
 const editRow = (index, id, copy) => {
   // console.log("editRow", index, id, copy);
-  if (geral.verificaAcesso("pessoaEditar")) {
     openModal(index, id, copy);
-  }
 };
 const insertRow = () => {
-  if (geral.verificaAcesso("pessoaInserir")) {
     openModal(-1, null);
-  }
 };
 
 const openModal = (index, id, copy) => {
