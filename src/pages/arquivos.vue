@@ -67,7 +67,10 @@
                     <q-item-label>{{ removeCaminho(item.Prefix) }}</q-item-label>
                   </q-item-section>
                   <q-item-section v-if="!travarDeletar" side>
-                    <q-btn size="14px" flat dense round icon="delete" @click.stop="deleteFolder(item)" />
+                    <div class="flex items-center flex-nowrap">
+                      <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-copy" @click.stop="copyLinkFolder(item.Prefix)" />
+                      <q-btn size="14px" flat dense round icon="delete" @click.stop="deleteFolder(item)" />
+                    </div>
                   </q-item-section>
                 </q-item>
               </div>
@@ -83,7 +86,6 @@
               </q-item-section>
               <q-item-section class="" v-if="!travarDeletar" side>
                 <div class="flex items-center flex-nowrap">
-                  
                   <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-external-link-alt" target="_blank" :href="$geralService.configuracoes.BASE_S3 + file.Key" />
                   <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-copy" @click="clipboard(file.Key)" />
                   <q-btn v-if="geral.funcoesAcessos.arquivosDeletar" size="14px" flat dense round icon="delete" @click="deleteFile(file)" />
@@ -130,6 +132,16 @@ const clipboard = (text: string) => {
     position: "top",
     icon: "check",
     message: "Link copiado para área de transferência",
+    caption: "Copiado",
+  });
+};
+const copyLinkFolder = (text: string) => {
+  copy(text.replace(geral.entidade.sigla+'/', ""));
+  $q.notify({
+    color: "info",
+    position: "top",
+    icon: "check",
+    message: "Caminho copiado para área de transferência",
     caption: "Copiado",
   });
 };
