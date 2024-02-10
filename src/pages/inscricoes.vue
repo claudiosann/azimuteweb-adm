@@ -18,7 +18,7 @@
               <CinputDate tipo="datetime" outlined v-model="filtro.fim" label="Fim" :dense="true" />
             </div>
             <div class="col-md-3 col-sm-4 col-12">
-              <q-select outlined dense v-model="filtro.status" :options="['Finalizada', 'Aguardando o Pagamento', null]" label="Status" />
+              <q-select outlined dense v-model="filtro.status" :options="['Finalizada', 'Aguardando o Pagamento', 'Cancelada', null]" label="Status" />
             </div>
             <div class="col-md-3 col-sm-4 col-12">
               <q-select outlined dense v-model="filtro.estagioRateio" :options="['Iniciado', 'Finalizado', null]" label="Rateio" />
@@ -306,7 +306,7 @@ const getList = async () => {
           lixo: false,
           estagioRateio: filtro.value.estagioRateio?filtro.value.estagioRateio: {$ne: 'Finalizado'},
           status: filtro.value.status || undefined,
-          'inscritos.consumiveis.descontos.cadUnico': filtro.value.cadUnico==true ? true: undefined,
+          'inscritos.consumiveis.descontos.cadUnico': filtro.value.cadUnico==true ? true: {$ne: true},
           evento: eventoId || undefined,
           created_at:
             filtro.value.inicio || filtro.value.fim
@@ -583,6 +583,7 @@ const verificaCadUnico = (item) => {
 };
 
 const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) => {
+console.log('dividindo valores');
   if (item.totalLiquido <= 0 || item.equipamentoProprio) {
     return [];
   }
@@ -653,7 +654,13 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
     }
   }
 
-  if (saldo <= 0) {
+  if (saldo == 0) {
+    validador.saldo -= item.totalLiquido;
+    item.arranjoPagamento = arranjoCalculado;
+    return true;
+  }
+
+  if (saldo < 0) {
     console.log("distrubuição dos valores falhou");
     return false;
   }

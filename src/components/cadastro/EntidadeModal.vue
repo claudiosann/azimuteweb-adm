@@ -320,7 +320,13 @@
                         </q-field>
                       </div>
                       <div class="col-md-6 col-12">
-                        <q-select hide-bottom-space outlined v-model="state.entidade.filiacaoPessoa.taxas" use-input input-debounce="0" :option-label="labelTaxa" emit-value map-options :options="listaTaxas" label="Taxas para a filiação de atletas" multiple use-chips stack-label />
+                        <q-select hide-bottom-space outlined v-model="state.entidade.filiacaoPessoa.taxaFiliacao" use-input input-debounce="0" :option-label="labelTaxa" emit-value map-options :options="listaTaxas" label="Taxa para a filiação de atletas" use-chips stack-label />
+                      </div>
+                      <div class="col-md-6 col-12">
+                        <q-select hide-bottom-space outlined v-model="state.entidade.filiacaoPessoa.taxaFiliacaoTemporaria" use-input input-debounce="0" :option-label="labelTaxa" emit-value map-options :options="listaTaxas" label="Taxa para a filiação temporária de atletas" use-chips stack-label />
+                      </div>
+                      <div class="col-md-6 col-12">
+                        <q-select hide-bottom-space outlined v-model="state.entidade.filiacaoPessoa.taxaFiliacaoConversao" use-input input-debounce="0" :option-label="labelTaxa" emit-value map-options :options="listaTaxas" label="Taxa para a conversão de filiação temporária para definitiva" use-chips stack-label />
                       </div>
                     </div>
                   </q-expansion-item>

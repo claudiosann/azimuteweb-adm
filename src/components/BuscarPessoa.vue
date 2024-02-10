@@ -1,5 +1,5 @@
 <template>
-  <q-dialog :persistent="true" ref="dialogRef" @hide="onDialogHide">
+  <q-dialog :persistent="false" ref="dialogRef" @hide="onDialogHide">
     <q-card style="min-width: 300px">
       <q-toolbar v-if="showBar" :class="$q.dark.isActive ? 'text-grey-2 bg-black-8' : 'bg-grey-2 text-grey-9'">
         <q-toolbar-title><span class="text-weight-bold"></span>Localizar Pessoa</q-toolbar-title>
@@ -10,9 +10,8 @@
             <q-btn @click="buscarPessoa" round dense color="primary" icon="search" />
           </template>
         </q-input>
-        <q-list class="rounded-borders" separator bordered v-if="!muitosResultados && listaPessoas.length > 0" highlight
-          inset-separator>
-          <q-item clickable v-ripple @click="confirm(pessoa)" v-for="(pessoa) in listaPessoas" :key="pessoa._id">
+        <q-list class="rounded-borders" separator bordered v-if="!muitosResultados && listaPessoas.length > 0" highlight inset-separator>
+          <q-item clickable v-ripple @click="confirm(pessoa)" v-for="pessoa in listaPessoas" :key="pessoa._id">
             <q-item-section avatar>
               <q-avatar size="64px">
                 <q-img :src="getUrlImagem(pessoa)"></q-img>
@@ -30,76 +29,88 @@
 
 <script lang="ts" setup>
 import { useQuasar } from "quasar";
-import { useDialogPluginComponent } from 'quasar';
+import { useDialogPluginComponent } from "quasar";
 
 const props = defineProps({
   showBar: { type: Boolean, default: true },
 });
 
-defineEmits([
-  ...useDialogPluginComponent.emits
-])
+defineEmits([...useDialogPluginComponent.emits]);
 
-const { $geralService } = useNuxtApp()
+const { $geralService } = useNuxtApp();
 
 const $q = useQuasar();
 
 const listaPessoas = ref<any>([]);
 const muitosResultados = ref(false);
-const nome = ref('');
-
-
+const nome = ref("");
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
 
 const getUrlImagem = (pessoa: any) => {
   return $geralService.getUrlS3Thumb(pessoa.foto, {
-    height: 128
+    height: 128,
   });
 };
 
-
 const isNumeric = (n: any) => {
   return !isNaN(parseFloat(n)) && isFinite(n);
-}
+};
 const validateEmail = (email: any) => {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 };
+
 const getFiltro = () => {
-  const filtro:any = {};
+  const filtro: any = {};
   if (nome.value.length > 0) {
     if (isNumeric(nome.value)) {
       if (nome.value.length === 11) {
         filtro.cpf = nome.value;
       } else {
-        filtro.rg = {
-          $regex: '.*' + nome.value + '.*'
-        };
+        filtro.numero = nome.value;
       }
     } else {
       if (validateEmail(nome.value)) {
         filtro.email = {
-          $regex: '.*' + nome.value + '.*'
+          $regex: ".*" + nome.value + ".*",
         };
       } else {
         filtro.nome = {
-          $regex: '.*' + nome.value + '.*', $options: 'i'
+          $regex: ".*" + nome.value + ".*",
+          $options: "i",
         };
       }
     }
   }
   // console.log(filtro);
   return filtro;
-}
+};
 
 const buscarPessoa = async () => {
   if (nome.value) {
     try {
-      const ret = await useCustomFetch('buscarPessoa', 'post', {
-        filtro: getFiltro(),
-        maxRetorno: 10
-      }, undefined);
+      const ret = await useCustomFetch(
+        "buscarPessoa",
+        "post",
+        {
+          filtro: getFiltro(),
+          populateObj: [{ path: "filiacoes", select: { nivelDificuldade: 1, entidade: 1, abrangencia: 1, status: 1 }, match: { status: { $in: ["Ativa", "Em análise"] } } }],
+          select: {
+            nome: 1,
+            apelido: 1,
+            cpf: 1,
+            dependentes: 1,
+            nascimento: 1,
+            cadUnico: 1,
+            sexo: 1,
+            foto: 1,
+            fotoPostura: 1,
+          },
+          maxRetorno: 10,
+        },
+        undefined
+      );
       if (ret.valido) {
         muitosResultados.value = false;
         listaPessoas.value = ret.data;
@@ -109,10 +120,10 @@ const buscarPessoa = async () => {
         } else {
           console.error(ret);
           $q.notify({
-            position: 'top',
-            icon: 'error',
-            color: 'negative',
-            message: 'Falha ao buscar pessoas!'
+            position: "top",
+            icon: "error",
+            color: "negative",
+            message: "Falha ao buscar pessoas!",
           });
           muitosResultados.value = false;
         }
@@ -121,20 +132,19 @@ const buscarPessoa = async () => {
     } catch (error) {
       console.error(error);
       $q.notify({
-        position: 'top',
-        icon: 'error',
-        color: 'negative',
-        message: 'Erro de comunicação!'
+        position: "top",
+        icon: "error",
+        color: "negative",
+        message: "Erro de comunicação!",
       });
     }
   } else {
     listaPessoas.value = [];
   }
-}
+};
 
 // GO confirm
 const confirm = (pessoa: any) => {
-  onDialogOK(pessoa)
+  onDialogOK(pessoa);
 };
 </script>
-

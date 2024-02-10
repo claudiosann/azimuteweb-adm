@@ -43,7 +43,7 @@
                           <q-btn class="btn-scale mt-0" @click="continuar" color="primary" label="Continuar" />
                         </q-stepper-navigation>
                       </q-step>
-                      <q-step v-if="state.filiacaoPessoa.pessoa && state.filiacaoPessoa.filiacaoPessoaLancamento" :name="1" :title="'Dados Pessoais'" :done="etapa > 1" icon="person" active-icon="person">
+                      <q-step v-if="state.filiacaoPessoa.pessoa" :name="1" :title="'Dados Pessoais'" :done="etapa > 1" icon="person" active-icon="person">
                         <div class="!flex border dark:border-none rounded-lg shadow dark:shadow-gray-600">
                           <img class="rounded-s-lg hidden md:!block" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.foto}`" style="max-height: 150px" />
                           <div class="p-2 grid grid-cols-6 gap-1 w-full">
@@ -62,7 +62,7 @@
                             <div v-if="state.filiacaoPessoa.pessoa.nomeDaMae" class="col-span-6 sm:col-span-3"><span class="font-semibold">Nome da Mãe:</span> {{ state.filiacaoPessoa.pessoa.nomeDaMae }}</div>
                           </div>
                         </div>
-                        <q-field class="mt-4" readonly outlined label="Observação" stack-label>
+                        <q-field v-if="state.filiacaoPessoa.filiacaoPessoaLancamento" class="mt-4" readonly outlined label="Observação" stack-label>
                           {{ state.filiacaoPessoa.filiacaoPessoaLancamento.observacao }}
                         </q-field>
                         <q-stepper-navigation>
@@ -71,8 +71,9 @@
                         </q-stepper-navigation>
                       </q-step>
 
-                      <q-step :name="2" :title="'Documentos Obrigatórios'" :done="etapa > 2" icon="cloud_upload" active-icon="cloud_upload">
+                      <q-step v-if="state.filiacaoPessoa.filiacaoPessoaLancamento" :name="2" :title="'Documentos Obrigatórios'" :done="etapa > 2" icon="cloud_upload" active-icon="cloud_upload">
                         <!-- <div text-xl mb-2 v-if="state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios.length === 0"> {{ (state.filiacaoPessoa.entidade.tratamentoMasculino ? 'O ' : 'A ') + state.filiacaoPessoa.entidade.sigla }}  não exige nenhum documento para a filiação.</div> -->
+                        <div v-if="state.filiacaoPessoa.filiacaoPessoaLancamento">
                         <div v-for="(item, index) in state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios" :key="index" class="row q-col-gutter-sm q-mb-sm">
                           <div class="col-12">
                             <q-field :error="!item.caminho" error-message="Documento Obrigatório" outlined :label="`${item.descricao} (${item.instrucao})`" stack-label>
@@ -96,6 +97,7 @@
                               </template>
                             </q-field>
                           </div>
+                        </div>
                         </div>
                         <q-stepper-navigation p-0>
                           <q-btn class="btn-scale" @click="continuar" color="primary" label="Continuar" />

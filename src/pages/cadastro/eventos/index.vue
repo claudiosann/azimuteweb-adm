@@ -166,6 +166,7 @@ const getList = async () => {
     });
 
     try {
+        
 
         if (!geral || !geral.pessoa || !geral.pessoa._id) {
             $q.loading.hide();
@@ -191,7 +192,7 @@ const getList = async () => {
             $q.loading.hide();
         } else {
             rows.value = [];
-            // console.log(ret.data);
+            console.log(ret.data);
             $q.loading.hide();
             $q.notify({
                 color: "negative",

@@ -24,7 +24,7 @@
             <div class="col-md-3 col-sm-4 col-12">
               <q-input dense outlined v-model="filtro.numero" type="text" label="Evento Número" />
             </div>
-            <div class="col-sm-6 col-12">
+            <div v-if="suporte" class="col-sm-6 col-12">
               <q-field outlined label="Entidade" stack-label>
                 <!-- <template v-if="entidade && entidade.logo" v-slot:prepend>
                   <q-avatar rounded size="45px">
@@ -55,7 +55,7 @@
                 <q-tooltip>Baixar Planilha Excel</q-tooltip>
               </q-btn>
               <q-btn v-if="rows.length > 0 && filtroAplicado.status == 'Liberado' && filtroAplicado.entidade && entidade" class="btn-scale m-2 pr-4 pl-2" color="positive" push glossy round icon="currency_exchange" label="Solicitar Transferência" @click="gerarPagamentoMovimentacao">
-                <q-tooltip>Geral Movimentacao</q-tooltip>
+                <q-tooltip>Solicitar Transferência</q-tooltip>
               </q-btn>
             </div>
           </div>
@@ -134,6 +134,7 @@ const getCorStatus = (status) => {
   }
 };
 
+const suporte = ref(false);
 const { $geralService } = useNuxtApp();
 const $q = useQuasar();
 const geral = useGeral();
@@ -242,6 +243,14 @@ const selecionarEntidade = () => {
     })
     .onCancel(() => {});
 };
+
+onBeforeMount(() => {
+  // if (geral.pessoa._id == '5aff4d2f47667633c7ace227') {
+  //   suporte.value = true;
+  // } else {
+  confirmSelecaoEntidade(geral.entidade);
+  // }
+});
 
 // var pagamentoMovimentacaoSchema = mongoose.Schema({
 //     'entidade': { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'entidade' },
