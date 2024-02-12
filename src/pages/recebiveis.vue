@@ -86,7 +86,7 @@
                   <q-item>
                     <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
                   </q-item>
-                  <q-item v-if="geral.funcoesAcessos.consumivelInserir" clickable @click="editRow(props.rowIndex, props.row.identificador, true)" v-close-popup>
+                  <q-item clickable @click="editRow(props.rowIndex, props.row.identificador, true)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="visibility" />
                     </q-item-section>
