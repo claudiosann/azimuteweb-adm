@@ -461,9 +461,9 @@ const aplicarFiltro = async () => {
 };
 
 const editRow = (index, id, copy) => {
-  if (geral.funcoesAcessos.consumivelEditar) {
+ 
     openModal(index, id, copy);
-  }
+  
 };
 
 const openModal = (index, id, copy) => {
