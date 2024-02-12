@@ -144,7 +144,7 @@
                     v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
                 <EssentialLink link="/recebiveis" icon="fork_right"
                     title="Recebíveis Gerados Admin" :caption="`(Suporte)`" color="bg-gradient-to-r from-violet-800 to-violet-400"
-                    v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" />
+                    v-if="geral.funcoesAcessos.recebiveisAcessar" />
                 <EssentialLink link="/repasses" icon="currency_exchange"
                     title="Repasses" :caption="`Valores repassados`" color="bg-gradient-to-r from-green-800 to-red-400"
                     v-if="geral.funcoesAcessos.repasseAcessar" />
