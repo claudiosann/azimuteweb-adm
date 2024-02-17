@@ -24,7 +24,7 @@
           <q-td key="dataRealizada">{{ $geralService.getDataHoraFormatada(props.row.dataRealizada) }}</q-td>
           <q-td key="valor">{{ $geralService.numeroParaMoeda(props.row.valor) }}</q-td>
           <q-td key="rateios">{{ props.row.rateios.length }}</q-td>
-          <q-td key="status">{{ props.row.status }}</q-td>
+          <q-td key="status"><q-badge :color="getCorStatus(props.row.status)">{{ props.row.status }}</q-badge></q-td>
           <q-td key="action">
             <q-btn btn-scale push round glossy icon="more_vert">
               <q-menu>
@@ -32,12 +32,19 @@
                   <q-item>
                     <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
                   </q-item>
-                  <q-item v-if="geral.funcoesAcessos.repasseInserir" clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
+                  <q-item v-if="geral.funcoesAcessos.repasseAcessar" clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="edit" />
                     </q-item-section>
                     <q-item-section avatar> Editar </q-item-section>
                   </q-item>
+                  <q-item v-if="props.row.status=='Realizada'" clickable v-close-popup @click="visualizarPdf($geralService.configuracoes.BASE_S3 + props.row.comprovante)">
+                    <q-item-section avatar>
+                      <q-avatar rounded-xl color="blue-7" text-color="white" icon="visibility" />
+                    </q-item-section>
+                    <q-item-section avatar> Visualizar </q-item-section>
+                  </q-item>
+                  
                 </q-list>
               </q-menu>
             </q-btn>
@@ -53,8 +60,12 @@ definePageMeta({
   middleware: "auth",
 });
 import { useQuasar, QSpinnerOval } from "quasar";
-// import pagamentoMovimentacaoModal from "@/components/cadastro/financeiro/pagamentoMovimentacaoModal.vue";
+import RepasseModal from "@/components/cadastro/RepasseModal.vue";
 import { useGeral } from "@/stores/geral";
+import VisualizarPdfModal from "@/components/VisualizarPdfModal.vue";
+import VisualizarImagemModal from "@/components/VisualizarImagemModal.vue";
+
+
 const { $geralService } = useNuxtApp();
 const $q = useQuasar();
 const geral = useGeral();
@@ -130,6 +141,31 @@ onMounted(() => {
   getList();
 });
 
+
+const getCorStatus = (status) => {
+  switch (status) {
+    case "Solicitada":
+      return "warning";
+    case "Realizada":
+      return "positive";
+    default:
+      return "negative";
+  }
+};
+
+const visualizarPdf = async (caminho) => {
+  console.log(caminho);
+  $q.dialog({
+    component: caminho.endsWith(".pdf") ? VisualizarPdfModal : VisualizarImagemModal,
+    persistent: true,
+    componentProps: {
+      caminho: caminho,
+    },
+  })
+    .onOk(async (data) => {})
+    .onCancel(() => {});
+};
+
 const getUrlImagemThumb = (caminho) => {
   return $geralService.getUrlS3Thumb(caminho, {
     height: 128,
@@ -187,7 +223,7 @@ const editRow = (index, id, copy) => {
 };
 
 
-const openModal = async (index, id, copy) => {
+const openModal = async (index, id) => {
   // <acesso-sistema-cadastro v-on:confirmSave="confirmSave" v-if="show"  :inserir="inserir" :acesso-sistema-id="idSelecionado"></acesso-sistema-cadastro>
   if (index > -1 && id) {
     inserir.value = false;
@@ -199,19 +235,17 @@ const openModal = async (index, id, copy) => {
     indexSelecionado.value = -1;
   }
 
-  // $q.dialog({
-  //   component: pagamentoMovimentacaoModal,
-  //   persistent: true,
-  //   componentProps: {
-  //     copia: copy,
-  //     inserir: inserir.value,
-  //     id: idSelecionado.value,
-  //   },
-  // })
-  //   .onOk(async (data) => {
-  //     confirmSave(data);
-  //   })
-  //   .onCancel(() => {});
+  $q.dialog({
+    component: RepasseModal,
+    persistent: true,
+    componentProps: {
+      id: idSelecionado.value,
+    },
+  })
+    .onOk(async (data) => {
+      confirmSave(data);
+    })
+    .onCancel(() => {});
 };
 
 const confirmSave = (obj) => {
