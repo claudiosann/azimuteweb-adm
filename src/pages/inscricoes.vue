@@ -1,6 +1,6 @@
 <template>
   <div class="p-1 sm:p-4">
-    <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true"  row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
+    <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true" row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
           <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-r from-teal-700 to-cyan-400" name="how_to_reg" size="30px" />
@@ -33,7 +33,7 @@
               <q-btn color="primary" icon="check" label="Aplicar Filtro" @click="getList" />
             </div>
             <div class="col-12">
-              <q-btn v-if="rows.length>0 && filtro.numero" color="primary" icon="check" label="Exportar" @click="exportCSV" />
+              <q-btn v-if="rows.length > 0 && filtro.numero" color="primary" icon="check" label="Exportar" @click="exportCSV" />
             </div>
           </div>
         </q-expansion-item>
@@ -68,13 +68,13 @@
                     </q-item-section>
                     <q-item-section avatar> Excluir </q-item-section>
                   </q-item>
-                  <q-item  clickable @click="verificaPagamentoInscricaoPIX(props.rowIndex, props.row)" v-close-popup>
+                  <q-item clickable @click="verificaPagamentoInscricaoPIX(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="search" />
                     </q-item-section>
                     <q-item-section avatar> Consultar Pagamento </q-item-section>
                   </q-item>
-                  <q-item  clickable @click="confirmaInscricaoPIXManual(props.rowIndex, props.row)" v-close-popup>
+                  <q-item clickable @click="confirmaInscricaoPIXManual(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="search" />
                     </q-item-section>
@@ -101,10 +101,8 @@ definePageMeta({
   middleware: "suporte",
 });
 
-
 import { useQuasar, QSpinnerOval } from "quasar";
 import InscricaoModal from "../components/cadastro/InscricaoModal.vue";
-
 
 const filtro = ref({
   status: "Finalizada",
@@ -211,7 +209,7 @@ const getUrlImagemThumb = (caminho) => {
 const verificaPagamentoInscricaoPIX = async (index, inscricao) => {
   try {
     const ret = await useCustomFetch(`verificaPagamentoInscricaoPIX/${inscricao._id}/${inscricao.pagamento._id}`, undefined, undefined);
-     console.log(ret);
+    console.log(ret);
     if (ret.valido && ret.data.status == "CONCLUIDA") {
       // toast.add({ severity: "success", summary: "Pagamento Recebido", detail: "Inscrição concluída e enviada com sucesso.", life: 6000 });
       getList();
@@ -220,7 +218,6 @@ const verificaPagamentoInscricaoPIX = async (index, inscricao) => {
         message: "Pagamento Recebido",
       });
     } else {
-     
       $q.notify({
         color: "negative",
         message: "Pagamento não recebido",
@@ -231,38 +228,43 @@ const verificaPagamentoInscricaoPIX = async (index, inscricao) => {
   }
 };
 const confirmaInscricaoPIXManual = async (index, inscricao) => {
-  try {
-    const ret = await useCustomFetch(`confirmaInscricaoPIXManual/${inscricao._id}/${inscricao.pagamento._id}`, undefined, undefined);
-     console.log(ret);
-    if (ret.valido && ret.data.status == "CONCLUIDA") {
-      // toast.add({ severity: "success", summary: "Pagamento Recebido", detail: "Inscrição concluída e enviada com sucesso.", life: 6000 });
-      getList();
-      $q.notify({
-        color: "positive",
-        message: "Pagamento Recebido",
-      });
-    } else {
-     
-      $q.notify({
-        color: "negative",
-        message: "Pagamento não recebido",
-      });
+  $q.dialog({
+    title: "Deseja Confirmar?",
+    message: "Deseja realmente confirmar o pagamento de PIX Manual?",
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    try {
+      const ret = await useCustomFetch(`confirmaInscricaoPIXManual/${inscricao._id}/${inscricao.pagamento._id}`, undefined, undefined);
+      console.log(ret);
+      if (ret.valido && ret.data.status == "CONCLUIDA") {
+        // toast.add({ severity: "success", summary: "Pagamento Recebido", detail: "Inscrição concluída e enviada com sucesso.", life: 6000 });
+        getList();
+        $q.notify({
+          color: "positive",
+          message: "Pagamento Recebido",
+        });
+      } else {
+        $q.notify({
+          color: "negative",
+          message: "Pagamento não recebido",
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
+  });
 };
 const verificaSeTemTef = async (index, inscricao) => {
   try {
-    const ret = await useCustomFetch(`tef/getPopulate`,'post', {filtro: {identificador: inscricao._id}}, undefined);
-     console.log(ret);
+    const ret = await useCustomFetch(`tef/getPopulate`, "post", { filtro: { identificador: inscricao._id } }, undefined);
+    console.log(ret);
     if (ret.valido && ret.data.length > 0) {
       $q.notify({
         color: "positive",
         message: "Tem TEF",
       });
     } else {
-     
       $q.notify({
         color: "negative",
         message: "Não tem TEF",
@@ -305,9 +307,9 @@ const getList = async () => {
       {
         filtro: {
           lixo: false,
-          estagioRateio: filtro.value.estagioRateio?filtro.value.estagioRateio: {$ne: 'Finalizado'},
+          estagioRateio: filtro.value.estagioRateio ? filtro.value.estagioRateio : { $ne: "Finalizado" },
           status: filtro.value.status || undefined,
-          'inscritos.consumiveis.descontos.cadUnico': filtro.value.cadUnico==true ? true: {$ne: true},
+          "inscritos.consumiveis.descontos.cadUnico": filtro.value.cadUnico == true ? true : { $ne: true },
           evento: eventoId || undefined,
           created_at:
             filtro.value.inicio || filtro.value.fim
@@ -369,25 +371,23 @@ const getList = async () => {
   }
 };
 
-
-
 const exportCSV = async () => {
   let CSV = "";
   for (let index = 0; index < columns.value.length; index++) {
     const col = columns.value[index];
-    if (col.field && col.name!="foto") CSV += col.label + ";";
+    if (col.field && col.name != "foto") CSV += col.label + ";";
   }
 
-  CSV += "Inscritos;"
+  CSV += "Inscritos;";
 
   CSV += "\r\n";
   for (let index = 0; index < rows.value.length; index++) {
     const row = rows.value[index];
-    CSV += row._id + ";" + row.pessoa.nome + ";" + $geralService.getDataHoraFormatada(row.created_at) + ";" + row.pagamento.tipo + ";" + $geralService.numeroParaMoeda(row.totalBruto) + ";" + row.status+ ";" + row.inscritos.length;
+    CSV += row._id + ";" + row.pessoa.nome + ";" + $geralService.getDataHoraFormatada(row.created_at) + ";" + row.pagamento.tipo + ";" + $geralService.numeroParaMoeda(row.totalBruto) + ";" + row.status + ";" + row.inscritos.length;
     CSV += "\r\n";
   }
 
-  let fileName = ("inscricoes_ate_" +filtro.value.numero+ $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let fileName = "inscricoes_ate_" + filtro.value.numero + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-");
   let uri = "data:text/csv;charset=utf-8," + escape(CSV);
   let link = document.createElement("a");
   link.href = uri;
@@ -406,7 +406,7 @@ const gerarRateio = async () => {
   for (let index = 0; index < rows.value.length; index++) {
     const i = rows.value[index];
     if (i.estagioRateio == "Finalizado") {
-      console.log('Inscrição com o rateio já finalizado');
+      console.log("Inscrição com o rateio já finalizado");
       continue;
     }
     const validador = { saldo: i.subtotal };
@@ -584,7 +584,7 @@ const verificaCadUnico = (item) => {
 };
 
 const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) => {
-console.log('dividindo valores');
+  console.log("dividindo valores");
   if (item.totalLiquido <= 0 || item.equipamentoProprio) {
     return [];
   }
