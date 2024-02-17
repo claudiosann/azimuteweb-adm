@@ -40,7 +40,7 @@
                                     <q-item v-if="geral.funcoesAcessos.conteudoInserir" clickable v-close-popup
                                         @click="editRow(props.rowIndex, props.row._id, true)">
                                         <q-item-section avatar>
-                                            <q-avatar rounded-xl color="blue" text-color="white" icon="content_copy" />
+                                            <q-avatar rounded-xl color="blue" text-color="white" icon="copy_all" />
                                         </q-item-section>
                                         <q-item-section avatar> Duplicar </q-item-section>
                                     </q-item>
@@ -58,6 +58,14 @@
                                             </q-item-section>
                                             <q-item-section>
                                                 Destaque
+                                            </q-item-section>
+                                    </q-item>
+                                    <q-item clickable v-close-popup @click="clipboard('/conteudo/'+props.row.rota)">
+                                            <q-item-section avatar>
+                                                <q-avatar rounded-xl color="teal-7" text-color="white" icon="content_copy" />
+                                            </q-item-section>
+                                            <q-item-section>
+                                                Copiar Link
                                             </q-item-section>
                                     </q-item>
                                 </q-list>
@@ -78,6 +86,10 @@ import { useQuasar, QSpinnerOval } from "quasar";
 import ConteudoModal from "../../components/cadastro/ConteudoModal.vue";
 import DestaqueModal from "../../components/cadastro/DestaqueModal.vue";
 import { useGeral } from '../../stores/geral';
+import { useClipboard } from "@vueuse/core";
+
+const source = ref("Hello");
+const { text, copy, copied, isSupported } = useClipboard({ source });
 
 const { $geralService } = useNuxtApp()
 const $q = useQuasar();
@@ -127,6 +139,17 @@ const columns = ref([
 onMounted(() => {
     getList();
 });
+
+const clipboard = (text) => {
+  copy(text);
+  $q.notify({
+    color: "info",
+    position: "top",
+    icon: "check",
+    message: "Link copiado para área de transferência",
+    caption: "Copiado",
+  });
+};
 
 const getUrlImagemThumb = (caminho) => {
     return $geralService.getUrlS3Thumb(caminho, {

@@ -129,9 +129,6 @@ const validations = {
         nome: {
             required
         },
-        logo: {
-            required
-        },
         site: {
             required
         }

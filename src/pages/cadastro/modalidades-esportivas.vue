@@ -65,7 +65,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: "auth",
+    middleware: "suporte",
 });
 import { useQuasar, QSpinnerOval } from "quasar";
 import ModalidadeEsportivaModal from "../../components/cadastro/ModalidadeEsportivaModal.vue";

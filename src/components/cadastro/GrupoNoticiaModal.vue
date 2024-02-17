@@ -22,10 +22,10 @@
                   <div class="col-6">
                       <q-field hide-bottom-space outlined :dense="dense" @blur="$v.cor.$touch" :error="$v.cor.$error" error-message="Campo obrigatório">
                           <template v-slot:control>
-                            <div class="col-12 p-2 rounded-lg" :style="{ 'background-color': noticiaGrupo.cor }"> {{ noticiaGrupo.cor }} </div>
+                            <div class="col-12 p-2 rounded-lg" :style="{ 'background-color': noticiaGrupo.cor, color: invertColor(noticiaGrupo.cor) }"> {{ noticiaGrupo.cor }} </div>
                           </template>
                           <template v-slot:append>
-                            <q-avatar class="cursor-pointer" rounded :style="{ 'background-color': noticiaGrupo.cor }" size="30px" font-size="25px"  text-color="white" icon="colorize">
+                            <q-avatar class="cursor-pointer" :style="{ 'background-color': noticiaGrupo.cor, color: invertColor(noticiaGrupo.cor) }" rounded size="30px" font-size="25px"  icon="colorize">
                                                               <q-popup-proxy transition-show="scale" transition-hide="scale">
                                         <q-color v-model="noticiaGrupo.cor" />
                                     </q-popup-proxy>
@@ -47,6 +47,9 @@ import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useDialogPluginComponent, useQuasar } from 'quasar';
 
+const geral = useGeral();
+
+
 const props = defineProps({
   id: { type: String, default: null },
   copia: null,
@@ -55,7 +58,7 @@ const props = defineProps({
 defineEmits([...useDialogPluginComponent.emits]);
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
 // GO data
-const noticiaGrupo: any = ref({ descricao: "", cor: "" });
+const noticiaGrupo: any = ref({ descricao: "", cor: "", entidade: geral.entidade._id });
 const dense = ref(false);
 const $q = useQuasar();
 
@@ -98,11 +101,21 @@ onBeforeMount(async () => {
       }, 1);
     }
   } else {
-    noticiaGrupo.value = {
-    };
     inserir.value = true;
   }
 });
+
+const invertColor = (hexTripletColor: any) => {
+  if(!hexTripletColor) return '#7d7d7d';
+        let color = hexTripletColor;
+        color = color.substring(1); // remove #
+        color = parseInt(color, 16); // convert to integer
+        color = 0xFFFFFF ^ color; // invert three bytes
+        color = color.toString(16); // convert to hex
+        color = ("000000" + color).slice(-6); // pad with leading zeros
+        color = "#" + color; // prepend #
+        return color;
+}
 
 const cancel = async () => {
   // console.log('passou aquitttt');
@@ -145,7 +158,6 @@ const save = async () => {
       message: "Registro salvo com sucesso!",
     });
   } else {
-    // console.log(ret);
     $q.notify({
       type: "negative",
       message: "Falha ao salvar",

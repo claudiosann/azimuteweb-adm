@@ -64,7 +64,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: "auth",
+    middleware: "suporte",
 });
 import { useQuasar, QSpinnerOval } from "quasar";
 import ModeloPontuacaoModal from "../../components/cadastro/ModeloPontuacaoModal.vue";

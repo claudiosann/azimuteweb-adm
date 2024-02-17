@@ -21,7 +21,8 @@
       <q-btn color="primary" icon="check" label="logout" @click="logout" />
       <!-- <q-btn color="primary" icon="check" label="Converter Entidades" @click="converterEntidades" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Evento" @click="converterEvento" /> -->
-      <q-btn color="primary" icon="check" label="Converter Evento" @click="ajustarTodosOsTelefones" />
+      <q-btn color="primary" icon="check" label="Ajustar Rateio" @click="ajustaPagamentosRateio()" />
+      <!-- <q-btn color="primary" icon="check" label="Converter Evento" @click="ajustarTodosOsTelefones" /> -->
       <!-- <q-btn color="primary" icon="check" label="getImagem evento 45 " @click="getImagem(12656)" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Modelo" @click="conveterModeloCategoria" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Pessoa" @click="converterPessoas" /> -->
@@ -38,6 +39,11 @@ import { useQuasar } from "quasar";
 // @ts-ignore
 import md5 from "js-md5";
 import PessoasFiliadas from "./cadastro/pessoas-filiadas.vue";
+
+definePageMeta({
+  middleware: "suporte",
+});
+
 const logado = ref(false);
 const $dayjs = useDayjs();
 const pessoaAzimute = ref<any>({ login: "suporte", senha: "3411" });
@@ -54,7 +60,7 @@ const mapeamentoDificuldade: { [key: string]: number } = {
 };
 
 const ajustarTodosOsTelefones = async () => {
-  const ret = await useCustomFetch('pessoa/getPopulate', 'post', { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
+  const ret = await useCustomFetch("pessoa/getPopulate", "post", { filtro: {}, select: { _id: 1, idAntigo: 1 } }, undefined);
   if (ret.valido) {
     for (let index = 0; index < ret.data.length; index++) {
       const pessoa = ret.data[index];
@@ -62,18 +68,40 @@ const ajustarTodosOsTelefones = async () => {
       // console.log(index);
 
       await ajustaTelefones(pessoa);
-          const retGrava = await useCustomFetch('pessoa/' + pessoa._id, 'put', pessoa, undefined);  
+      const retGrava = await useCustomFetch("pessoa/" + pessoa._id, "put", pessoa, undefined);
       if (!retGrava.valido) {
-                      // console.log(index);
-            // console.log('Erro ao atualizar pessoa', pessoa);
-            // console.log('Erro ao atualizar pessoa', retGrava);
-            return;
-          } 
-        }    
+        // console.log(index);
+        // console.log('Erro ao atualizar pessoa', pessoa);
+        // console.log('Erro ao atualizar pessoa', retGrava);
+        return;
+      }
+    }
   } else {
     // console.log('Erro ao buscar pessoas', ret);
   }
-}
+};
+
+const ajustaPagamentosRateio = async () => {
+  console.log("iniciou");
+  const ret = await useCustomFetch("pagamentoMovimentacao/getPopulate", "post", { filtro: { lixo: false }, populateObj: ["rateios"] }, undefined);
+  if (ret.valido) {
+    for (let index = 0; index < ret.data.length; index++) {
+      const pm = ret.data[index];
+      for (let index2 = 0; index2 < pm.rateios.length; index2++) {
+        const pagamentoRateio = pm.rateios[index2];
+        const ret2 = await useCustomFetch("pagamentoRateio/" + pagamentoRateio._id, "PUT", { pagamentoMovimentacao: pm._id, pagamentoMovimentacaoSequencial: pm.sequencial }, undefined);
+        if (ret2.valido) {
+          console.log("atualizou", pagamentoRateio._id);
+        } else {
+          console.log("Erro ao atualizar pagamentoRateio", pagamentoRateio._id);
+          console.log("Erro ao atualizar pagamentoRateio", ret2);
+        }
+      }
+    }
+  }
+  console.log("Terminou");
+};
+
 const ajustaTelefones = async (element: any) => {
   const formTeletone = {
     tabelas: [{ nome: "pessoa_telefone", nomeAs: "pessoa_telefone" }],
@@ -131,7 +159,6 @@ const converterEvento = async () => {
 
     //for (let index = 0; index < retornoAjustado.length; index++) {
     for (let index = 430; index < retornoAjustado.length; index++) {
-    
       // console.log(index);
       const element = retornoAjustado[index];
 
@@ -320,7 +347,7 @@ const constGetNovoGrupo = (tipo: number) => {
     { descricao: "Anexos", icone: "fas fa-papperclip" },
   ];
 
-//  // console.log("tipo", tipo);
+  //  // console.log("tipo", tipo);
   return {
     descricao: listDescricoes[tipo - 1].descricao,
     icone: listDescricoes[tipo - 1].icone,
@@ -376,7 +403,7 @@ const getEnderecoEvento = (eventAntigo: any) => {
   }
 
   if (eventAntigo.estado) {
-    endereco.uf = getUf( eventAntigo.estado ?  eventAntigo.estado  : 0)
+    endereco.uf = getUf(eventAntigo.estado ? eventAntigo.estado : 0);
   }
 
   if (eventAntigo.cidade) {
@@ -845,7 +872,7 @@ const ajustaLinkEvento = (input: string) => {
   // // console.log("match", match);
 
   if (match) {
-    return 'https://azimuteweb.s3.sa-east-1.amazonaws.com/'+getNewSiglaAjuste(input.replace(regex, `$1`));
+    return "https://azimuteweb.s3.sa-east-1.amazonaws.com/" + getNewSiglaAjuste(input.replace(regex, `$1`));
   } else {
     return input;
   }
@@ -2174,7 +2201,7 @@ const logout = () => {
 const login = async () => {
   // verificar login e senha
 
-  const url = "https://www.cbo.org.br/azimuteweb_ws/webresources/loginWs/login";
+  const url = "https://www.coga.esp.br/azimuteweb_ws/webresources/loginWs/login";
 
   let ret: any = null;
   try {

@@ -94,7 +94,6 @@ const state: any = reactive({
         tipo: 'Evento',
         link: '',
         imagem: '',
-        albuns: [],
     }
 });
 const dense = ref(false);
@@ -106,9 +105,6 @@ const { $geralService } = useNuxtApp();
 const validations = {
     destaque: {
         link: {
-            required
-        },
-        imagem: {
             required
         },
         inicio: {

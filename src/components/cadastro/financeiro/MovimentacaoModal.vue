@@ -658,7 +658,7 @@ const save = async (newFinanceiroMovimentacao: any, nomeTempFile: any) => {
   if (ret.valido) {
     await useCustomFetch('financeiroConta/' + newFinanceiroMovimentacao.conta, 'put', {
       saldoAtual: newFinanceiroMovimentacao.saldoAtual
-    }, 'Atualizando saldo na conta!');
+    }, undefined);
 
     $q.loading.hide();
     $q.notify({

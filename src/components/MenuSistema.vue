@@ -74,7 +74,7 @@
                     v-if="geral.funcoesAcessos.conteudoAcessar" />
                 <EssentialLink link="/cadastro/entidades-sites" color="bg-gradient-to-r from-green-500 to-green-700"
                     icon="house_siding" title="Sites das Entidades" :caption="`Listagem de sites das entidades`"
-                    v-if="geral.funcoesAcessos.conteudoAcessar" />
+                    v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'"  />
                 <EssentialLink @click="editarEntidadeSite" link="/" color="bg-gradient-to-l from-yellow-500 to-yellow-700"
                     icon="settings" title="Configurações do Site"
                     :caption="`Configurações do Site ${(geral.entidade.tratamentoMasculino ? 'do' : 'da')} ${geral.entidade.sigla} `"

@@ -62,6 +62,14 @@
                                             Destaque
                                         </q-item-section>
                                     </q-item>
+                                    <q-item clickable v-close-popup @click="clipboard('/noticias/'+props.row.rota)">
+                                            <q-item-section avatar>
+                                                <q-avatar rounded-xl color="teal-7" text-color="white" icon="content_copy" />
+                                            </q-item-section>
+                                            <q-item-section>
+                                                Copiar Link
+                                            </q-item-section>
+                                    </q-item>
                                 </q-list>
                             </q-menu>
                         </q-btn>
@@ -80,6 +88,10 @@ import { useQuasar, QSpinnerOval } from "quasar";
 import NoticiaModal from "../../components/cadastro/NoticiaModal.vue";
 import DestaqueModal from "../../components/cadastro/DestaqueModal.vue";
 import { useGeral } from '../../stores/geral';
+import { useClipboard } from "@vueuse/core";
+
+const source = ref("Hello");
+const { text, copy, copied, isSupported } = useClipboard({ source });
 
 const { $geralService } = useNuxtApp()
 const $q = useQuasar();
@@ -157,6 +169,17 @@ const getUrlImagemThumb = (caminho) => {
         height: 128
     })
 }
+
+const clipboard = (text) => {
+  copy(text);
+  $q.notify({
+    color: "info",
+    position: "top",
+    icon: "check",
+    message: "Link copiado para área de transferência",
+    caption: "Copiado",
+  });
+};
 
 const getList = async () => {
     $q.loading.show({

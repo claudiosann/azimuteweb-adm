@@ -14,6 +14,12 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="sequencial">{{ props.row.sequencial }}</q-td>
+          <q-td key="entidade.logo">
+            <div class="!flex !flex-col">
+              <q-img v-if="props.row.entidade.logo" class="rounded" style="width: 40px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.entidade.logo)"></q-img>
+              <span>{{ props.row.entidade.sigla }}</span>
+            </div>
+          </q-td>
           <q-td key="dataSolicitacao">{{ $geralService.getDataHoraFormatada(props.row.dataSolicitacao) }}</q-td>
           <q-td key="dataRealizada">{{ $geralService.getDataHoraFormatada(props.row.dataRealizada) }}</q-td>
           <q-td key="valor">{{ $geralService.numeroParaMoeda(props.row.valor) }}</q-td>
@@ -49,7 +55,7 @@ definePageMeta({
 import { useQuasar, QSpinnerOval } from "quasar";
 // import pagamentoMovimentacaoModal from "@/components/cadastro/financeiro/pagamentoMovimentacaoModal.vue";
 import { useGeral } from "@/stores/geral";
-
+const { $geralService } = useNuxtApp();
 const $q = useQuasar();
 const geral = useGeral();
 const inserir = ref(false);
@@ -66,6 +72,14 @@ const columns = ref([
     label: "Número",
     align: "left",
     field: "sequencial",
+    sortable: true,
+  },
+    {
+    name: "entidade.sigla",
+    required: true,
+    label: "Entidade",
+    align: "left",
+    field: "entidade.sigla",
     sortable: true,
   },
   {
@@ -116,6 +130,12 @@ onMounted(() => {
   getList();
 });
 
+const getUrlImagemThumb = (caminho) => {
+  return $geralService.getUrlS3Thumb(caminho, {
+    height: 128,
+  });
+};
+
 const getList = async () => {
   $q.loading.show({
     spinner: QSpinnerOval,
@@ -132,8 +152,14 @@ const getList = async () => {
       {
         filtro: {
           lixo: false,
-          entidade: geral.entidade._id,
+          entidade: geral.pessoa._id == '5aff4d2f47667633c7ace227' ? undefined : geral.entidade._id,
         },
+         populateObj: [
+          {
+            path: "entidade",
+            select: { sigla: 1, logo: 1 },
+          },
+        ],
       },
       undefined
     );

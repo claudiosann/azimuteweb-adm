@@ -90,9 +90,9 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-          <!-- <EssentialLink link="/conversao" color="bg-gradient-to-l from-rose-500  to-yellow-700" icon="home_work"
+          <EssentialLink v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" link="/conversao" color="bg-gradient-to-l from-rose-500  to-yellow-700" icon="home_work"
                     title="Conversão (Suporte)" :caption="`Conversão de dados`"
-                    v-if="geral.funcoesAcessos.entidadeAcessar" /> -->
+                     />
       </q-list>
       </ClientOnly>
     </q-drawer>

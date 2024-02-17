@@ -64,8 +64,22 @@
                                         </div>
                                     <div class="col-12">
                                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                        <q-checkbox v-model="state.noticia.mostrar.site" label="Mostrar no Site" />
-                                        <q-checkbox v-model="state.noticia.mostrar.stjd" label="Mostrar em STJD" />
+
+                                         <q-item tag="label">
+        <q-item-section avatar top>
+          <q-checkbox v-model="state.noticia.publica"/>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Pública</q-item-label>
+          <q-item-label v-if="state.noticia.publica" caption>
+            Todos os portais integrados terão acesso a esta notícia.
+          </q-item-label>
+          <q-item-label v-else caption>
+            Somente o portal da entidade tem acesso a esta notícia.
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+                                        
                                     </div>
                                     </div>
                                     <div class="col-12">
@@ -171,7 +185,7 @@ const state: any = reactive({
     noticia: {
         entidade: geral.entidade._id,
         tags: [],
-        mostrar: { site: true, stjd: false, evento: false },
+        publica: true,
         htmlNoticia: '',
         albuns: [],
     }
@@ -180,8 +194,8 @@ const dense = ref(false);
 const $q = useQuasar();
 const { $geralService } = useNuxtApp();
 
-watch(() => state.noticia.titulo, async (newQuestion, oldQuestion) => {
-    state.noticia.rota = $geralService.removeCaracteresEspeciais(newQuestion);
+watch(() => state.noticia.titulo, async (value, oldQuestion) => {
+    state.noticia.rota = $geralService.removeCaracteresEspeciais(geral.entidade.sigla.toLowerCase()+'-'+value);
     // console.log(state.noticia.rota);
 })
 
@@ -379,7 +393,8 @@ const getNoticiaGrupo = async () => {
 
         const ret = await useCustomFetch('noticiaGrupo/getPopulate', 'post', {
             filtro: {
-                lixo: false
+                lixo: false,
+                entidade: geral.entidade._id
             }
         }, undefined);
         if (ret.valido) {

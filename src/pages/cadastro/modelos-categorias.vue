@@ -64,7 +64,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: "auth",
+    middleware: "suporte",
 });
 import { useQuasar, QSpinnerOval } from "quasar";
 import ModeloCategoriaModal from "../../components/cadastro/ModeloCategoriaModal.vue";

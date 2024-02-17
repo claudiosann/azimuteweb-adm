@@ -14,8 +14,8 @@ const constantes = {
       "descricao": "Pessoas - Acessar",
       "variavel": "pessoaAcessar",
       "grupo": {
-        "id": 1,
-        "descricao": "Administrativo"
+        "id": 7,
+        "descricao": "Suporte"
       }
     },
     {
@@ -23,8 +23,8 @@ const constantes = {
       "descricao": "Pessoas - Inserir",
       "variavel": "pessoaInserir",
       "grupo": {
-        "id": 1,
-        "descricao": "Administrativo"
+        "id": 7,
+        "descricao": "Suporte"
       }
     },
     {
@@ -32,8 +32,8 @@ const constantes = {
       "descricao": "Pessoas - Editar",
       "variavel": "pessoaEditar",
       "grupo": {
-        "id": 1,
-        "descricao": "Administrativo"
+        "id": 7,
+        "descricao": "Suporte"
       }
     },
     {
@@ -41,8 +41,8 @@ const constantes = {
       "descricao": "Pessoas - Deletar",
       "variavel": "pessoaDeletar",
       "grupo": {
-        "id": 1,
-        "descricao": "Administrativo"
+        "id": 7,
+        "descricao": "Suporte"
       }
     },
     {

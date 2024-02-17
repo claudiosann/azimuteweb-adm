@@ -98,8 +98,9 @@
 
 <script setup>
 definePageMeta({
-  middleware: "auth",
+  middleware: "suporte",
 });
+
 
 import { useQuasar, QSpinnerOval } from "quasar";
 import InscricaoModal from "../components/cadastro/InscricaoModal.vue";

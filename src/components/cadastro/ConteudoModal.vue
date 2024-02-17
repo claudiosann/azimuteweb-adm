@@ -156,7 +156,7 @@ const $q = useQuasar();
 const { $geralService } = useNuxtApp();
 
 watch(() => state.conteudo.titulo, async (value, oldValue) => {
-    state.conteudo.rota = geral.entidade.sigla.toLowerCase()+'-'+$geralService.removeCaracteresEspeciais(value);
+    state.conteudo.rota = $geralService.removeCaracteresEspeciais(geral.entidade.sigla.toLowerCase()+'-'+value);
     // console.log(state.conteudo.rota);
 })
 

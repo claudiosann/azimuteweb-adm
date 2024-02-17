@@ -24,6 +24,9 @@
             <div class="col-md-3 col-sm-4 col-12">
               <q-input dense outlined v-model="filtro.numero" type="text" label="Evento Número" />
             </div>
+            <div class="col-md-3 col-sm-4 col-12">
+              <q-input dense outlined v-model="filtro.pagamentoMovimentacaoSequencial" type="text" label="Repasse Número" />
+            </div>
             <div v-if="suporte" class="col-sm-6 col-12">
               <q-field outlined label="Entidade" stack-label>
                 <!-- <template v-if="entidade && entidade.logo" v-slot:prepend>
@@ -71,7 +74,7 @@
               <span>{{ props.row.entidade.sigla }}</span>
             </div>
           </q-td>
-          <q-td key="evento.sigla">{{ props.row.evento.sigla }}</q-td>
+          <q-td key="evento.sigla">{{ props.row.evento.numero+' - '+props.row.evento.sigla }}</q-td>
           <q-td key="dataLiberado">{{ $geralService.getDataHoraFormatada(props.row.dataLiberado) }}</q-td>
           <q-td key="dataPrevisao">{{ $geralService.getDataHoraFormatada(props.row.dataPrevisao) }}</q-td>
           <q-td key="dataPagamento">{{ $geralService.getDataHoraFormatada(props.row.dataPagamento) }}</q-td>
@@ -245,11 +248,11 @@ const selecionarEntidade = () => {
 };
 
 onBeforeMount(() => {
-  // if (geral.pessoa._id == '5aff4d2f47667633c7ace227') {
-  //   suporte.value = true;
-  // } else {
-  confirmSelecaoEntidade(geral.entidade);
-  // }
+  if (geral.pessoa._id == "5aff4d2f47667633c7ace227") {
+    suporte.value = true;
+  } else {
+    confirmSelecaoEntidade(geral.entidade);
+  }
 });
 
 // var pagamentoMovimentacaoSchema = mongoose.Schema({
@@ -317,7 +320,11 @@ const gerarPagamentoMovimentacao = async () => {
         for (let index = 0; index < rows.value.length; index++) {
           const row = rows.value[index];
           row.status = "Pago";
-          const ret = await useCustomFetch("pagamentoRateio/" + row._id, "put", { status: "Pago" }, undefined);
+
+          pagamentoRateio.pagamentoMovimentacao = pm._id;
+          pagamentoRateio.pagamentoMovimentacaoSequencial = pm.sequencial;
+        
+          const ret = await useCustomFetch("pagamentoRateio/" + row._id, "put", { status: "Pago", pagamentoMovimentacao: ret.data._id, pagamentoMovimentacaoSequencial: ret.data.sequencial }, undefined);
           if (!ret.valido) {
             $q.loading.hide();
             $q.notify({
@@ -398,6 +405,7 @@ const aplicarFiltro = async () => {
       status: filtro.value.status || undefined,
       evento: eventoId || undefined,
       entidade: filtro.value.entidade || undefined,
+      pagamentoMovimentacaoSequencial: filtro.value.pagamentoMovimentacaoSequencial || undefined,
       created_at:
         filtro.value.inicio || filtro.value.fim
           ? {
@@ -416,6 +424,7 @@ const aplicarFiltro = async () => {
           tipo: filtro.value.tipo || undefined,
           status: filtro.value.status || undefined,
           evento: eventoId || undefined,
+          pagamentoMovimentacaoSequencial: filtro.value.pagamentoMovimentacaoSequencial || undefined,
           entidade: filtro.value.entidade || undefined,
           created_at:
             filtro.value.inicio || filtro.value.fim
@@ -461,9 +470,7 @@ const aplicarFiltro = async () => {
 };
 
 const editRow = (index, id, copy) => {
- 
-    openModal(index, id, copy);
-  
+  openModal(index, id, copy);
 };
 
 const openModal = (index, id, copy) => {
@@ -496,7 +503,7 @@ const exportCSV = async () => {
     CSV += "\r\n";
   }
 
-  let fileName = (entidade.value?(entidade.value.sigla+"_"):"")+("rateio_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let fileName = (entidade.value ? entidade.value.sigla + "_" : "") + ("rateio_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
   let uri = "data:text/csv;charset=utf-8," + escape(CSV);
   let link = document.createElement("a");
   link.href = uri;
