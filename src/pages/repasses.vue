@@ -32,7 +32,7 @@
                   <q-item>
                     <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
                   </q-item>
-                  <q-item v-if="geral.funcoesAcessos.repasseAcessar" clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
+                  <q-item v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" clickable v-close-popup @click="editRow(props.rowIndex, props.row._id)">
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="edit" />
                     </q-item-section>
@@ -42,7 +42,7 @@
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="blue-7" text-color="white" icon="visibility" />
                     </q-item-section>
-                    <q-item-section avatar> Visualizar </q-item-section>
+                    <q-item-section avatar> Comprovante </q-item-section>
                   </q-item>
                   
                 </q-list>

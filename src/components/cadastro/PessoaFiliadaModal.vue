@@ -45,10 +45,10 @@
                       </q-step>
                       <q-step v-if="state.filiacaoPessoa.pessoa" :name="1" :title="'Dados Pessoais'" :done="etapa > 1" icon="person" active-icon="person">
                         <div class="!flex border dark:border-none rounded-lg shadow dark:shadow-gray-600">
-                          <img class="rounded-s-lg hidden md:!block" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.foto}`" style="max-height: 150px" />
+                          <img v-if="state.filiacaoPessoa.pessoa.foto" class="rounded-s-lg hidden md:!block" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.foto}`" style="max-height: 150px" />
                           <div class="p-2 grid grid-cols-6 gap-1 w-full">
                             <div class="col-span-6 sm:col-span-3 flex">
-                              <img class="rounded-lg block md:!hidden mr-2" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.foto}`" style="max-height: 80px" />
+                              <img v-if="state.filiacaoPessoa.pessoa.foto" class="rounded-lg block md:!hidden mr-2" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.foto}`" style="max-height: 80px" />
                               <div class="flex flex-col gap-1">
                                 <span><span class="font-semibold">Nome:</span> {{ state.filiacaoPessoa.pessoa.nome }}</span>
                                 <span class="block md:!hidden"><span class="font-semibold">Apelido:</span> {{ state.filiacaoPessoa.pessoa.apelido }}</span>
@@ -519,6 +519,9 @@ const beforeSave = async () => {
 
 const documentosValidados = computed(() => {
   let retorno = true;
+  if (!state.filiacaoPessoa.filiacaoPessoaLancamento) {
+    return true;
+  }
   for (let index = 0; index < state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios.length; index++) {
     const element = state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios[index];
     if (!element.validado) {

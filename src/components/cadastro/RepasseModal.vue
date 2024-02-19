@@ -26,6 +26,9 @@
               <span class="text-bold">Data Pagamento:</span> <span>{{ $geralService.getDataHoraFormatada(repasse.dataRealizada) }}</span>
             </div>
             <div>
+              <span class="text-bold text-blue-500">Valor:</span> <span> R$ {{ $geralService.numeroParaMoeda(repasse.valor) }}</span>
+            </div>
+            <div>
               <span class="text-bold">Status:</span> <q-badge :color="getCorStatus(repasse.status)">{{ repasse.status }}</q-badge>
             </div>
 

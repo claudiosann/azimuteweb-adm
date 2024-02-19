@@ -19,7 +19,7 @@
               <span class="text-bold">Evento:</span> <span>{{ `${inscricao.evento.numero} - ${inscricao.evento.nome}` }}</span>
             </div>
             <div>
-              <q-img v-if="inscricao.pessoa.foto" class="rounded-lg" style="width: 35px" :ratio="200 / 200" :src="getUrlImagemThumb(inscricao.pessoa.foto)"></q-img> <span class="text-bold">Pessoa Responsável:</span>
+              <q-img v-if="inscricao.pessoa.foto" class="rounded-lg hover:scale-150" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(inscricao.pessoa.foto)"></q-img> <span class="text-bold">Pessoa Responsável:</span>
               <span>{{ `${inscricao.pessoa.nome} - ${inscricao.pessoa.email} - ${inscricao.pessoa.telefones.map((t: any) => $geralService.formatoTelefone(t.numero)).join(", ")}` }}</span>
             </div>
             <div>
@@ -47,7 +47,7 @@
             <q-expansion-item v-for="(inscricaoAtleta, index) in inscricao.inscritos" :key="index" group="somegroup" class="w-full" expand-separator>
               <template v-slot:header>
                 <q-item-section v-if="inscricaoAtleta.pessoa.foto" avatar>
-                  <q-img class="rounded-lg" style="width: 35px" :ratio="200 / 200" :src="getUrlImagemThumb(inscricaoAtleta.pessoa.foto)"></q-img>
+                  <q-img class="rounded-lg hover:scale-150" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(inscricaoAtleta.pessoa.foto)"></q-img>
                   <!-- <img :src="`${$geralService.configuracoes.BASE_S3 + inscricaoAtleta.pessoa.foto}`"/> -->
                 </q-item-section>
 

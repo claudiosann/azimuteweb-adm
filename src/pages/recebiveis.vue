@@ -28,7 +28,7 @@
               <q-input dense outlined v-model="filtro.pagamentoMovimentacaoSequencial" type="text" label="Repasse Número" />
             </div>
             <div v-if="suporte" class="col-sm-6 col-12">
-              <q-field outlined label="Entidade" stack-label>
+              <q-field dense outlined label="Entidade" stack-label>
                 <!-- <template v-if="entidade && entidade.logo" v-slot:prepend>
                   <q-avatar rounded size="45px">
                     <q-img :src="getUrlImagemLocal(entidade.logo)"></q-img>
@@ -40,7 +40,7 @@
                   </div>
                 </template>
                 <template v-slot:append>
-                  <q-btn color="primary" @click="selecionarEntidade()" icon="search" round>
+                  <q-btn flat color="primary" @click="selecionarEntidade()" icon="search" round>
                     <q-tooltip>Localizar Entidade</q-tooltip>
                   </q-btn>
                   <q-btn flat color="red" @click="confirmSelecaoEntidade(null)" icon="close" round>
@@ -53,6 +53,7 @@
               <q-checkbox left-label v-model="filtro.rateioValidado" label="Rateio Validado" />
             </div> -->
             <div class="col-12">
+            <div class="flex justify-between items-center">
               <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round icon="check" label="Aplicar Filtro" @click="aplicarFiltro" />
               <q-btn v-if="rows.length > 0" class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round icon="fas fa-download" label="Baixar Excel" @click="exportCSV">
                 <q-tooltip>Baixar Planilha Excel</q-tooltip>
@@ -60,6 +61,8 @@
               <q-btn v-if="rows.length > 0 && filtroAplicado.status == 'Liberado' && filtroAplicado.entidade && entidade" class="btn-scale m-2 pr-4 pl-2" color="positive" push glossy round icon="currency_exchange" label="Solicitar Transferência" @click="gerarPagamentoMovimentacao">
                 <q-tooltip>Solicitar Transferência</q-tooltip>
               </q-btn>
+              <div class="text-lg">TOTAL: R$ {{ $geralService.numeroParaMoeda(somaTotal) }}</div>
+            </div>
             </div>
           </div>
         </q-expansion-item>
@@ -232,6 +235,10 @@ const columns = ref([
   },
 ]);
 
+const somaTotal = computed(() => {
+  return rows.value.reduce((acc, cur) => acc + cur.valor, 0);
+});
+
 const entidade = ref(null);
 
 const selecionarEntidade = () => {
@@ -286,7 +293,6 @@ const gerarPagamentoMovimentacao = async () => {
       label: "Não",
     },
   }).onOk(async () => {
-    console.log("gerarPagamentoMovimentacao");
     $q.loading.show({
       spinner: QSpinnerOval,
       spinnerColor: "white",
@@ -320,16 +326,13 @@ const gerarPagamentoMovimentacao = async () => {
         for (let index = 0; index < rows.value.length; index++) {
           const row = rows.value[index];
           row.status = "Pago";
-
-          pagamentoRateio.pagamentoMovimentacao = pm._id;
-          pagamentoRateio.pagamentoMovimentacaoSequencial = pm.sequencial;
         
-          const ret = await useCustomFetch("pagamentoRateio/" + row._id, "put", { status: "Pago", pagamentoMovimentacao: ret.data._id, pagamentoMovimentacaoSequencial: ret.data.sequencial }, undefined);
-          if (!ret.valido) {
+          const ret2 = await useCustomFetch("pagamentoRateio/" + row._id, "put", { status: "Pago", pagamentoMovimentacao: ret.data._id, pagamentoMovimentacaoSequencial: ret.data.sequencial }, undefined);
+          if (!ret2.valido) {
             $q.loading.hide();
             $q.notify({
               color: "negative",
-              message: ret.data && ret.data.message ? ret.data.message : "Falha ao alterar o status do rateio!",
+              message: ret2.data && ret2.data.message ? ret2.data.message : "Falha ao alterar o status do rateio!",
             });
             return;
           }
@@ -454,7 +457,6 @@ const aplicarFiltro = async () => {
     // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       rows.value = ret.data;
-      console.log(ret.data);
       $q.loading.hide();
     } else {
       rows.value = [];
