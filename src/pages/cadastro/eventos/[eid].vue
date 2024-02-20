@@ -23,6 +23,9 @@
         <q-btn class="text-right" color="warning" @click="openCadastro" :label="$q.screen.gt.xs?'Editar Cadastro':''" outline icon="edit">
           <q-tooltip>Editar Cadastro</q-tooltip>
         </q-btn>
+        <q-btn class="ml-2" push glossy round  @click="criarDestaque" icon="star">
+          <q-tooltip>Destaque</q-tooltip>
+        </q-btn>
       </span>
     </q-item-section>
     </q-item>
@@ -67,6 +70,8 @@ import {
 // import PercursoListaPage from '../percurso/PercursoListaPage';
 // import EventoComponent from './EventoComponent.vue';
 import EventoModal from '../../../components/cadastro/EventoModal.vue';
+import DestaqueModal from "../../../components/cadastro/DestaqueModal.vue";
+
 const route = useRoute();
 
 const tab = ref('percursos');
@@ -76,10 +81,62 @@ const eventoId:String | String[] = route.params.eid;
 const $q = useQuasar();
 const { $geralService } = useNuxtApp();
 
+const geral = useGeral();
 onBeforeMount(() => {
   getEvento();
 });
 
+const criarDestaque = async () => {
+    if (geral.funcoesAcessos.destaqueInserir) {
+        const ret = await useCustomFetch("destaque/getPopulate", "post", {
+            filtro: {
+                entidade: geral.entidade._id,
+                link: 'evento/'+evento.value.rota,
+                lixo: false
+            }
+        }, undefined)
+
+        let idDestaque = null;
+        // console.log(ret)
+        if (ret.valido && ret.data.length > 0) {
+            idDestaque = ret.data[0]._id;
+      } 
+
+      
+
+        $q.dialog({
+            component: DestaqueModal,
+            componentProps: {
+                id: idDestaque,
+                obj: idDestaque ? null : {
+                    titulo: '',
+                    subTitulo: '',
+                    link: 'evento/'+evento.value.rota,
+                    imagem: evento.value.imagem,
+                    inicio: new Date().toISOString(),
+                    fim: getDateMaisDias(evento.value.fim, 5),
+                    entidade: geral.entidade._id,
+                }
+            }
+        })
+            .onOk(async (data) => {
+                // navigateTo('/cadastro/destaques');
+            })
+            .onCancel(() => { });
+    } else {
+        $q.notify({
+            type: "warning",
+            message: "Você não tem acesso para inserir este registro!",
+        });
+    }
+    
+}
+
+const getDateMaisDias = (isoDate: string, dias: number) => {
+  const data = new Date(isoDate);
+  data.setDate(data.getDate() + dias);
+  return data.toISOString();
+};
 
 const getEvento = async () => {
 
