@@ -252,7 +252,7 @@ const deleteRow = async (index, id) => {
             message: "Deletando Registro... Aguarde!",
             messageColor: "white",
         });
-        const ret = await useCustomFetch("conteudo/delete", "post", { _id: id, en }, undefined);
+        const ret = await useCustomFetch("conteudo/delete", "post", { _id: id }, undefined);
         $q.loading.hide();
         if (ret.valido) {
             $q.notify({

@@ -155,41 +155,43 @@ const getList = async () => {
   });
 
   try {
-    const ret = await useCustomFetch(
-      "filiacaoPessoa/getPopulate",
-      "post",
-      {
-        filtro: {
-          entidade: geral.entidade._id,
-        },
-        populateObj: [
-          {
-            path: "pessoa",
-            select: {
-              nome: 1,
-              apelido: 1,
-              nascimento: 1,
-              email: 1,
-              foto: 1,
-            },
+    if (geral.entidade && geral.entidade._id) {
+      const ret = await useCustomFetch(
+        "filiacaoPessoa/getPopulate",
+        "post",
+        {
+          filtro: {
+            entidade: geral.entidade._id,
           },
-        ],
-      },
-      undefined
-    );
+          populateObj: [
+            {
+              path: "pessoa",
+              select: {
+                nome: 1,
+                apelido: 1,
+                nascimento: 1,
+                email: 1,
+                foto: 1,
+              },
+            },
+          ],
+        },
+        undefined
+      );
 
-    // // console.log('Leu o Banco de dados.');
-    if (ret.valido) {
-      rows.value = ret.data;
-      $q.loading.hide();
-    } else {
-      rows.value = [];
-      // console.log(ret.data);
-      $q.loading.hide();
-      $q.notify({
-        color: "negative",
-        message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter a lista de pessoas!",
-      });
+      // // console.log('Leu o Banco de dados.');
+      if (ret.valido) {
+        rows.value = ret.data;
+        $q.loading.hide();
+      } else {
+        rows.value = [];
+        // console.log(ret.data);
+        $q.loading.hide();
+        $q.notify({
+          color: "negative",
+          message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter a lista de pessoas!",
+        });
+      }
     }
   } catch (error) {
     $q.loading.hide();
