@@ -51,7 +51,7 @@
                   </q-field>
                 </div>
                 <div class="col-md-3 col-sm-6 col-12">
-                  <q-field hint="Para confirmar a inscrição, a seleção deste é obrigatório." outlined>
+                  <q-field :hint="state.consumivel.obrigatorio?'Para confirmar a inscrição, a seleção deste é obrigatório.':''" outlined>
                     <q-checkbox v-model="state.consumivel.obrigatorio" label="Obrigatório" />
                   </q-field>
                 </div>
