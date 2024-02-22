@@ -33,9 +33,8 @@
                   <q-tab-panel class="pl-0! pt-0!" name="filiacao">
                     <q-stepper class="q-pt-sm" flat v-model="etapa" vertical color="primary" header-nav animated>
                       <q-step v-if="state.filiacaoPessoa.filiacaoPessoaLancamento" :name="0" :title="'Entidades Envolvidas no Processo'" :done="etapa > 0" icon="fabric" active-icon="group_work">
-                        
                         <div class="flex items-center gap-1 mt-2 rounded-lg shadow p-2" v-for="(entidade, index) in state.filiacaoPessoa.filiacaoPessoaLancamento.entidades" :key="index">
-                        <q-avatar size="35px" v-if="entidade.status" :color="getCorStatusFuncao(entidade.status)" text-color="white">{{ $geralService.getIniciais(entidade.status) }}</q-avatar>
+                          <q-avatar size="35px" v-if="entidade.status" :color="getCorStatusFuncao(entidade.status)" text-color="white">{{ $geralService.getIniciais(entidade.status) }}</q-avatar>
                           <q-avatar rounded size="35px"><q-img :src="getUrlImagem(entidade.logo, 128)"></q-img></q-avatar>
                           <div class="text-lg">{{ entidade.sigla }} - {{ entidade.nomeRazao }}</div>
                         </div>
@@ -60,6 +59,14 @@
                             <div class="col-span-6 sm:col-span-3"><span class="font-semibold">Sexo:</span> {{ state.filiacaoPessoa.pessoa.sexo }}</div>
                             <div class="col-span-6 sm:col-span-3"><span class="font-semibold">País de Origem:</span> {{ state.filiacaoPessoa.pessoa.nacionalidade ? state.filiacaoPessoa.pessoa.nacionalidade : state.filiacaoPessoa.pessoa.endereco.pais }}</div>
                             <div v-if="state.filiacaoPessoa.pessoa.nomeDaMae" class="col-span-6 sm:col-span-3"><span class="font-semibold">Nome da Mãe:</span> {{ state.filiacaoPessoa.pessoa.nomeDaMae }}</div>
+                            <div class="col-span-6 sm:col-span-3">
+                              <span class="font-bold mt-2">Email: </span>
+                              <span>{{ state.filiacaoPessoa.pessoa.email }}</span>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                              <div class="font-bold mt-2">Telefones</div>
+                              <div v-for="(telefone, index) in state.filiacaoPessoa.pessoa.telefones" :key="index">{{ telefone.tipo }} - {{ telefone.numero }}</div>
+                            </div>
                           </div>
                         </div>
                         <q-field v-if="state.filiacaoPessoa.filiacaoPessoaLancamento" class="mt-4" readonly outlined label="Observação" stack-label>
@@ -74,30 +81,30 @@
                       <q-step v-if="state.filiacaoPessoa.filiacaoPessoaLancamento" :name="2" :title="'Documentos Obrigatórios'" :done="etapa > 2" icon="cloud_upload" active-icon="cloud_upload">
                         <!-- <div text-xl mb-2 v-if="state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios.length === 0"> {{ (state.filiacaoPessoa.entidade.tratamentoMasculino ? 'O ' : 'A ') + state.filiacaoPessoa.entidade.sigla }}  não exige nenhum documento para a filiação.</div> -->
                         <div v-if="state.filiacaoPessoa.filiacaoPessoaLancamento">
-                        <div v-for="(item, index) in state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios" :key="index" class="row q-col-gutter-sm q-mb-sm">
-                          <div class="col-12">
-                            <q-field :error="!item.caminho" error-message="Documento Obrigatório" outlined :label="`${item.descricao} (${item.instrucao})`" stack-label>
-                              <template v-slot:prepend>
-                                <q-avatar v-if="item.validado" size="35px" color="positive" text-color="white" icon="check" />
-                                <q-icon name="attach_file" />
-                              </template>
-                              <template v-slot:append>
-                                <!-- <q-btn v-if="item.caminho" icon="visibility"
+                          <div v-for="(item, index) in state.filiacaoPessoa.filiacaoPessoaLancamento.documentosObrigatorios" :key="index" class="row q-col-gutter-sm q-mb-sm">
+                            <div class="col-12">
+                              <q-field :error="!item.caminho" error-message="Documento Obrigatório" outlined :label="`${item.descricao} (${item.instrucao})`" stack-label>
+                                <template v-slot:prepend>
+                                  <q-avatar v-if="item.validado" size="35px" color="positive" text-color="white" icon="check" />
+                                  <q-icon name="attach_file" />
+                                </template>
+                                <template v-slot:append>
+                                  <!-- <q-btn v-if="item.caminho" icon="visibility"
                                                                     class="grid content-evenly btn-scale"
                                                                     @click="irPara(item.caminho)" round :href="item.caminho"
                                                                     target="_blank">
                                                                     <q-tooltip>Visualizar</q-tooltip></q-btn> -->
-                                <q-btn v-if="item.caminho" icon="visibility" round class="grid content-evenly btn-scale" @click="visualizarPdf($geralService.configuracoes.BASE_S3 + item.caminho, item)" />
-                                <q-btn color="primary" :icon="item.validado ? 'unpublished' : 'check'" round class="grid content-evenly btn-scale ml-2" @click="validarDocumento(item)">
-                                  <q-tooltip>{{ item.validado ? "Desmarcar como válido!" : "Marcar como válido!" }}</q-tooltip>
-                                </q-btn>
-                              </template>
-                              <template v-slot:control>
-                                <span v-if="item.caminho">{{ getNomeKey(item.caminho) }}</span>
-                              </template>
-                            </q-field>
+                                  <q-btn v-if="item.caminho" icon="visibility" round class="grid content-evenly btn-scale" @click="visualizarPdf($geralService.configuracoes.BASE_S3 + item.caminho, item)" />
+                                  <q-btn color="primary" :icon="item.validado ? 'unpublished' : 'check'" round class="grid content-evenly btn-scale ml-2" @click="validarDocumento(item)">
+                                    <q-tooltip>{{ item.validado ? "Desmarcar como válido!" : "Marcar como válido!" }}</q-tooltip>
+                                  </q-btn>
+                                </template>
+                                <template v-slot:control>
+                                  <span v-if="item.caminho">{{ getNomeKey(item.caminho) }}</span>
+                                </template>
+                              </q-field>
+                            </div>
                           </div>
-                        </div>
                         </div>
                         <q-stepper-navigation p-0>
                           <q-btn class="btn-scale" @click="continuar" color="primary" label="Continuar" />
@@ -138,10 +145,10 @@
                         </q-item>
                         <q-stepper-navigation>
                           <div v-if="geral.funcoesAcessos.filiacaoEditar">
-                          <q-btn mr-3 v-if="state.filiacaoPessoa.status == 'Em Análise'" color="negative" label="Recusar Filiação" @click="recusarFiliacao" class="q-ml-sm" />
-                          <q-btn v-if="state.filiacaoPessoa.status == 'Em Análise' && documentosValidados" class="btn-scale" color="primary" @click="aceitarFiliacao" label="Aceitar / Ativar Filiação" />
-                          <q-btn v-if="state.filiacaoPessoa.status == 'Ativa'" class="btn-scale" color="red" @click="desativarFiliacao" label="Desativar Filiação" />
-                          <q-btn v-if="state.filiacaoPessoa.status == 'Desativada'" class="btn-scale" color="primary" @click="ativarFiliacao" label="Reativar Filiação" />
+                            <q-btn mr-3 v-if="state.filiacaoPessoa.status == 'Em Análise'" color="negative" label="Recusar Filiação" @click="recusarFiliacao" class="q-ml-sm" />
+                            <q-btn v-if="state.filiacaoPessoa.status == 'Em Análise' && documentosValidados" class="btn-scale" color="primary" @click="aceitarFiliacao" label="Aceitar / Ativar Filiação" />
+                            <q-btn v-if="state.filiacaoPessoa.status == 'Ativa'" class="btn-scale" color="red" @click="desativarFiliacao" label="Desativar Filiação" />
+                            <q-btn v-if="state.filiacaoPessoa.status == 'Desativada'" class="btn-scale" color="primary" @click="ativarFiliacao" label="Reativar Filiação" />
                           </div>
                           <q-btn flat @click="etapa = 3" color="primary" label="Voltar" class="q-ml-sm btn-scale" />
                         </q-stepper-navigation>
@@ -626,7 +633,7 @@ const gravaFiliacaoPessoa = async (descricaoHistorico: string) => {
     if (ret.valido) {
       retorno = true;
       gravouFiliacao.value = true;
-       console.log("gravou filiação");
+      console.log("gravou filiação");
     } else {
       $q.notify({
         position: "top",
