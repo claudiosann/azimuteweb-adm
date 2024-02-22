@@ -50,6 +50,11 @@
                     <q-checkbox v-model="state.consumivel.publicar" label="Publicar lista de inscritos" />
                   </q-field>
                 </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                  <q-field hint="Para confirmar a inscrição, a seleção deste é obrigatório." outlined>
+                    <q-checkbox v-model="state.consumivel.obrigatorio" label="Obrigatório" />
+                  </q-field>
+                </div>
 
                 <div class="col-md-2 col-sm-6 col-12">
                   <q-input type="number" :step="1" min="0" hint="Zero para nenhum" outlined v-model="state.consumivel.grupo" label="Grupo" :dense="dense">
@@ -303,6 +308,8 @@ const state: any = reactive({
     evento: props.eventoId,
     tipo: "Participação",
     opcoesEscolha: [],
+    publicar: false,
+    obrigatorio: false,
     identificacarEquipamentoProprio: false,
     arranjoPagamento: [
       {
