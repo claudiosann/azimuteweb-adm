@@ -16,8 +16,8 @@
 
                 <q-card-section :style="{ 'max-height': 'calc(100vh - 50px)' }" class="scroll container mx-auto">
                     <q-tabs v-model="tab" active-color="primary" indicator-color="primary" align="justify" narrow-indicator>
-                            <q-tab default name="dados" icon="line_style" label="Informações"><q-badge v-if="isInformacoesError" color="red" label="Imcompleto" /></q-tab>
-                            <q-tab name="conteudo" icon="notes" label="Conteúdo"><q-badge v-if="isConteudoError" color="red" label="Imcompleto" /></q-tab>
+                            <q-tab default name="dados" icon="line_style" label="Informações"><q-badge v-if="isInformacoesError" color="red" label="Incompleto" /></q-tab>
+                            <q-tab name="conteudo" icon="notes" label="Conteúdo"><q-badge v-if="isConteudoError" color="red" label="Incompleto" /></q-tab>
                             <q-tab name="view" icon="visibility" label="Visualizar"></q-tab>
                         </q-tabs>
                         <q-separator />

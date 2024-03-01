@@ -13,7 +13,7 @@
                     </q-item-section>
                 </template>
 
-                <!-- <EssentialLink v-if="geral.pessoa._id = '5aff4d2f47667633c7ace227'" link="/api" color="bg-gradient-to-r from-cyan-500 to-pink-500" icon="api" title="API"
+                <!-- <EssentialLink v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" link="/api" color="bg-gradient-to-r from-cyan-500 to-pink-500" icon="api" title="API"
                     :caption="`Funções da Api`" /> -->
                 <EssentialLink link="/cadastro/perfis-de-acessos" color="bg-gradient-to-l from-amber-500 to-amber-700"
                     icon="badge" title="Perfis de Acessos" :caption="`Funções de Acesso ao sistema`"

@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   } else {
     const delay = (t: number) => new Promise((r) => setTimeout(r, t));
     const geral = useGeral();
-    if (geral && geral.pessoa && geral.pessoa._id == "5aff4d2f47667633c7ace227") {
+    if (geral && geral.pessoa && geral.pessoa._id === "5aff4d2f47667633c7ace227") {
       let vinculo: any = useCookie("__olu");
       let token: any = useCookie("__bew");
       let tkMaster: any = useCookie("__ret");

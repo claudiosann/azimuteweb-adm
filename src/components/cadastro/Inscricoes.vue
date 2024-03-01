@@ -36,7 +36,7 @@
                     </q-item-section>
                     <q-item-section avatar> Editar </q-item-section>
                   </q-item>
-                  <q-item v-if="(geral.pessoa._id = '5aff4d2f47667633c7ace227')" clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
+                  <q-item v-if="(geral.pessoa._id == '5aff4d2f47667633c7ace227')" clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="red-7" text-color="white" icon="fas fa-trash" />
                     </q-item-section>
@@ -317,7 +317,7 @@ const verificaCadUnico = (item) => {
 
 
 const deleteRow = async (index, inscricao) => {
-  if ((geral.pessoa._id = "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
+  if ((geral.pessoa._id === "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
     $q.dialog({
       title: "Excluir",
       message: "Deseja realmente excluir o registro?",

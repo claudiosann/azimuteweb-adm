@@ -48,11 +48,14 @@
                     <div class="col-sm-6 col-md-3 col-12">
                       <CinputDate hide-bottom-space outlined :error="$v.pessoa.nascimento.$error" :error-message="'Data inválida'" :dense="false" v-model="state.pessoa.nascimento" label="Nascimento" />
                     </div>
-
+                    <!-- GO Nascimento -->
                     <div class="col-sm-6 col-md-3 col-12">
-                      <!-- GO Lateralidade -->
-                      <q-select hide-bottom-space outlined v-model="state.pessoa.lateralidade" label="Lateralidade" :options="listaLateralidade" emit-value />
+                      <CinputDate hide-bottom-space outlined :error-message="'Data inválida'" :dense="false" v-model="state.pessoa.validadeSeguro" label="Validade Seguro" />
                     </div>
+
+                    <!-- <div class="col-sm-6 col-md-3 col-12">
+                      <q-select hide-bottom-space outlined v-model="state.pessoa.lateralidade" label="Lateralidade" :options="listaLateralidade" emit-value />
+                    </div> -->
                   </div>
                   <!-- GO Telefones -->
                   <div class="row q-col-gutter-sm q-pt-md">
@@ -74,24 +77,9 @@
                               <q-item-section>
                                 <q-item dense class="pl-0">
                                   <q-item-section>
-                                    <q-item-label>{{ telefone.tipo ? telefone.tipo + ": " : "" }} {{ "(" + ((telefone.ddd ? telefone.ddd : "") + ") " + (telefone.numero ? "" + telefone.numero : "")) }}</q-item-label>
+                                    <q-item-label>{{ telefone.tipo ? telefone.tipo + ": " : "" }} {{  (telefone.numero ? "" + telefone.numero : "") }}</q-item-label>
                                   </q-item-section>
                                 </q-item>
-                              </q-item-section>
-
-                              <q-item-section avatar>
-                                <q-checkbox
-                                  :readonly="telefone.principal === true"
-                                  v-model="telefone.principal"
-                                  @update:model-value="
-                                    (value, evt) => {
-                                      if (value) {
-                                        setPrincipal(index, state.pessoa.telefones);
-                                      }
-                                    }
-                                  "
-                                  label="Principal"
-                                />
                               </q-item-section>
                               <q-item-section avatar v-if="state.pessoa.telefones.length > 1" right>
                                 <q-btn
@@ -116,18 +104,21 @@
                                 <!-- GO Tipo Telefone -->
                                 <q-select hide-bottom-space outlined :dark="$q.dark.isActive" transition-show="flip-up" transition-hide="flip-down" option-value="descricao" option-label="descricao" :emit-value="true" :ref="'pessoa.telefones' + index + '.tipo'" v-model="telefone.tipo" label="Tipo de Telefone" :options="listaTipoTelefone" />
                               </div>
-                              <!-- GO DDD -->
-                              <div class="col-sm-2 col-md-1 col-3">
-                                <q-input hide-bottom-space outlined :dark="$q.dark.isActive" label="DDD" unmasked-value mask="##" :ref="'pessoa.telefones' + index + '.ddd'" v-model="telefone.ddd" :error="$v.pessoa.telefones.$each.$response.$data[index].ddd.$error" bottom-slots :error-message="mensagemRequired" />
-                              </div>
                               <!-- GO Telefone -->
                               <div class="col-sm-7 col-md-4 col-9">
                                 <!-- <q-input hide-bottom-space outlined :dark="$q.dark.isActive" label="Telefone" unmasked-value unmasked-value :mask="((pessoa.telefone.numero || '') && pessoa.telefone.numero.length<9)?'####-#####':'#####-####'" :ref="'pessoa.telefones'+index+'.numero'" v-model="telefone.numero" :error="$v.pessoa.telefones.$each.$response.$data[index].numero.$error" bottom-slots :error-message="$v.pessoa.telefones.$each.$response.$data[index].numero.minLength===false?'O mínimo é 8 números!':mensagemRequired" /> -->
-                                <q-input hide-bottom-space outlined :dark="$q.dark.isActive" label="Telefone" unmasked-value :mask="(telefone.numero || '') && telefone.numero.toString().length === 8 ? '####-#####' : '#####-####'" :ref="'pessoa.telefones' + index + '.numero'" v-model="telefone.numero" :error="$v.pessoa.telefones.$each.$response.$data[index].numero.$error" bottom-slots :error-message="$v.pessoa.telefones.$each.$response.$data[index].numero.minLength === false ? 'O mínimo é 8 números!' : mensagemRequired" />
+                                <q-input hide-bottom-space outlined :dark="$q.dark.isActive" label="Telefone" unmasked-value :mask="(telefone.numero || '') && telefone.numero.toString().length === 10 ? '(##) ####-#####' : '(##) #####-####'" :ref="'pessoa.telefones' + index + '.numero'" v-model="telefone.numero" :error="$v.pessoa.telefones.$each.$response.$data[index].numero.$error" bottom-slots :error-message="$v.pessoa.telefones.$each.$response.$data[index].numero.minLength === false ? 'O mínimo é 10 números!' : mensagemRequired" />
                               </div>
                               <!-- GO Complemento -->
                               <div class="col-sm-12 col-md-5 col-12">
                                 <q-input hide-bottom-space outlined :dark="$q.dark.isActive" label="Complemento" maxlength="100" :ref="'pessoa.telefones' + index + '.complemento'" v-model="telefone.complemento" />
+                              </div>
+                              <!-- GO WhatApp -->
+                              <div class="col-sm-12 col-md-5 col-12">
+                                <q-checkbox
+                                  v-model="telefone.whatsApp"
+                                  label="WhatsApp"
+                                />
                               </div>
                             </div>
                           </q-expansion-item>
@@ -314,10 +305,6 @@ const validations = {
     },
     telefones: {
       $each: helpers.forEach({
-        ddd: {
-          required,
-          minLength: minLength(2),
-        },
         numero: {
           required,
           minLength: minLength(8),

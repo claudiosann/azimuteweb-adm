@@ -21,7 +21,10 @@
       <q-btn color="primary" icon="check" label="logout" @click="logout" />
       <!-- <q-btn color="primary" icon="check" label="Converter Entidades" @click="converterEntidades" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Evento" @click="converterEvento" /> -->
-      <q-btn color="primary" icon="check" label="Ajustar Rateio" @click="ajustaPagamentosRateio()" />
+      <!-- <q-btn color="primary" icon="check" label="Ajustar Seguro" @click="ajustaValidadeSeguro()" /> -->
+      <q-btn color="primary" icon="check" label="Get Base Atletas" @click="getBaseAtletas()" />
+      <q-btn color="primary" icon="check" label="AjustaFiliaçao pessoa" @click="ajustaFiliacaoPessoa()" />
+      <!-- <q-btn color="primary" icon="check" label="Ajustar Rateio" @click="ajustaPagamentosRateio()" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Evento" @click="ajustarTodosOsTelefones" /> -->
       <!-- <q-btn color="primary" icon="check" label="getImagem evento 45 " @click="getImagem(12656)" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Modelo" @click="conveterModeloCategoria" /> -->
@@ -81,6 +84,118 @@ const ajustarTodosOsTelefones = async () => {
   }
 };
 
+const getBaseAtletas = async () => {
+  console.log("iniciou");
+  const filtro = {
+    entidades: ['CBO'],
+  };
+  
+  const ret = await useCustomFetch("listarFiliacaoPessoa", "post", { filtro }, undefined);
+  if (ret.valido) {
+    const retCSV = await exportCSV(ret.data);
+  } else {
+    console.log("ret", ret);
+  }
+  
+};
+
+
+const model = {
+  "numero": 17562,
+  "nome": "Leo Virgilio Werle",
+  "cpf": "07393049929",
+  "nascimento": "2005-08-15T03:00:00.000Z",
+  "nomeDaMae": "Simone Catarina Bachmann Werle",
+  "validadeSeguro": "2018-08-15T03:00:00.000Z",
+  "atualizacaoDados": "2018-08-15T03:00:00.000Z",
+  "apelido": "Leo",
+  "sexo": "Masculino",
+  "entidades": [
+    "CBO"
+  ],
+  "filiacaoPrincipal": "65a0f1c9480314ee676b664a",
+  "filiacoes": [
+    {
+      "_id": "65a0f1c9480314ee676b664a",
+      "entidade": "CBO",
+      "status": "Ativa",
+      "abrangencia": "Nacional"
+    },
+    {
+      "_id": "65a0f1c9480314ee676b664d",
+      "entidade": "ACORPATO",
+      "status": "Ativa",
+      "abrangencia": "Local"
+    },
+    {
+      "_id": "65a0f1c9480314ee676b6650",
+      "entidade": "FPO",
+      "status": "Ativa",
+      "abrangencia": "Estadual"
+    }
+  ]
+};
+
+
+
+const getFederacoes = (list: any) => {
+  let fed = "";
+  for (let index = 0; index < list.length; index++) {
+    const element = list[index];
+    if (element.abrangencia == "Estadual") {
+      if(fed.length > 0){
+        fed += (", " + element.entidade);
+      } else {
+        fed = element.entidade;
+      }
+    }
+  }
+  return fed;
+};
+const getClubes = (list: any) => {
+  let fed = "";
+  for (let index = 0; index < list.length; index++) {
+    const element = list[index];
+    if (element.abrangencia == "Local") {
+      if(fed.length > 0){
+        fed += (", " + element.entidade);
+      } else {
+        fed = element.entidade;
+      }
+    }
+  }
+  return fed;
+};
+
+const exportCSV = async (rows: any) => {
+
+  // get model keys
+  const keys = Object.keys(model);
+
+
+  
+  let CSV = "numero;nome;cpf;nascimento;nomeDaMae;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
+
+  CSV += "\r\n";
+  for (let index = 0; index < rows.length; index++) {
+    const row = rows[index];
+    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";"+ getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
+    CSV += "\r\n";
+  }
+
+  let fileName = ("filiados_cbo_") + ($geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+  let link = document.createElement("a");
+  link.href = uri;
+  // @ts-ignore
+  link.style = "visibility:hidden";
+  link.download = fileName + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+};
+
 const ajustaPagamentosRateio = async () => {
   console.log("iniciou");
   const ret = await useCustomFetch("pagamentoMovimentacao/getPopulate", "post", { filtro: { lixo: false }, populateObj: ["rateios"] }, undefined);
@@ -101,6 +216,7 @@ const ajustaPagamentosRateio = async () => {
   }
   console.log("Terminou");
 };
+
 
 const ajustaTelefones = async (element: any) => {
   const formTeletone = {
@@ -1873,6 +1989,17 @@ const getISODate = (data: string) => {
   }
   return null;
 };
+const getISODateMaisUmAno = (data: string) => {
+  try {
+    if (data) {
+      let dateParts: any = data.split("/");
+      return new Date(parseInt(dateParts[2])+1, dateParts[1] - 1, dateParts[0]).toISOString();
+    }
+  } catch (error) {
+    // console.log("Erro ao converter data", data);
+  }
+  return null;
+};
 const getAno = (data: string) => {
   try {
     if (data) {
@@ -2268,6 +2395,72 @@ const ajustaCPF = async () => {
     if (restodadivisao == 0) {
       // console.log("executou: ", index);
     }
+  }
+  // console.log(listaIdSemcpf.value);
+};
+const ajustaValidadeSeguro = async () => {
+  const ret = await useCustomFetch("pessoa/getPopulate", "post", { filtro: { }, select: { cpf: 1, idAntigo: 1 } }, undefined);
+  
+  for (let index = 0; index < ret.data.length; index++) {
+    const element = ret.data[index];
+    const formPessoa = {
+      tabelas: [{ nome: "pessoa_fisica", nomeAs: "p" }],
+      campos: [{ campo: "p.data_inclusao_seguro" }, { campo: "p.lixo" }],
+      condicoes: [
+        { campo: "p.id", condicao: "=", valor: element.idAntigo },
+        { campo: "p.lixo", condicao: "<>", valor: true },
+      ],
+    };
+    const retPes = await useCustomFetch("convercao", "post", { usuario: pessoaAzimute.value.usuario.id, rota: "genericWs/getListGenerico", token: pessoaAzimute.value.usuario.token, data: formPessoa }, undefined);
+    if (retPes.valido && retPes.data.json) {
+      if (retPes.data.json.listaGenerica.length > 0) {
+        const elementF = retPes.data.json.listaGenerica[0];
+        // console.log(elementF.data_inclusao_seguro);
+        // console.log(getISODateMaisUmAno(elementF.data_inclusao_seguro));
+        let newPessoa = { validadeSeguro: getISODateMaisUmAno(elementF.data_inclusao_seguro) };
+          const retGrava = await useCustomFetch("pessoa/" + element._id, "put", newPessoa, undefined);
+          if (!retGrava.valido) {
+            // console.log("Erro ao gravar pessoa", retGrava);
+            return;
+          }
+      }
+    } else {
+      console.log("Erro ao buscar pessoa", retPes);
+    }
+
+    const restodadivisao = index % 50;
+    if (restodadivisao == 0) {
+      getISODateMaisUmAno(element.data_inclusao_seguro)
+      console.log("executou: ", index);
+    }
+  }
+  // console.log(listaIdSemcpf.value);
+};
+const ajustaFiliacaoPessoa = async () => {
+  const ret = await useCustomFetch("pessoa/getPopulate", "post", { filtro: {  atualizacaoDados: { $gte: "2024-01-13T00:00:00.000Z" }
+ }, select: { cpf: 1, idAntigo: 1 } }, undefined);
+  
+  for (let index = 0; index < ret.data.length; index++) {
+    const element = ret.data[index];
+
+    const ret2 = await useCustomFetch("filiacaoPessoa/getPopulate", "post", {
+      filtro: {
+        abrangencia: "Nacional",
+        pessoa: element._id,
+      },
+      
+      limit: 1
+    }, undefined);
+    if (ret2.valido && ret2.data.length > 0) {
+      const element2 = ret2.data[0];
+      const ret4 = await useCustomFetch('updateNumero', 'post', { pessoa: element._id, numero: element2.numero }, undefined);
+      if(!ret4.valido){
+        return;
+      }
+    }
+    
+    console.log("executou: ", index, element._id);
+
   }
   // console.log(listaIdSemcpf.value);
 };

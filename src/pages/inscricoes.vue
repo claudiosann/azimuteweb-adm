@@ -322,7 +322,7 @@ const getList = async () => {
         populateObj: [
           {
             path: "evento",
-            select: { nome: 1, entidadeResponsavel: 1, numero: 1, sigla: 1, ano: 1 },
+            select: { nome: 1, entidadeResponsavel: 1, numero: 1, sigla: 1, ano: 1, taxaAzimuteCerto: 1, taxaAzimuteCertoAbsorver: 1 },
             populate: {
               path: "entidadeResponsavel",
               select: { sigla: 1 },
@@ -457,10 +457,19 @@ const gerarRateio = async () => {
         }
       }
 
-      if ($geralService.arredonda(totalArranjoEntidades) != i.subtotal) {
-        console.log("Falha ao gerar arranjo de pagamento");
-        console.log(i);
-        return;
+      if (i.evento.taxaAzimuteCertoAbsorver) {
+        let valor = $geralService.arredonda(i.subtotal - (i.subtotal * i.evento.taxaAzimuteCerto / 100));
+        if ($geralService.arredonda(totalArranjoEntidades) != valor) {
+          console.log("Falha ao gerar arranjo de pagamento");
+          console.log(i);
+          return;
+        }
+      } else {
+        if ($geralService.arredonda(totalArranjoEntidades) != i.subtotal) {
+          console.log("Falha ao gerar arranjo de pagamento");
+          console.log(i);
+          return;
+        }
       }
 
       if (validador.saldo != 0) {
@@ -591,6 +600,11 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
 
   let saldo = item.totalLiquido;
 
+  if (inscricao.evento.taxaAzimuteCertoAbsorver) {
+    // saldo - 6%
+    saldo = saldo - $geralService.arredonda((saldo * inscricao.evento.taxaAzimuteCerto) / 100);
+  }
+
   const arranjoCalculado = [];
 
   // Deduzir os valores fixos independente de qualquer coisa
@@ -693,7 +707,7 @@ const addValorArranjoEntidade = (arranjoEntidades, arranjo, vlr) => {
 };
 
 const deleteRow = async (index, inscricao) => {
-  if ((geral.pessoa._id = "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
+  if ((geral.pessoa._id === "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
     $q.dialog({
       title: "Excluir",
       message: "Deseja realmente excluir o registro?",

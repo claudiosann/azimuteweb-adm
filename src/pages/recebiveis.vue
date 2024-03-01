@@ -254,8 +254,19 @@ const selecionarEntidade = () => {
     .onCancel(() => {});
 };
 
+const confirmSelecaoEntidade = (ent) => {
+  if (ent) {
+    entidade.value = ent;
+    filtro.value.entidade = ent._id;
+  } else {
+    entidade.value = null;
+    filtro.value.entidade = undefined;
+  }
+};
+
+
 onBeforeMount(() => {
-  if (geral.pessoa._id == "5aff4d2f47667633c7ace227") {
+  if (geral.pessoa._id === "5aff4d2f47667633c7ace227") {
     suporte.value = true;
   } else {
     confirmSelecaoEntidade(geral.entidade);
@@ -358,15 +369,7 @@ const gerarPagamentoMovimentacao = async () => {
   });
 };
 
-const confirmSelecaoEntidade = (ent) => {
-  if (ent) {
-    entidade.value = ent;
-    filtro.value.entidade = ent._id;
-  } else {
-    entidade.value = null;
-    filtro.value.entidade = undefined;
-  }
-};
+
 
 const getUrlImagemThumb = (caminho) => {
   return $geralService.getUrlS3Thumb(caminho, {

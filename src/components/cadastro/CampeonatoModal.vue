@@ -18,12 +18,12 @@
                     <q-tabs v-model="tab" active-color="primary" indicator-color="primary" align="justify" narrow-indicator>
                         <q-tab default name="dados" icon="line_style" label="Informações"><q-badge
                                 v-if="$v.$validationGroups.informacoesError.$error" color="red"
-                                label="Imcompleto" /></q-tab>
+                                label="Incompleto" /></q-tab>
                         <q-tab name="etapas" icon="settings" label="Etapas">
-                            <q-badge v-if="$v.campeonato.etapas.$error" color="red" label="Imcompleto" />
+                            <q-badge v-if="$v.campeonato.etapas.$error" color="red" label="Incompleto" />
                         </q-tab>
                         <q-tab name="logo" icon="image" label="Logo">
-                            <q-badge v-if="!(imageData || state.campeonato.logo)" color="red" label="Imcompleto" />
+                            <q-badge v-if="!(imageData || state.campeonato.logo)" color="red" label="Incompleto" />
                         </q-tab>
                         <q-tab v-if="!$v.$validationGroups.informacoesError.$error && state.campeonato.sigla" name="pagina"
                             icon="present_to_all" label="Página do Campeonato">

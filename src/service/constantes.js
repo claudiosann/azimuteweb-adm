@@ -1161,6 +1161,25 @@ const constantes = {
         "descricao": "Financeiro"
       }
     },
+    {
+      "id": 130,
+      "descricao": "Editar Nivel do Atleta",
+      "variavel": "nivelAtletaEditar",
+      "grupo": {
+        "id": 3,
+        "descricao": "Técnico"
+      }
+    },
+    {
+      "id": 131,
+      "descricao": "Editar Nivel do Atleta",
+      "variavel": "numeroEditar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    
   ],
   formatMoney: {
     decimal: ",",

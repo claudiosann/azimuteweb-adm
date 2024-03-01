@@ -159,7 +159,7 @@ const verificaVinculos = async (caminho1) => {
         },
         select: { entidade: 1, funcoesExtras: 1, funcoesRestritivas: 1, acessosSistema: 1, tipoLigacao: 1 },
         populateObj: ['acessosSistema',
-        { path: "entidade", select: { nomeRazao: 1, nomeFantasia: 1, sigla: 1, logo: 1, tipo: 1, esportes: 1, tratamentoMasculino: 1 }, populate: { path: "esportes", select: { descricao: 1 } } },
+        { path: "entidade", select: { nomeRazao: 1, nomeFantasia: 1, abrangencia: 1, sigla: 1, logo: 1, tipo: 1, esportes: 1, tratamentoMasculino: 1 }, populate: { path: "esportes", select: { descricao: 1 } } },
         ],
     });
 

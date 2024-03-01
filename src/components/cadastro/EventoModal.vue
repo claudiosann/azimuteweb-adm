@@ -14,10 +14,10 @@
         <q-card-section :style="{ 'max-height': 'calc(100vh - 50px)' }" class="scroll container mx-auto">
           <q-tabs v-model="tab" class="text-grey" active-color="primary" indicator-color="primary" align="justify" narrow-indicator>
             <q-tab default name="dados" icon="line_style" label="Informações">
-              <q-badge v-if="$v.$validationGroups.informacoesError.$error" color="red" label="Imcompleto" />
+              <q-badge v-if="$v.$validationGroups.informacoesError.$error" color="red" label="Incompleto" />
             </q-tab>
             <q-tab name="localizacao" icon="map" label="Localização">
-              <q-badge v-if="$v.evento.endereco.$error" color="red" label="Imcompleto" />
+              <q-badge v-if="$v.evento.endereco.$error" color="red" label="Incompleto" />
             </q-tab>
             <q-tab name="conteudo" icon="collections" label="Banner" />
             <q-tab name="adms" icon="group" label="Administradores" :class="{ 'text-negative': $v.evento.administradores.$error }">
