@@ -100,8 +100,8 @@
                                                         :getUrlImagem="getUrlImagem"
                                                         :percurso="!(consumido.consumivel.percurso == null)" :key="index2"
                                                         :index="index" :index2="index2"
-                                                        @onExcluir="excluirAcrescimoDesconto" @onAddValores="addValores"
-                                                        @onAddCategoria="addCategoria" @onAddEntidade="addEntidade">
+                                                        @addCategoria="addCategoria" @addEntidade="addEntidade" @onAddValores="addValores" @onExcluir="excluirAcrescimoDesconto"
+                                                        >
                                                     </CadastroLoteInscricaoConsumivelDescontoDependente>
                                                 </span>
 
@@ -266,6 +266,13 @@ onMounted(async () => {
             },
             {
                 path: 'consumiveis.descontos.entidades',
+                select: {
+                    sigla: 1,
+                    logo: 1
+                }
+            },
+            {
+                path: 'consumiveis.descontosDependentes.entidades',
                 select: {
                     sigla: 1,
                     logo: 1
@@ -495,7 +502,7 @@ const addCategoria = (idxConsumivel: number, idxAcrescimoDesconto: number, tipo:
 };
 
 const addEntidade = (idxConsumivel: number, idxAcrescimoDesconto: number, tipo: String) => {
-    // console.log('addEntidade');
+    console.log('addEntidade');
     tipoIndex.value = tipo;
     indexConsumivel.value = idxConsumivel;
     indexAcrescimoDesconto.value = idxAcrescimoDesconto;
@@ -515,6 +522,7 @@ const addEntidade = (idxConsumivel: number, idxAcrescimoDesconto: number, tipo: 
 };
 
 const confirmSelecao = (objEntidade: any) => {
+    console.log('confirmSelecao');
     let add = true;
     for (
         let index = 0; index <

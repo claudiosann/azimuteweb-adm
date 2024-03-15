@@ -89,6 +89,14 @@
               <q-checkbox v-model="desconto.cadUnico" label="Somente Para Inscrição Social (CadÚnico)" />
             </q-field>
           </div>
+          <div class="col-12 col-sm-6">
+            <q-field outlined>
+              <q-checkbox v-model="desconto.cupom" label="Modo Cupom de Desconto" />
+            </q-field>
+          </div>
+          <div v-if="desconto.cupom" class="col-12 col-sm-6">
+            <q-input maxLength="30" hide-bottom-space min="0" outlined v-model="desconto.cupomCodigo" label="Código Cupom" :dense="dense"  :error="!desconto.cupomCodigo" error-message="Campo obrigatório"></q-input>
+          </div>
         </div>
         <div class="col-12 q-mt-sm">
           <q-btn color="red" outline @click="emit('onExcluir', index, index2, 'descontos')" label="Excluir Desconto" icon="delete">

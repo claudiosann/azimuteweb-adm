@@ -107,7 +107,10 @@
                                 </div>
                             </template>
                             <template v-slot:append>
-                                <q-btn @click="emit('addEntidade', index, index2, 'descontosDependentes')" round dense outline icon="add" />
+                                <q-btn @click="() => {
+                                    console.log('addEntidade');
+                      emit('addEntidade', index, index2, 'descontosDependentes');
+                    }" round dense outline icon="add" />
                             </template>
                         </q-field>
                     </div>
