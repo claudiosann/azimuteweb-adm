@@ -4,8 +4,8 @@
 
     <div v-if="!logado">
       <div v-if="!logado" class="grid grid-cols-12 gap-2">
-        <q-input class="col-span-3" label="Login" v-model="pessoaAzimute.login" type="text" :rules="[(val) => !!val || 'Campo Obrigatório']" />
-        <q-input class="col-span-3" label="Senha" v-model="pessoaAzimute.senha" :type="isPwd ? 'password' : 'text'" :rules="[(val) => !!val || 'Campo Obrigatório']">
+        <q-input class="col-span-3" label="Login" v-model="pessoaAzimute.login" type="text" :rules="[(val: any) => !!val || 'Campo Obrigatório']" />
+        <q-input class="col-span-3" label="Senha" v-model="pessoaAzimute.senha" :type="isPwd ? 'password' : 'text'" :rules="[(val: any) => !!val || 'Campo Obrigatório']">
           <template v-slot:append>
             <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
           </template>
@@ -22,6 +22,7 @@
       <!-- <q-btn color="primary" icon="check" label="Converter Entidades" @click="converterEntidades" /> -->
       <!-- <q-btn color="primary" icon="check" label="Converter Evento" @click="converterEvento" /> -->
       <!-- <q-btn color="primary" icon="check" label="Ajustar Seguro" @click="ajustaValidadeSeguro()" /> -->
+      <q-btn color="primary" icon="check" label="Get Inscritos" @click="getInscritos()" />
       <q-btn color="primary" icon="check" label="Get Base Atletas" @click="getBaseAtletas()" />
       <q-btn color="primary" icon="check" label="AjustaFiliaçao pessoa" @click="ajustaFiliacaoPessoa()" />
       <!-- <q-btn color="primary" icon="check" label="Ajustar Rateio" @click="ajustaPagamentosRateio()" /> -->
@@ -99,6 +100,19 @@ const getBaseAtletas = async () => {
   
 };
 
+const getInscritos = async () => {
+  console.log("iniciou");
+  
+  const ret = await useCustomFetch("listarInscritos", "post", { evento: '65a58b74cfa2910af4dd23e7', }, undefined);
+  if (ret.valido) {
+    
+    const retCSV = await exportCSVInscritos(ret.data);
+  } else {
+    console.log("ret", ret);
+  }
+  
+};
+
 
 const model = {
   "numero": 17562,
@@ -167,6 +181,40 @@ const getClubes = (list: any) => {
   return fed;
 };
 
+const exportCSVInscritos = async (rows: any) => {
+
+  // get model keys
+  
+  let CSV = "numero;nome";
+
+  CSV += "\r\n";
+  for (let index = 0; index < rows.length; index++) {
+    const row = rows[index];
+    if (row.numeroFiliacao && row.numeroFiliacao > 0) { 
+      CSV += row.numeroFiliacao + ";" + row.nome + ";";
+    } else {
+      // '7' mais os ultimos 5 digitos do cpf e substtuir qualquer coisa que não seja numero por vazio
+      row.cpf = row.cpf.replace(/\D/g, ''); // remove tudo que não for numero
+      const teste = row.cpf.substring(row.cpf.length - 5, row.cpf.length);
+        CSV += "7" + teste + ";" + row.nome + ";";
+      
+    }
+    
+    CSV += "\r\n";
+  }
+
+  let fileName = ("inscritos_") + ($geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+  let link = document.createElement("a");
+  link.href = uri;
+  // @ts-ignore
+  link.style = "visibility:hidden";
+  link.download = fileName + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+};
 const exportCSV = async (rows: any) => {
 
   // get model keys
@@ -174,12 +222,12 @@ const exportCSV = async (rows: any) => {
 
 
   
-  let CSV = "numero;nome;cpf;nascimento;nomeDaMae;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
+  let CSV = "numero;nome;cpf;nascimento;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
 
   CSV += "\r\n";
   for (let index = 0; index < rows.length; index++) {
     const row = rows[index];
-    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";"+ getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
+    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.nomeDaMae + ";"+ $geralService.getDataFormatada(row.dataFiliacao)+";"+row.nivelDificuldade+ ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";"+ getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
     CSV += "\r\n";
   }
 
@@ -2328,7 +2376,7 @@ const logout = () => {
 const login = async () => {
   // verificar login e senha
 
-  const url = "https://www.coga.esp.br/azimuteweb_ws/webresources/loginWs/login";
+  const url = "https://cosec.esp.br/azimuteweb_ws/webresources/loginWs/login";
 
   let ret: any = null;
   try {

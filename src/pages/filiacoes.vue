@@ -3,8 +3,8 @@
     <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true" row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
-          <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-r from-teal-700 to-cyan-400" name="how_to_reg" size="30px" />
-          <q-toolbar-title><span class="mr-3 text-weight-medium">Inscrições</span></q-toolbar-title>
+          <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-r from-red-700 to-blue-400" name="fas fa-id-card" size="30px" />
+          <q-toolbar-title><span class="mr-3 text-weight-medium">Filiações</span></q-toolbar-title>
           <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarRateio">
             <q-tooltip>Gerar Arranjo</q-tooltip>
           </q-btn>
@@ -18,16 +18,13 @@
               <CinputDate tipo="datetime" outlined v-model="filtro.fim" label="Fim" :dense="true" />
             </div>
             <div class="col-md-3 col-sm-4 col-12">
-              <q-select outlined dense v-model="filtro.status" :options="['Finalizada', 'Aguardando o Pagamento', 'Cancelada', null]" label="Status" />
+              <q-select outlined dense v-model="filtro.status" :options="['Iniciada', 'Aguardando Pagamento', 'Em Análise', 'Concluída', 'Cancelada', null]" label="Status" />
+            </div>
+            <div class="col-md-3 col-sm-4 col-12">
+              <q-select outlined dense v-model="filtro.tipo" :options="['Normal', 'Temporária', null]" label="Tipo" />
             </div>
             <div class="col-md-3 col-sm-4 col-12">
               <q-select outlined dense v-model="filtro.estagioRateio" :options="['Iniciado', 'Finalizado', null]" label="Rateio" />
-            </div>
-            <div class="col-md-3 col-sm-4 col-12">
-              <q-input dense outlined v-model="filtro.numero" type="text" label="Evento Número" />
-            </div>
-            <div class="col-md-3 col-sm-4 col-12">
-              <q-checkbox left-label v-model="filtro.cadUnico" label="CadÚnico" />
             </div>
             <div class="col-12">
               <q-btn color="primary" icon="check" label="Aplicar Filtro" @click="getList" />
@@ -40,12 +37,23 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="_id">{{ props.row._id }}</q-td>
-          <q-td key="evento.numero"> {{ props.row.evento.numero }} - {{ props.row.evento.sigla }} - {{ props.row.evento.ano }}</q-td>
-          <q-td key="pessoa.nome"><q-img v-if="props.row.pessoa.foto" class="rounded" style="width: 50px" :ratio="200 / 200" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img> {{ props.row.pessoa.nome }}</q-td>
-          <q-td key="created_at">{{ $geralService.getDataHoraFormatada(props.row.created_at) }}</q-td>
+          <q-td key="sequencial"> {{ props.row.sequencial }}</q-td>
+          <q-td key="numeroFiliacao"> {{ props.row.numeroFiliacao }}</q-td>
+
+          <q-td key="pessoa.nome">
+            <q-item class="!px-0">
+              <q-item-section class="!pr-0" style="min-width: 50px" v-if="props.row.pessoa.foto" top avatar>
+                <q-img class="rounded-borders" style="width: 45px" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ props.row.pessoa.nome }} </q-item-label>
+                <q-item-label><q-badge class="ml-2" v-if="props.row.temporaria" color="red">Filiação Temporária</q-badge> </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-td>
+          <q-td key="created_at">{{ props.row.pagamento ? $geralService.getDataHoraFormatada(props.row.pagamento.created_at) : "Sem Pagamento" }}</q-td>
           <q-td key="pagamento.tipo">{{ props.row.pagamento.tipo }}</q-td>
-          <q-td key="totalLiquido">{{ $geralService.numeroParaMoeda(props.row.totalLiquido) }}</q-td>
+          <q-td key="valorTotal">{{ $geralService.numeroParaMoeda(props.row.valorTotal) }}</q-td>
           <q-td key="status">
             <q-badge :color="getCorStatus(props.row.status)">{{ props.row.status }}</q-badge></q-td
           >
@@ -62,25 +70,25 @@
                     </q-item-section>
                     <q-item-section avatar> Editar </q-item-section>
                   </q-item>
-                  <q-item clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
+                  <!-- <q-item clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="red-7" text-color="white" icon="fas fa-trash" />
                     </q-item-section>
                     <q-item-section avatar> Excluir </q-item-section>
+                  </q-item> -->
+                  <q-item clickable @click="confirmaPagamentoPIX(props.row)" v-close-popup>
+                    <q-item-section avatar>
+                      <q-avatar rounded-xl color="amber-7" text-color="white" icon="search" />
+                    </q-item-section>
+                    <q-item-section avatar> Confirma Pagamento </q-item-section>
                   </q-item>
-                  <q-item clickable @click="verificaPagamentoInscricaoPIX(props.rowIndex, props.row)" v-close-popup>
+                  <q-item clickable @click="verificaPagamentoPIX(props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="search" />
                     </q-item-section>
                     <q-item-section avatar> Consultar Pagamento </q-item-section>
                   </q-item>
-                  <q-item clickable @click="confirmaInscricaoPIXManual(props.rowIndex, props.row)" v-close-popup>
-                    <q-item-section avatar>
-                      <q-avatar rounded-xl color="amber-7" text-color="white" icon="search" />
-                    </q-item-section>
-                    <q-item-section avatar> Confirmar Inscrição PIX Manual</q-item-section>
-                  </q-item>
-                  <q-item clickable @click="verificaSeTemTef(props.rowIndex, props.row)" v-close-popup>
+                  <q-item clickable @click="verificaSeTemTef(props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="blue-7" text-color="white" icon="search" />
                     </q-item-section>
@@ -105,21 +113,21 @@ import { useQuasar, QSpinnerOval } from "quasar";
 import InscricaoModal from "../components/cadastro/InscricaoModal.vue";
 
 const filtro = ref({
-  status: "Finalizada",
+  status: null,
 });
 
 const getCorStatus = (status) => {
   switch (status) {
     case "Iniciada":
       return "accent";
-    case "Aguardando o Pagamento":
+    case "Aguardando Pagamento":
+      return "info";
+    case "Em Análise":
       return "warning";
-    case "Finalizada":
+    case "Concluída":
       return "positive";
-    case "Recusada":
-      return "negative";
     default:
-      return "blue-gray-6";
+      return "negative";
   }
 };
 
@@ -136,19 +144,19 @@ const initialPagination = ref({
 });
 const columns = ref([
   {
-    name: "_id",
+    name: "sequencial",
     required: true,
-    label: "Id",
+    label: "Sequêncial",
     align: "left",
-    field: "_id",
+    field: "sequencial",
     sortable: true,
   },
   {
-    name: "evento.numero",
+    name: "numeroFiliacao",
     required: true,
-    label: "Evento",
+    label: "Nº Filiação",
     align: "left",
-    field: "evento.numero",
+    field: "numeroFiliacao",
     sortable: true,
   },
   {
@@ -176,11 +184,11 @@ const columns = ref([
     sortable: true,
   },
   {
-    name: "totalLiquido",
+    name: "valorTotal",
     required: true,
     label: "Valor",
     align: "left",
-    field: "totalLiquido",
+    field: "valorTotal",
     sortable: true,
   },
   {
@@ -206,12 +214,64 @@ const getUrlImagemThumb = (caminho) => {
   });
 };
 
-const verificaPagamentoInscricaoPIX = async (index, inscricao) => {
+const gravaFiliacao = async (descricaoHistorico, filiacaoPessoaLancamento) => {
+  let retorno = false;
+  $q.loading.show({
+    spinner: QSpinnerOval,
+    spinnerColor: "white",
+    spinnerSize: 60,
+    message: "Buscando Dados... Aguarde!",
+    messageColor: "white",
+  });
+
   try {
-    const ret = await useCustomFetch(`verificaPagamentoInscricaoPIX/${inscricao._id}/${inscricao.pagamento._id}`, undefined, undefined);
+    let url = "filiacaoPessoaLancamento";
+    let tipo = "post";
+    if (descricaoHistorico) {
+      filiacaoPessoaLancamento.historico.push({
+        created_at: new Date().toISOString(),
+        status: filiacaoPessoaLancamento.status,
+        origemFiliadora: false,
+        descricao: descricaoHistorico,
+        pessoa: geral.pessoa._id,
+      });
+    }
+    const newfiliacao = JSON.parse(JSON.stringify(filiacaoPessoaLancamento));
+
+    url += "/" + newfiliacao._id;
+    tipo = "put";
+
+    const ret = await useCustomFetch(url, tipo, newfiliacao, undefined);
+    if (ret.valido) {
+      inserir.value = false;
+      // // console.log("testem");
+      retorno = true;
+      if (tipo == "post") {
+        filiacaoPessoaLancamento._id = ret.data._id;
+      }
+      // // console.log("gravou filiação");
+    } else {
+      // // console.log("teste");
+      // // console.log(ret);
+      $q.notify({
+        color: "negative",
+        message: "Não é possível continuar, Falha ao salvar filiação!",
+      });
+    }
+    $q.loading.hide();
+  } catch (error) {
+    $q.loading.hide();
+    console.log(error);
+  }
+  return retorno;
+};
+
+const verificaPagamentoPIX = async (inscricao) => {
+  console.log(inscricao);
+  try {
+    const ret = await useCustomFetch(`consultarCobrancaPIX/${"pagamentoaz" + inscricao.pagamento._id}`, "GET", undefined, undefined);
     console.log(ret);
-    if (ret.valido && ret.data.status == "CONCLUIDA") {
-      // toast.add({ severity: "success", summary: "Pagamento Recebido", detail: "Inscrição concluída e enviada com sucesso.", life: 6000 });
+    if (ret.valido && ret.data && ret.data.status == "CONCLUIDA") {
       getList();
       $q.notify({
         color: "positive",
@@ -227,37 +287,112 @@ const verificaPagamentoInscricaoPIX = async (index, inscricao) => {
     console.log(error);
   }
 };
-const confirmaInscricaoPIXManual = async (index, inscricao) => {
-  $q.dialog({
-    title: "Deseja Confirmar?",
-    message: "Deseja realmente confirmar o pagamento de PIX Manual?",
-    cancel: true,
-    persistent: true,
-  }).onOk(async () => {
+
+const confirmaPagamentoPIX = async (filiacaoPessoaLancamento) => {
+  console.log(geral.entidade);
+  console.log(filiacaoPessoaLancamento);
+  if (filiacaoPessoaLancamento.status == "Iniciada") {
     try {
-      const ret = await useCustomFetch(`confirmaInscricaoPIXManual/${inscricao._id}/${inscricao.pagamento._id}`, undefined, undefined);
-      console.log(ret);
-      if (ret.valido && ret.data.status == "CONCLUIDA") {
-        // toast.add({ severity: "success", summary: "Pagamento Recebido", detail: "Inscrição concluída e enviada com sucesso.", life: 6000 });
-        getList();
-        $q.notify({
-          color: "positive",
-          message: "Pagamento Recebido",
-        });
+      const ret = await useCustomFetch(`verificaPagamentoPIX/${filiacaoPessoaLancamento.pagamento._id}`, undefined, undefined);
+      if (ret.valido) {
+        if (ret.data.status == "CONCLUIDA") {
+          filiacaoPessoaLancamento.pagamento.status = "Recebido";
+          validaPagamento({ valido: true, data: filiacaoPessoaLancamento.pagamento }, filiacaoPessoaLancamento);
+        }
       } else {
-        $q.notify({
-          color: "negative",
-          message: "Pagamento não recebido",
-        });
+        // // console.log(ret);
       }
     } catch (error) {
-      console.log(error);
+      // // console.log(error);
     }
-  });
+  }
 };
-const verificaSeTemTef = async (index, inscricao) => {
+
+const validaPagamento = async (ret, filiacaoPessoaLancamento) => {
+  // // console.log(ret);
+  if (ret.semPagamento || ret.valido) {
+    filiacaoPessoaLancamento.status = "Em Análise";
+
+    if (!filiacaoPessoaLancamento.numeroFiliacao) {
+      const ret2 = await useCustomFetch("getNovoNumeroFiliacao", "post", { esporte: geral.entidade.esportes[0]._id, temporario: filiacaoPessoaLancamento.temporaria }, undefined);
+      filiacaoPessoaLancamento.numeroFiliacao = ret2.data.numero;
+    }
+
+    let retGrava = false;
+    if (!ret.semPagamento) {
+      // // console.log("Tem pAg");
+      filiacaoPessoaLancamento.pagamento = ret.data._id;
+      retGrava = (await gravaFiliacao("Confimado o pagamento das taxas em " + ret.data.tipo + " e alterado o Status para (Em Análise).", filiacaoPessoaLancamento));
+    } else {
+      // // console.log("N Tem pAg");
+      retGrava = (await gravaFiliacao("Alterado o Status para (Em Análise).", filiacaoPessoaLancamento));
+    }
+
+    if (retGrava) {
+      filiacaoPessoaLancamento.pagamento = ret.data;
+
+      let newHistorico = [];
+
+      // clona o historico da processo de filiação para o historico da filiação pessoa
+      for (let index = 0; index < filiacaoPessoaLancamento.historico.length; index++) {
+        const element = filiacaoPessoaLancamento.historico[index];
+        let newElement = JSON.parse(JSON.stringify(element));
+        newElement._id = undefined;
+        newHistorico.push(newElement);
+      }
+
+      for (let index = 0; index < filiacaoPessoaLancamento.entidades.length; index++) {
+        const entidade = filiacaoPessoaLancamento.entidades[index];
+        const filiacaoPessoa = {
+          filiacaoPessoaLancamento: filiacaoPessoaLancamento._id,
+          pagamento: ret.semPagamento ? undefined : ret.data._id,
+          entidade: entidade._id,
+          abrangencia: entidade.abrangencia,
+          esporte: geral.entidade.esportes[0]._id,
+          pessoa: filiacaoPessoaLancamento.pessoa,
+          temporaria: filiacaoPessoaLancamento.temporaria,
+          numero: filiacaoPessoaLancamento.numeroFiliacao,
+          dataPedido: new Date().toISOString(), // Data em que foi solicitada a filiação
+          dataExpiracao: filiacaoPessoaLancamento.temporaria ? getDataMais4Meses() : undefined, // Data de expiração da filiação
+          status: "Em Análise",
+          historico: newHistorico,
+        };
+
+        const ret3 = await useCustomFetch("filiacaoPessoa", "post", filiacaoPessoa, undefined);
+        if (!ret3.valido) {
+          $q.notify({
+            color: "negative",
+            message: "Falha ao criar filiação pessoa para a entidade " + entidade.sigla + ".",
+          });
+        } else {
+          filiacaoPessoaLancamento.filiacoesGeradas.push(ret3.data._id);
+        }
+      }
+      retGrava = (await gravaFiliacao(undefined, filiacaoPessoaLancamento));
+      await getFiliacaoPessoa();
+
+      $q.notify({
+        color: "positive",
+        message: !ret.semPagamento ? "Pagamento realizado com sucesso!" : "Filiação enviada com sucesso!",
+      });
+    } else {
+      filiacaoPessoaLancamento.pagamento = ret.data;
+      $q.notify({
+        color: "negative",
+        message: "Falha ao atualizar processo de filiação!",
+      });
+    }
+  } else {
+    $q.notify({
+      color: "negative",
+      message: "Falha ao realizar pagamento!",
+    });
+  }
+};
+
+const verificaSeTemTef = async (filiacao) => {
   try {
-    const ret = await useCustomFetch(`tef/getPopulate`, "post", { filtro: { identificador: inscricao._id } }, undefined);
+    const ret = await useCustomFetch(`tef/getPopulate`, "post", { filtro: { identificador: filiacao._id } }, undefined);
     console.log(ret);
     if (ret.valido && ret.data.length > 0) {
       $q.notify({
@@ -285,32 +420,13 @@ const getList = async () => {
   });
 
   try {
-    let eventoId = undefined;
-
-    if (filtro.value.numero) {
-      const retEv = await useCustomFetch("evento/getPopulate", "post", { filtro: { numero: filtro.value.numero }, select: { _id: 1 } }, undefined);
-      if (retEv.valido) {
-        eventoId = retEv.data[0]._id;
-      } else {
-        $q.loading.hide();
-        $q.notify({
-          color: "negative",
-          message: retEv.data && retEv.data.message ? retEv.data.message : "Falha ao obter o evento!",
-        });
-        return;
-      }
-    }
-
     const ret = await useCustomFetch(
-      "inscricao/getPopulate",
+      "filiacaoPessoaLancamento/getPopulate",
       "post",
       {
         filtro: {
           lixo: false,
-          estagioRateio: filtro.value.estagioRateio ? filtro.value.estagioRateio : { $ne: "Finalizado" },
           status: filtro.value.status || undefined,
-          "inscritos.consumiveis.descontos.cadUnico": filtro.value.cadUnico == true ? true : { $ne: true },
-          evento: eventoId || undefined,
           created_at:
             filtro.value.inicio || filtro.value.fim
               ? {
@@ -321,33 +437,15 @@ const getList = async () => {
         },
         populateObj: [
           {
-            path: "evento",
-            select: { nome: 1, entidadeResponsavel: 1, numero: 1, sigla: 1, ano: 1, taxaAzimuteCerto: 1, taxaAzimuteCertoAbsorver: 1 },
-            populate: {
-              path: "entidadeResponsavel",
-              select: { sigla: 1 },
-            },
-          },
-          {
             path: "pessoa",
             select: { nome: 1, foto: 1 },
           },
-          {
-            path: "inscritos.pessoa",
-            select: { nome: 1, foto: 1 },
-          },
+          { path: "entidades", populate: ["filiacaoPessoa.taxaFiliacao", "filiacaoPessoa.taxaFiliacaoTemporaria"] },
           {
             path: "pagamento",
             pupulate: {
               path: "pagamento",
               select: { tipo: 1, tef: 1 },
-            },
-          },
-          {
-            path: "inscritos.consumiveis.consumivel",
-            populate: {
-              path: "arranjoPagamento.entidade",
-              select: { sigla: 1 },
             },
           },
         ],
@@ -404,47 +502,12 @@ const gerarRateio = async () => {
   await getList();
   // let listaInscricoes = [];
   for (let index = 0; index < rows.value.length; index++) {
-    const i = rows.value[index];
-    if (i.estagioRateio == "Finalizado") {
+    const fili = rows.value[index];
+    if (fili.estagioRateio == "Finalizado") {
       console.log("Inscrição com o rateio já finalizado");
       continue;
     }
-    const validador = { saldo: i.subtotal };
-    const arranjoEntidades = {};
-    console.log(validador.saldo);
-    if (i.status == "Finalizada") {
-      for (let index2 = 0; index2 < i.inscritos.length; index2++) {
-        const ai = i.inscritos[index2];
-        for (let index3 = 0; index3 < ai.consumiveis.length; index3++) {
-          const it = ai.consumiveis[index3];
-          // console.log(it);
-          // const insc = {
-          //   inscricao: i._id,
-          //   responsavel_id: i.pessoa._id,
-          //   responsavel_nome: i.pessoa.nome,
-          //   inscrito_id: ai.pessoa._id,
-          //   inscrito_nome: ai.pessoa.nome,
-          //   consumivel_id: it.consumivel._id,
-          //   consumivel_descricao: it.consumivel.descricao,
-          //   consumivel_bruto: it.totalBruto,
-          //   consumivel_liquido: it.totalLiquido,
-          //   cadUnico: verificaCadUnico(it),
-          // };
-
-          verificaCadUnico(it);
-          if (it.cadUnico) {
-            ai.cadUnico = true;
-            i.cadUnico = true;
-          }
-
-          if (!gerarArranjoConsumivel(it, i, validador, arranjoEntidades)) {
-            console.log("Falha ao gerar arranjo de pagamento");
-            console.log(it);
-            return;
-          }
-        }
-      }
-
+    if (fili.status == "Em Análise" || fili.status == "Concluída" || fili.status == "Aguardando Pagamento") {
       console.log("Arranjo gerado com sucesso");
 
       let totalArranjoEntidades = 0;
@@ -458,7 +521,7 @@ const gerarRateio = async () => {
       }
 
       if (i.evento.taxaAzimuteCertoAbsorver) {
-        let valor = $geralService.arredonda(i.subtotal - (i.subtotal * i.evento.taxaAzimuteCerto / 100));
+        let valor = $geralService.arredonda(i.subtotal - (i.subtotal * i.evento.taxaAzimuteCerto) / 100);
         if ($geralService.arredonda(totalArranjoEntidades) != valor) {
           console.log("Falha ao gerar arranjo de pagamento");
           console.log(i);
@@ -508,12 +571,12 @@ const gerarRateio = async () => {
             }
           }
 
-          const ret3 = await useCustomFetch("pagamento/" + i.pagamento._id, "put", getObjetoUpdatePagamento(i, listaTotalArranjos), undefined);
+          const ret3 = await useCustomFetch("pagamento/" + fili.pagamento._id, "put", getObjetoUpdatePagamento(fili, listaTotalArranjos), undefined);
 
           if (ret3.valido) {
             console.log("Pagamento atualizado com sucesso");
             i.estagioRateio = "Iniciado";
-            const ret4 = await useCustomFetch("inscricao/" + i._id, "put", { estagioRateio: "Finalizado" }, undefined);
+            const ret4 = await useCustomFetch("filiacaoPessoaLancamento/" + i._id, "put", { estagioRateio: "Finalizado" }, undefined);
             if (ret4.valido) {
               console.log("Inscrição atualizada com sucesso e geradados os reteios com sucesso");
             } else {
@@ -594,11 +657,11 @@ const verificaCadUnico = (item) => {
 
 const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) => {
   console.log("dividindo valores");
-  if (item.totalLiquido <= 0 || item.equipamentoProprio) {
+  if (item.valorTotal <= 0 || item.equipamentoProprio) {
     return [];
   }
 
-  let saldo = item.totalLiquido;
+  let saldo = item.valorTotal;
 
   if (inscricao.evento.taxaAzimuteCertoAbsorver) {
     // saldo - 6%
@@ -643,7 +706,7 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
           financeiroConta: arranjo.financeiroConta,
           valor: $geralService.arredonda(saldo),
         });
-        validador.saldo -= item.totalLiquido;
+        validador.saldo -= item.valorTotal;
         item.arranjoPagamento = arranjoCalculado;
         return true;
       }
@@ -656,7 +719,7 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
   for (let index2 = 0; index2 < item.consumivel.arranjoPagamento.length; index2++) {
     const arranjo = item.consumivel.arranjoPagamento[index2];
     if (arranjo.tipo == "Percentual" && arranjo.entidade._id != inscricao.evento.entidadeResponsavel._id) {
-      let novoValor = $geralService.arredonda((arranjo.valor / 100) * item.totalLiquido);
+      let novoValor = $geralService.arredonda((arranjo.valor / 100) * item.valorTotal);
       if (!item.cadUnico) {
         addValorArranjoEntidade(arranjoEntidades, arranjo, novoValor);
         arranjoCalculado.push({
@@ -670,7 +733,7 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
   }
 
   if (saldo == 0) {
-    validador.saldo -= item.totalLiquido;
+    validador.saldo -= item.valorTotal;
     item.arranjoPagamento = arranjoCalculado;
     return true;
   }
@@ -690,7 +753,7 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
         financeiroConta: arranjo.financeiroConta,
         valor: $geralService.arredonda(saldo),
       });
-      validador.saldo = $geralService.arredonda(validador.saldo - item.totalLiquido);
+      validador.saldo -= item.valorTotal;
       item.arranjoPagamento = arranjoCalculado;
       return true;
     }
@@ -707,7 +770,7 @@ const addValorArranjoEntidade = (arranjoEntidades, arranjo, vlr) => {
 };
 
 const deleteRow = async (index, inscricao) => {
-  if ((geral.pessoa._id === "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
+  if (geral.pessoa._id === "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada") {
     $q.dialog({
       title: "Excluir",
       message: "Deseja realmente excluir o registro?",

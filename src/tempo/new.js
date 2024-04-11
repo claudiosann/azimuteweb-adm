@@ -1,4 +1,4 @@
-cont base: {
+const base: {
     "geral" : {
         "tratamento" : "o",
         "tratamento2" : "do",
@@ -8,17 +8,10 @@ cont base: {
         "mostrarNoticiasEntidadeNacional" : NumberInt(1),
         "mostrarNoticiasEntidadeEstadual" : NumberInt(1),
         "ufId" : NumberInt(-1),
-        "estadoPadraoSigla" : "RN",
+        "estadoPadraoSigla" : "PR",
         "eventosEstados" : [
-            "AL",
-            "BA",
-            "CE",
-            "PB",
-            "PE",
-            "PI",
-            "RN",
-            "SE",
-            "MA"
+            "PR",
+            "SC",
         ]
     },
     "pagina" : {
@@ -30,18 +23,18 @@ cont base: {
         "mostrarCampanha" : false,
         "tituloHomeGrad" : false,
         "destaqueSombra" : false,
-        "og_image" : "https://azimuteweb.s3.sa-east-1.amazonaws.com/img/logo/logo_forn_1.png",
+        "og_image" : "https://azimuteweb.s3.sa-east-1.amazonaws.com/img/logo/logo_coga_1.png",
         "og_type" : "Facebook type",
         "titulo" : "Federação Cearense de Orientação",
         "subTitulo" : "",
         "meta_robots" : "ranking, noticias, novaFiliacao",
-        "meta_keywords" : "Orientação, FORN, Clude de Orientação, prisma, bússola, esporte da natureza, esporte de aventura, esporte radical",
+        "meta_keywords" : "Orientação, COGA, Clude de Orientação, prisma, bússola, esporte da natureza, esporte de aventura, esporte radical",
         "analiticsId" : "UA-75281480-1",
-        "urlLogo" : "https://azimuteweb.s3.sa-east-1.amazonaws.com/img/logo/logo_forn.png",
-        "urlFavIcon" : "https://azimuteweb.s3.sa-east-1.amazonaws.com/img/logo/favicon_forn.ico",
+        "urlLogo" : "https://azimuteweb.s3.sa-east-1.amazonaws.com/img/logo/logo_coga.png",
+        "urlFavIcon" : "https://azimuteweb.s3.sa-east-1.amazonaws.com/img/logo/favicon_coga.ico",
         "logoAltura" : NumberInt(65),
         "logoMargin" : NumberInt(8),
-        "personaCSS" : "assets/css/persona_forn.css",
+        "personaCSS" : "assets/css/persona_coga.css",
         "linhaSeparadoraMenuCor" : "#ffffff",
         "linhaSeparadoraMenuTamanho" : "3px",
         "menuSeparador" : false,
@@ -61,7 +54,31 @@ cont base: {
         "menuBackGroundCorA" : "",
         "menuBackGroundCorB" : ""
     },
-    "menu" : [],
+"menu" : [
+    { "title": "Home", "subtitle": "", "tooltip": "Home", "href": "/", "icon": "fa fa-home", "iconSize": "fa-1" },
+    {
+        "title": "Eventos",
+        "tooltip": "Eventos",
+        "icon": "fa fa-calendar",
+        "iconSize": "fa-1",
+        "children": [
+            { "title": "Eventos Futuro", "href": "https://drive.google.com/file/d/1M0gSESlDdpCaoEY03CjASSD6BNmLAVTv/view?usp=sharing", "target": "_blank" },
+        ]
+    },
+    { "title": "Todas as Not\u00edcias", "tooltip": "Todas as Not\u00edcias", "href": "noticias", "icon": "fa fa-newspaper-o", "iconSize": "fa-1" },
+    {
+        "title": "Coga",
+        "tooltip": "Coga",
+        "icon": "fa fa-folder",
+        "iconSize": "fa-1",
+        "children": [
+            { "title": "Intitucional", "href": "coga-institucional" },
+            { "title": "Regras da Orienta\u00e7\u00e3o", "href": "/arquivo?caminho=site-antigo/Regras" },
+            { "title": "Secretaria", "href": "/arquivo?caminho=site-antigo/Secretaria" },
+            { "title": "Financas/Contabilidade", "href": "/arquivo?caminho=site-antigo/Financas" },
+        ]
+    }
+],
     "mostrarEndereco" : true,
     "lixo" : false,
     "youtube" : {
@@ -69,7 +86,7 @@ cont base: {
         "apiKey" : "AIzaSyBo7J8Zur7wMN3H3IPgapCQ5PiYK-LjBIg"
     },
     "facebook" : {
-        "fanpage" : "www.forn.esp.br",
+        "fanpage" : "www.coga.esp.br",
         "apiId" : "1086797681361109",
         "versao" : "v2.8",
         "token" : "1057373797645587%7CtjkWZP2-AgtBF1V8rkyMXWmMMW8"
@@ -77,11 +94,13 @@ cont base: {
     "maps" : {
         "key" : "AIzaSyBHESCdv12BO0wu3nvGwDweTYP09b67E2s"
     },
-    "contatos" : [
-       
+    "contatos": [
+        { "cargo": "Presidente", "nome": "Janimara Rempel", "email": "janimararempel@gmail.com", "fone": "(41) 99517-0736" },
+        { "cargo": "1ª Secretaria", "nome": "Symone Hernandes", "email": "cogacmcpr@gmail.com", "fone": "(41) 99710-4293" }
+        { "cargo": "2º Secretario", "nome": "Diego", "email": "cogacmcpr@gmail.com", "fone": "(41) 99164-0703" }
     ],
-    "dominio" : "forn.esp.br",
-    "entidade" : ,
+    "dominio" : "coga.esp.br",
+    "entidade" : ObjectId("65a0c655457f7becb958f4e6"),
     "created_at" : ISODate("2021-03-18T22:15:50.000+0000"),
     "updated_at" : ISODate("2024-01-19T15:38:32.000+0000"),
     "__v" : NumberInt(132),

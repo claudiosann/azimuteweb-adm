@@ -1172,7 +1172,7 @@ const constantes = {
     },
     {
       "id": 131,
-      "descricao": "Editar Nivel do Atleta",
+      "descricao": "Editar Número do Atleta",
       "variavel": "numeroEditar",
       "grupo": {
         "id": 1,

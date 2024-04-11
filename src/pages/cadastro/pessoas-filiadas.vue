@@ -4,7 +4,9 @@
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
           <span class="ml-3 px-1.5 py-1 rounded text-white bg-gradient-to-l from-emerald-500 to-emerald-700"><q-icon name="fas fa-id-card" size="25px" /></span>
-          <q-toolbar-title><span class="mr-3 text-weight-medium">Pessoas Filiadas</span></q-toolbar-title>
+          <q-toolbar-title
+            ><span class="mr-3 text-weight-medium">Pessoas Filiadas ({{ rows.length }})</span> <span><q-btn color="primary" icon="check" label="Exportar" @click="exportar" /></span
+          ></q-toolbar-title>
         </q-toolbar>
         <!-- <q-expansion-item class="w-full" expand-separator icon="fas fa-filter" label="Filtro">
           <div class="row q-ma-sm q-col-gutter-sm">
@@ -66,16 +68,16 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="nome">  
-          <q-item class="!px-0">
-            <q-item-section class="!pr-0" style="min-width: 50px;" v-if="props.row.pessoa.foto" top avatar>
-              <q-img  class="rounded-borders" style="width: 45px" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img>
-            </q-item-section>
-            <q-item-section>
-             <q-item-label>{{ props.row.pessoa.nome }} </q-item-label>
-              <q-item-label><q-badge class="ml-2" v-if="props.row.temporaria" color="red">Filiação Temporária</q-badge> </q-item-label>
-            </q-item-section>
-          </q-item>
+          <q-td key="nome">
+            <q-item class="!px-0">
+              <q-item-section class="!pr-0" style="min-width: 50px" v-if="props.row.pessoa.foto" top avatar>
+                <q-img class="rounded-borders" style="width: 45px" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ props.row.pessoa.nome }} </q-item-label>
+                <q-item-label><q-badge class="ml-2" v-if="props.row.temporaria" color="red">Filiação Temporária</q-badge> </q-item-label>
+              </q-item-section>
+            </q-item>
           </q-td>
           <q-td key="status">
             <q-badge :color="getCorStatus(props.row.status)">{{ props.row.status }}</q-badge></q-td
@@ -142,7 +144,6 @@ import { useQuasar, QSpinnerOval } from "quasar";
 import { useGeral } from "../../stores/geral";
 import PessoaFiliadaModal from "../../components/cadastro/PessoaFiliadaModal.vue";
 import PessoaModal from "../../components/cadastro/PessoaModal.vue";
-
 
 const $q = useQuasar();
 const { $geralService } = useNuxtApp();
@@ -272,55 +273,61 @@ const selecionarEntidade = () => {
 
 const editarNumero = (props) => {
   $q.dialog({
-    title: 'Editar Número de Filiação',
+    title: "Editar Número de Filiação",
     message: props.row.pessoa.nome,
-     prompt: {
-          model: props.row.numero,
-          type: 'number' // optional
-        },
-    cancel: true,
-    persistent: true
-  }).onOk(async data => {
-    if (data) {
-      console.log('>>>> OK, received', data)
-      props.row.numero = data;
-      const ret = await useCustomFetch('updateNumero', 'post', { pessoa: props.row.pessoa._id, numero: data }, undefined);
-      console.log(ret);
-    }
-  }).onCancel(() => {
-    // console.log('>>>> Cancel')
-  }).onDismiss(() => {
-    // console.log('I am triggered on both OK and Cancel')
-  })
-}
-const editarNivel = (props) => {
-  $q.dialog({
-    title: 'Editar Nivel Atleta',
-    message: props.row.pessoa.nome,
-    options: {
-      type: 'radio',
-      model: 'opt1',
-      // inline: true
-      items: [
-        { label: 'Iniciante', value: 0, color: 'secondary' },
-        { label: 'Bravo', value: 1 },
-        { label: 'Alpha', value: 2 },
-        { label: 'Elite', value: 3 }
-      ]
+    prompt: {
+      model: props.row.numero,
+      type: "number", // optional
     },
     cancel: true,
-    persistent: true
-  }).onOk(async data => {
-    console.log('>>>> OK, received', data)
-    props.row.nivelDificuldade = data;
-    const ret = await useCustomFetch('updateNivelDificuldade', 'post', { pessoa: props.row.pessoa._id, nivelDificuldade: data }, undefined);
-    console.log(ret);
-  }).onCancel(() => {
-    // console.log('>>>> Cancel')
-  }).onDismiss(() => {
-    // console.log('I am triggered on both OK and Cancel')
+    persistent: true,
   })
-}
+    .onOk(async (data) => {
+      if (data) {
+        console.log(">>>> OK, received", data);
+        props.row.numero = data;
+        const ret = await useCustomFetch("updateNumero", "post", { pessoa: props.row.pessoa._id, numero: data }, undefined);
+        console.log(ret);
+      }
+    })
+    .onCancel(() => {
+      // console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      // console.log('I am triggered on both OK and Cancel')
+    });
+};
+const editarNivel = (props) => {
+  $q.dialog({
+    title: "Editar Nivel Atleta",
+    message: props.row.pessoa.nome,
+    options: {
+      type: "radio",
+      model: "opt1",
+      // inline: true
+      items: [
+        { label: "Iniciante", value: 0, color: "secondary" },
+        { label: "Bravo", value: 1 },
+        { label: "Alpha", value: 2 },
+        { label: "Elite", value: 3 },
+      ],
+    },
+    cancel: true,
+    persistent: true,
+  })
+    .onOk(async (data) => {
+      console.log(">>>> OK, received", data);
+      props.row.nivelDificuldade = data;
+      const ret = await useCustomFetch("updateNivelDificuldade", "post", { pessoa: props.row.pessoa._id, nivelDificuldade: data }, undefined);
+      console.log(ret);
+    })
+    .onCancel(() => {
+      // console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      // console.log('I am triggered on both OK and Cancel')
+    });
+};
 
 const confirmSelecaoEntidade = (ent) => {
   if (ent) {
@@ -331,7 +338,6 @@ const confirmSelecaoEntidade = (ent) => {
     filtro.value.entidade = undefined;
   }
 };
-
 
 const getCorStatus = (status) => {
   switch (status) {
@@ -432,71 +438,161 @@ const ajustaFiltro = () => {
   }
 };
 
-const exportCSV = async () => {
-  let CSV = "";
-  for (let index = 0; index < columns.value.length; index++) {
-    const col = columns.value[index];
-    if (col.field) CSV += col.label + ";";
+const exportar = async () => {
+  $q.loading.show({
+    spinner: QSpinnerOval,
+    spinnerColor: "white",
+    spinnerSize: 60,
+    message: "Buscando Dados... Aguarde!",
+    messageColor: "white",
+  });
+  console.log("iniciou");
+  console.log(geral.entidade.sigla);
+ 
+  const ret = await useCustomFetch("listarFiliacaoPessoa", "post", { entidades: [geral.entidade.sigla] }, undefined);
+  if (ret.valido) {
+    const retCSV = await exportCSV(ret.data);
+  } else {
+    console.log("ret", ret);
   }
-  CSV += "\r\n";
-  for (let index = 0; index < rows.value.length; index++) {
-    const row = rows.value[index];
-    CSV += row.identificador + ";" + row.tipo + ";" + row.entidade.sigla + ";" + row.evento.sigla + ";" + $geralService.getDataHoraFormatada(row.dataLiberado) + ";" + $geralService.getDataHoraFormatada(row.dataPrevisao) + ";" + $geralService.getDataHoraFormatada(row.dataPagamento) + ";" + $geralService.numeroParaMoeda(row.valor) + ";" + row.status;
-    CSV += "\r\n";
-  }
-
-  let fileName = (entidade.value ? entidade.value.sigla + "_" : "") + ("rateio_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
-  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
-  let link = document.createElement("a");
-  link.href = uri;
-  // @ts-ignore
-  link.style = "visibility:hidden";
-  link.download = fileName + ".csv";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+  $q.loading.hide();
+  
 };
+
+const model = {
+  "numero": 17562,
+  "nome": "Leo Virgilio Werle",
+  "email": "teste@teste.com",
+  "cpf": "07393049929",
+  "status": "Ativa",
+  "nascimento": "2005-08-15T03:00:00.000Z",
+  "nomeDaMae": "Simone Catarina Bachmann Werle",
+  "validadeSeguro": "2018-08-15T03:00:00.000Z",
+  "atualizacaoDados": "2018-08-15T03:00:00.000Z",
+  "apelido": "Leo",
+  "sexo": "Masculino",
+  "entidades": [
+    "CBO"
+  ],
+  "filiacaoPrincipal": "65a0f1c9480314ee676b664a",
+  "filiacoes": [
+    {
+      "_id": "65a0f1c9480314ee676b664a",
+      "entidade": "CBO",
+      "status": "Ativa",
+      "abrangencia": "Nacional"
+    },
+    {
+      "_id": "65a0f1c9480314ee676b664d",
+      "entidade": "ACORPATO",
+      "status": "Ativa",
+      "abrangencia": "Local"
+    },
+    {
+      "_id": "65a0f1c9480314ee676b6650",
+      "entidade": "FPO",
+      "status": "Ativa",
+      "abrangencia": "Estadual"
+    }
+  ]
+};
+
+
+const getFederacoes = (list) => {
+  let fed = "";
+  for (let index = 0; index < list.length; index++) {
+    const element = list[index];
+    if (element.abrangencia == "Estadual") {
+      if(fed.length > 0){
+        fed += (", " + element.entidade);
+      } else {
+        fed = element.entidade;
+      }
+    }
+  }
+  return fed;
+};
+
+const getClubes = (list) => {
+  let fed = "";
+  for (let index = 0; index < list.length; index++) {
+    const element = list[index];
+    if (element.abrangencia == "Local") {
+      if(fed.length > 0){
+        fed += (", " + element.entidade);
+      } else {
+        fed = element.entidade;
+      }
+    }
+  }
+  return fed;
+};
+
+const exportCSV = async (rows) => {
+    // get model keys
+    const keys = Object.keys(model);
+
+    let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
+
+    CSV += "\r\n";
+    for (let index = 0; index < rows.length; index++) {
+      const row = rows[index];
+      CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";"+ row.status+";"+row.email+";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
+      CSV += "\r\n";
+    }
+
+    let fileName = "filiados_"+geral.entidade.sigla+"_"+$geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-");
+    let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+    let link = document.createElement("a");
+    link.href = uri;
+    // @ts-ignore
+    link.style = "visibility:hidden";
+    link.download = fileName + ".csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+  };
 
 const deleteRow = async (props) => {
   console.log(props);
   if (geral.funcoesAcessos.pessoaDeletar) {
     $q.dialog({
-      title: 'Confirmação',
+      title: "Confirmação",
       message: `Deseja realmente excluir a filiação de ${props.row.pessoa.nome}?`,
-      focus: 'cancel',
+      focus: "cancel",
       ok: {
-        color: 'primary',
-        label: 'sim'
+        color: "primary",
+        label: "sim",
       },
       cancel: {
-        color: 'negative',
-        label: 'Não'
-      }
+        color: "negative",
+        label: "Não",
+      },
     }).onOk(async () => {
-       $q.loading.show({
-      spinner: QSpinnerOval,
-      spinnerColor: "white",
-      spinnerSize: 60,
-      message: "Deletando Registro... Aguarde!",
-      messageColor: "white",
-    });
-    const ret = await useCustomFetch("filiacaoPessoa/delete", "post", { _id: props.row._id }, undefined);
-    $q.loading.hide();
-    if (ret.valido) {
-      $q.notify({
-        type: "positive",
-        position: "top",
-        message: "Registro excluído com sucesso!",
+      $q.loading.show({
+        spinner: QSpinnerOval,
+        spinnerColor: "white",
+        spinnerSize: 60,
+        message: "Deletando Registro... Aguarde!",
+        messageColor: "white",
       });
-      getList();
-    } else {
-      // console.log(ret.data);
-      $q.notify({
-        type: "warning",
-        message: "Falha ao deletar." + ret.data.message,
-      });
-    }
+      const ret = await useCustomFetch("filiacaoPessoa/delete", "post", { _id: props.row._id }, undefined);
+      $q.loading.hide();
+      if (ret.valido) {
+        $q.notify({
+          type: "positive",
+          position: "top",
+          message: "Registro excluído com sucesso!",
+        });
+        getList();
+      } else {
+        // console.log(ret.data);
+        $q.notify({
+          type: "warning",
+          message: "Falha ao deletar." + ret.data.message,
+        });
+      }
     });
   } else {
     $q.notify({

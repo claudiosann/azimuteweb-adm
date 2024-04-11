@@ -136,7 +136,10 @@ const clipboard = (text: string) => {
   });
 };
 const copyLinkFolder = (text: string) => {
-  copy(text.replace(geral.entidade.sigla+'/', ""));
+  // remover o ultimo caracter que é a barra
+  
+
+  copy(text.slice(0, -1).replace(geral.entidade.sigla+'/', ""));
   $q.notify({
     color: "info",
     position: "top",
