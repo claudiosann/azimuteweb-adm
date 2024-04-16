@@ -30,7 +30,7 @@
                   <q-item>
                     <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
                   </q-item>
-                  <q-item v-if="geral.funcoesAcessos.eventoAcessar" clickable @click="editRow(props.rowIndex, props.row._id, true)" v-close-popup>
+                  <q-item clickable @click="editRow(props.rowIndex, props.row._id, true)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="edit" />
                     </q-item-section>
@@ -370,9 +370,7 @@ const deleteRow = async (index, inscricao) => {
 };
 
 const editRow = (index, id, copy) => {
-  if (geral.funcoesAcessos.eventoAcessar) {
     openModal(index, id, copy);
-  }
 };
 
 const openModal = (index, id, copy) => {
