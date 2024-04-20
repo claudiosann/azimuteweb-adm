@@ -1,16 +1,25 @@
 <template>
   <div class="p-1 sm:p-4">
-
-
-    <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true"  row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
-    
+    <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true" row-key="name" color="secondary" :pagination="initialPagination" rows-per-page-label="Registros por página:">
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg rounded-tr-lg" :glossy="true" :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
           <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-amber-400 to-amber-700" name="how_to_reg" size="30px" />
           <q-toolbar-title><span class="mr-3 text-weight-medium">Inscrições</span></q-toolbar-title>
-          <!-- <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarListagemValores()">
-            <q-tooltip>Gerar Arranjo</q-tooltip>
-          </q-btn> -->
+          <q-btn btn-scale push round glossy icon="more_vert">
+              <q-menu>
+                <q-list separator link>
+                  <!-- <q-item>
+                    <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
+                  </q-item> -->
+                  <q-item clickable @click="gerarListagemValores()" v-close-popup>
+                    <q-item-section avatar>
+                      <q-avatar rounded-xl color="green-7" text-color="white" icon="fas fa-file-csv" />
+                    </q-item-section>
+                    <q-item-section avatar> Valor x Atleta x Consumível </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
         </q-toolbar>
       </template>
       <template v-slot:body="props">
@@ -36,7 +45,7 @@
                     </q-item-section>
                     <q-item-section avatar> Editar </q-item-section>
                   </q-item>
-                  <q-item v-if="(geral.pessoa._id == '5aff4d2f47667633c7ace227')" clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
+                  <q-item v-if="geral.pessoa._id == '5aff4d2f47667633c7ace227'" clickable @click="deleteRow(props.rowIndex, props.row)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="red-7" text-color="white" icon="fas fa-trash" />
                     </q-item-section>
@@ -115,7 +124,7 @@ const columns = ref([
     align: "left",
     field: "created_at",
     sortable: true,
-    type:"date",
+    type: "date",
   },
   {
     name: "papamento.tipo",
@@ -211,7 +220,7 @@ const getList = async () => {
     // // console.log('Leu o Banco de dados.');
     if (ret.valido) {
       rows.value = ret.data;
-      console.log(ret.data);
+      // console.log(ret.data);
       $q.loading.hide();
     } else {
       rows.value = [];
@@ -226,7 +235,6 @@ const getList = async () => {
   }
 };
 
-
 const exportCSV = async () => {
   let CSV = "";
   for (let index = 0; index < columns.value.length; index++) {
@@ -240,7 +248,7 @@ const exportCSV = async () => {
     CSV += "\r\n";
   }
 
-  let fileName = (entidade.value?(entidade.value.sigla+"_"):"")+("rateio_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let fileName = (entidade.value ? entidade.value.sigla + "_" : "") + ("rateio_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
   let uri = "data:text/csv;charset=utf-8," + escape(CSV);
   let link = document.createElement("a");
   link.href = uri;
@@ -253,57 +261,98 @@ const exportCSV = async () => {
   return { valido: true, data: { message: "CSV gerado com sucesso!" } };
 };
 
-const gerarListagemValores = () => {
+const consumiveis = ref([]);
+
+const getConsumivelDescricao = (id) => {
+  for (let index = 0; index < consumiveis.value.length; index++) {
+    const element = consumiveis.value[index];
+    if (element.id == id) {
+      return element.descricao;
+    }
+  }
+  return "";
+};
+
+const gerarListagemValores = async () => {
+  const ret = await useCustomFetch("consumivel/getPopulate", "post", { filtro: { lixo: false, evento: props.eventoId } }, undefined);
+  // console.log(props.eventoId);
+  if (ret.valido) {
+    consumiveis.value = [];
+    for (let index = 0; index < ret.data.length; index++) {
+      const element = ret.data[index];
+      consumiveis.value.push({ descricao: $geralService.removeCaracteresEspeciais(element.descricao), id: element._id });
+    }
+
+    // console.log(consumiveis.value);
+  } else {
+    $q.notify({
+      color: "negative",
+      message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter a lista de consumíveis!",
+    });
+    return;
+  }
+
   let CSV = "";
 
-  let listaInscricoes = [];
+  let listaInscritos = [];
   for (let index = 0; index < rows.value.length; index++) {
     const i = rows.value[index];
     if (i.status == "Finalizada") {
       for (let index2 = 0; index2 < i.inscritos.length; index2++) {
         const ai = i.inscritos[index2];
+
+        const insc = {
+          inscricao: i._id,
+          // responsavel_id: i.pessoa._id,
+          // responsavel_nome: i.pessoa.nome,
+          inscricao_total: ai.totalAtletaLiquido,
+          // inscrito_id: ai.pessoa._id,
+          inscrito_nome: ai.pessoa.nome,
+          // consumivel_id: it.consumivel._id,
+        };
+
+        for (let index3 = 0; index3 < consumiveis.value.length; index3++) {
+          const element = consumiveis.value[index3];
+          insc[element.descricao + "_qtde"] = 0;
+          insc[element.descricao + "_valor"] = 0;
+          insc[element.descricao + "_descontos"] = "";
+        }
+
         for (let index3 = 0; index3 < ai.consumiveis.length; index3++) {
           const it = ai.consumiveis[index3];
           // console.log(it);
-          const insc = {
-            inscricao: i._id,
-            responsavel_id: i.pessoa._id,
-            responsavel_nome: i.pessoa.nome,
-            inscricaoTotal: i.totalBruto,
-            inscrito_id: ai.pessoa._id,
-            inscrito_nome: ai.pessoa.nome,
-            consumivel_id: it.consumivel._id,
-            consumivel_descricao: it.consumivel.descricao,
-            consumivel_quantidade: it.quantidade,
-            consumivel_liquido: it.totalLiquido,
-            consumivel_descontos: it.descontos.map((desc) => (desc.descricao+': '+$geralService.numeroParaMoeda(desc.valor))).join(", "),
-            cadUnico: verificaCadUnico(it),
-          };
-
-          for (let index4 = 0; index4 < it.arranjoPagamento.length; index4++) {
-            const arranjo = array[index4];
-            insc[arranjo.entidade.sigla] = arranjo.valor;            
+          insc[getConsumivelDescricao(it.consumivel._id) + "_qtde"] = it.quantidade;
+          insc[getConsumivelDescricao(it.consumivel._id) + "_valor"] = it.totalLiquido;
+          insc[getConsumivelDescricao(it.consumivel._id) + "_descontos"] = it.descontos.map((desc) => desc.descricao + ": " + $geralService.numeroParaMoeda(desc.valor)).join(", ");
+          if (!insc.cadUnico) {
+            insc.cadUnico = verificaCadUnico(it);
           }
-          
-          listaInscricoes.push(insc);
         }
+
+        listaInscritos.push(insc);
       }
     }
   }
-  // console.log(listaInscricoes);
+  // console.log(listaInscritos);
 
-  // CSV = listaInscricoes[0].forEach((item) => {
-  //   return Object.keys(item).join(";");
-  // });
+  CSV = Object.keys(listaInscritos[0]).join(";")+"\r\n";
 
-  // for (let index = 0; index < listaInscricoes.length; index++) {
-  //   const insc = listaInscricoes[index];
-  //   for (let index2 = 0; index2 < columns.value.length; index2++) {
-  //     const col = columns.value[index2];
-  //     if (col.field) CSV += insc[col.field] + ";";
-  //   }
-  //   CSV += "\r\n";
-  // }
+  for (let index = 0; index < listaInscritos.length; index++) {
+    const insc = listaInscritos[index];
+    CSV += Object.values(insc).join(";")+"\r\n";;
+  }
+    let fileName = ("valor_atleta_consumivel_"+props.evento.sigla+"_"+props.evento.ano+"_"+props.evento.etapa+"_") + ($geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-"));
+  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+  let link = document.createElement("a");
+  link.href = uri;
+  // @ts-ignore
+  link.style = "visibility:hidden";
+  link.download = fileName + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+
 };
 
 const verificaCadUnico = (item) => {
@@ -315,9 +364,8 @@ const verificaCadUnico = (item) => {
   return false;
 };
 
-
 const deleteRow = async (index, inscricao) => {
-  if ((geral.pessoa._id === "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada")) {
+  if (geral.pessoa._id === "5aff4d2f47667633c7ace227" && inscricao.status != "Finalizada") {
     $q.dialog({
       title: "Excluir",
       message: "Deseja realmente excluir o registro?",
@@ -370,7 +418,7 @@ const deleteRow = async (index, inscricao) => {
 };
 
 const editRow = (index, id, copy) => {
-    openModal(index, id, copy);
+  openModal(index, id, copy);
 };
 
 const openModal = (index, id, copy) => {

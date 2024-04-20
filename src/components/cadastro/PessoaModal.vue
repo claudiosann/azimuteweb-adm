@@ -48,9 +48,21 @@
                     <div class="col-sm-6 col-md-3 col-12">
                       <CinputDate hide-bottom-space outlined :error="$v.pessoa.nascimento.$error" :error-message="'Data inválida'" :dense="false" v-model="state.pessoa.nascimento" label="Nascimento" />
                     </div>
-                    <!-- GO Nascimento -->
+                    <!-- GO Seguro -->
                     <div class="col-sm-6 col-md-3 col-12">
                       <CinputDate hide-bottom-space outlined :error-message="'Data inválida'" :dense="false" v-model="state.pessoa.validadeSeguro" label="Validade Seguro" />
+                    </div>
+                   
+                     <!-- GO NomeDaMae -->
+                    <div class="col-sm-6 col-md-3 col-12">
+                      <q-input hide-bottom-space outlined label="Nome da Mãe" maxlength="100" ref="pessoa.nomeDaMae" v-model="state.pessoa.nomeDaMae" />
+                    </div>
+                     <!-- GO CadÚnico -->
+                    <div class="col-sm-6 col-md-3 col-12">
+                                <q-checkbox
+                                  v-model="state.pessoa.cadUnico"
+                                  label="Inscrição Social (CadÚnico)"
+                                />
                     </div>
 
                     <!-- <div class="col-sm-6 col-md-3 col-12">
@@ -85,7 +97,7 @@
                                 <q-btn
                                   color="red"
                                   @click="
-                                    (evt) => {
+                                    (evt: any) => {
                                       excluirTelefone(index);
                                       evt.preventDefault();
                                     }
