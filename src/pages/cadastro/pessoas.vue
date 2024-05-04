@@ -1,20 +1,20 @@
 <template>
    <div class="container mx-auto p-1 sm:p-4">
-    <q-table :rows="rows" :columns="columns" row-key="name" color="secondary" :pagination="initialPagination"
-      rows-per-page-label="Registros por página:">
+   <q-grid v-if="rows" :data="rows" :columns="columns" :columns_filter="true" :pagination="initialPagination" rows-per-page-label="Registros por página:">
       <template v-slot:top>
-          <q-toolbar class="p-none rounded-tl-lg  rounded-tr-lg" :glossy="true"
+        <q-toolbar class="p-none rounded-tl-lg  rounded-tr-lg" :glossy="true"
             :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
             <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-fuchsia-500 to-fuchsia-700"
                           name="person" size="30px" />
             <q-toolbar-title><span class="mr-3 text-weight-medium">Pessoas</span></q-toolbar-title>
           </q-toolbar>
-
-        </template>
+        
+      </template>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="nome"> <q-img v-if="props.row.foto" class="rounded-borders" style="width: 32px;" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.foto)"></q-img> {{ props.row.nome }} </q-td>
           <q-td key="nascimento"> {{ $geralService.getDataFormatada(props.row.nascimento) }} </q-td>
+          <q-td key="cpf"> {{ props.row.cpf }} </q-td>
           <q-td key="created_at">{{ props.row.email }}</q-td>
           <q-td key="action">
             <q-btn btn-scale push round glossy icon="more_vert">
@@ -46,7 +46,7 @@
           </q-td>
         </q-tr>
       </template>
-    </q-table>
+    </q-grid>
   </div>
 </template>
 
@@ -86,6 +86,14 @@ const columns = ref([{
   label: 'Nascimento',
   align: 'left',
   field: 'nascimento',
+  sortable: true
+},
+{
+  name: 'cpf',
+  required: true,
+  label: 'CPF',
+  align: 'left',
+  field: 'cpf',
   sortable: true
 },
 {
@@ -230,7 +238,7 @@ const confirmSave = (obj) => {
     rows.value.push(obj);
     $q.loading.hide();
   } else {
-    getList();
+    //getList();
   }
   indexSelecionado.value = -1;
 };
