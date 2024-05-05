@@ -201,7 +201,7 @@
                 <div class="col-sm-6 col-md-3 col-12">
                   <q-input outlined label="Sub Título" ref="state.entidadeSite.pagina.subTitulo" v-model="state.entidadeSite.pagina.subTitulo" bottom-slots />
                 </div>
-                <div class="col-sm-6 col-md-2 col-12">
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-input :style="{ color: state.entidadeSite.pagina.destaqueCorTexto }" outlined label="Cor Texto" v-model="state.entidadeSite.pagina.destaqueCorTexto" class="my-input">
                     <template v-slot:append>
                       <q-btn icon="colorize" :style="{ color: $geralService.invertColor(state.entidadeSite.pagina.destaqueCorTexto), background: state.entidadeSite.pagina.destaqueCorTexto }">
@@ -233,11 +233,11 @@
                 </div>
                 <div class="col-sm-6 col-md-4 col-12">
                   <q-input outlined label="Tamanho da Fonte do Título" type="number" step="0.1" ref="state.entidadeSite.pagina.destaqueTamanho" v-model="state.entidadeSite.pagina.destaqueTamanho" bottom-slots />
-                </div>
+                </div> -->
                 <!-- <div class="col-sm-6 col-md-4 col-12">
                                         <q-input outlined label="Título Margem Superior" type="number" ref="state.entidadeSite.pagina.destaqueMarginTop" v-model="state.entidadeSite.pagina.destaqueMarginTop" bottom-slots />
                                     </div> -->
-                <div class="col-sm-6 col-md-2 col-12">
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-select label="Tipo Fundo" v-model="state.entidadeSite.pagina.tipoHeaderBackGround" :options="['Cor Sólida', 'Glossy', 'Gradiente', 'Banner']" outlined> </q-select>
                 </div>
                 <div v-if="state.entidadeSite.pagina.tipoHeaderBackGround === 'Banner'" class="col-sm-6 col-md-4 col-12">
@@ -267,7 +267,7 @@
                 </div>
                 <div v-if="state.entidadeSite.pagina.tipoHeaderBackGround !== 'Banner'" class="col-sm-6 col-md-2 col-12">
                   <q-field :class="{ glossy: state.entidadeSite.pagina.tipoHeaderBackGround === 'Glossy' }" outlined :label="'Exemplo de ' + state.entidadeSite.pagina.tipoHeaderBackGround" stack-label :style="{ color: 'white', background: state.entidadeSite.pagina.tipoHeaderBackGround === 'Gradiente' ? `linear-gradient(to bottom,${state.entidadeSite.pagina.headerBackGroundCorA} 0%, ${state.entidadeSite.pagina.headerBackGroundCorB} 100%)` : state.entidadeSite.pagina.headerBackGroundCorA }"> </q-field>
-                </div>
+                </div> -->
               </div>
               <span class="text-h5">Página</span>
 
@@ -282,7 +282,7 @@
                     <q-checkbox v-model="state.entidadeSite.geral.mostrarNoticiasEntidadeEstadual" label="Mostrar Notícias da Entidade Estadual" />
                   </q-field>
                 </div>
-                <div class="col-sm-6 col-md-2 col-12">
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-input :style="{ color: state.entidadeSite.pagina.rodapeCorTexto }" outlined label="Rodapé Cor Texto" v-model="state.entidadeSite.pagina.rodapeCorTexto" class="my-input">
                     <template v-slot:append>
                       <q-btn icon="colorize" :style="{ color: $geralService.invertColor(state.entidadeSite.pagina.rodapeCorTexto), background: state.entidadeSite.pagina.rodapeCorTexto }">
@@ -292,26 +292,26 @@
                       </q-btn>
                     </template>
                   </q-input>
-                </div>
+                </div> -->
                 <div class="col-sm-6 col-md-4 col-12">
                   <q-input outlined label="Url Logo" ref="state.entidadeSite.pagina.urlLogo" v-model="state.entidadeSite.pagina.urlLogo" bottom-slots />
                 </div>
-                <div class="col-sm-6 col-md-4 col-12">
+                <!-- <div class="col-sm-6 col-md-4 col-12">
                   <q-input outlined label="Logo Altura" type="number" ref="state.entidadeSite.pagina.logoAltura" v-model="state.entidadeSite.pagina.logoAltura" bottom-slots />
                 </div>
                 <div class="col-sm-6 col-md-4 col-12">
                   <q-input outlined label="Logo Margin" type="number" ref="state.entidadeSite.pagina.logoMargin" v-model="state.entidadeSite.pagina.logoMargin" bottom-slots />
-                </div>
+                </div> -->
               </div>
 
               <span class="text-h5">Menu Principal</span>
 
               <div class="row q-col-gutter-sm q-pa-md">
-                <div class="col-sm-6 col-md-2 col-12">
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-select label="Tipo Fundo" v-model="state.entidadeSite.pagina.menuTipoBackGround" :options="['Cor Sólida', 'Glossy', 'Gradiente']" outlined> </q-select>
-                </div>
+                </div> -->
                 <div v-if="state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente'" class="col-sm-6 col-md-2 col-12">
-                  <q-select   label="Direcao" v-model="state.entidadeSite.pagina.menuBackGroundDirecao" :options="['Vertical', 'Horizontal']" outlined> </q-select>
+                  <q-select   label="Direcao Borda" v-model="state.entidadeSite.pagina.menuBackGroundDirecao" :options="['Vertical', 'Horizontal']" outlined> </q-select>
                 </div>
 
                 <div class="col-sm-6 col-md-2 col-12">
@@ -325,7 +325,7 @@
                     </template>
                   </q-input>
                 </div>
-                <div v-if="state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente'" class="col-sm-6 col-md-2 col-12">
+                <div  class="col-sm-6 col-md-2 col-12">
                   <q-input :style="{ color: state.entidadeSite.pagina.menuBackGroundCorB }" outlined label="Cor Fundo Secundária" v-model="state.entidadeSite.pagina.menuBackGroundCorB" class="my-input">
                     <template v-slot:append>
                       <q-btn icon="colorize" :style="{ color: $geralService.invertColor(state.entidadeSite.pagina.menuBackGroundCorB), background: state.entidadeSite.pagina.menuBackGroundCorB }">
@@ -337,11 +337,18 @@
                   </q-input>
                 </div>
                 <div class="col-sm-6 col-md-2 col-12">
+                  <div class="flex h-full w-full rounded-xl p-0.5 shadow" :style="{ color: 'white', background: state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente' ? `linear-gradient(to ${state.entidadeSite.pagina.menuBackGroundDirecao==='Vertical'?'top':'left'},${state.entidadeSite.pagina.menuBackGroundCorA} 0%, ${state.entidadeSite.pagina.menuBackGroundCorB} 100%)` : state.entidadeSite.pagina.menuBackGroundCorA }">
+                    <div class="flex items-center justify-center w-full h-full rounded-xl bg-red-500 dark:!bg-gray-900">
+                      Exemplo de Borda
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-field :class="{ glossy: state.entidadeSite.pagina.menuTipoBackGround === 'Glossy' }" outlined stack-label :style="{ color: 'white', background: state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente' ? `linear-gradient(to bottom,${state.entidadeSite.pagina.menuBackGroundCorA} 0%, ${state.entidadeSite.pagina.menuBackGroundCorB} 100%)` : state.entidadeSite.pagina.menuBackGroundCorA }">
                     <span :style="{ color: state.entidadeSite.pagina.menuCorTexto, 'padding-top': '17px', 'font-weight': 'bold' }">{{ "Exemplo de " + state.entidadeSite.pagina.menuTipoBackGround }}</span>
                   </q-field>
-                </div>
-                <div class="col-sm-6 col-md-2 col-12">
+                </div> -->
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-input :style="{ color: state.entidadeSite.pagina.menuCorTexto }" outlined label="Cor do Texto - Menu" v-model="state.entidadeSite.pagina.menuCorTexto" class="my-input">
                     <template v-slot:append>
                       <q-btn icon="colorize" :style="{ color: $geralService.invertColor(state.entidadeSite.pagina.menuCorTexto), background: state.entidadeSite.pagina.menuCorTexto }">
@@ -351,12 +358,12 @@
                       </q-btn>
                     </template>
                   </q-input>
-                </div>
-                <div class="col-sm-6 col-md-2 col-12">
+                </div> -->
+                <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-field outlined stack-label>
                     <q-checkbox v-model="state.entidadeSite.pagina.menuNaDireita" label="Menu à Direita" />
                   </q-field>
-                </div>
+                </div> -->
                 <div class="col-sm-6 col-md-2 col-12">
                   <q-field outlined stack-label>
                     <q-checkbox v-model="state.entidadeSite.pagina.menuFixo" label="Menu Sempre Visível" />
@@ -364,7 +371,7 @@
                 </div>
               </div>
 
-              <div class="row q-col-gutter-sm q-pa-md">
+              <!-- <div class="row q-col-gutter-sm q-pa-md">
                 <div class="col-sm-6 col-md-4 col-12">
                   <q-field outlined stack-label>
                     <q-checkbox v-model="state.entidadeSite.pagina.menuSeparador" label="Usar Separador Antes do Menu" />
@@ -384,9 +391,9 @@
                     </template>
                   </q-input>
                 </div>
-              </div>
+              </div> -->
 
-              <span class="text-h5">Menu Principal(Borda)</span>
+              <!-- <span class="text-h5">Menu Principal(Borda)</span>
               <div class="row q-col-gutter-sm q-pa-md">
                 <div class="col-sm-6 col-md-2 col-12">
                   <q-select label="Cor Borda To" v-model="state.entidadeSite.pagina.bordaFrom" :options="listColorsIntensidade" outlined>
@@ -411,13 +418,6 @@
                   </div>
                 </div>
                 <div class="col-sm-6 col-md-2 col-12">
-                  <div class="flex h-full w-full rounded-xl p-1 shadow" :style="{ color: 'white', background: state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente' ? `linear-gradient(to ${state.entidadeSite.pagina.menuBackGroundDirecao==='Vertical'?'top':'left'},${state.entidadeSite.pagina.menuBackGroundCorA} 0%, ${state.entidadeSite.pagina.menuBackGroundCorB} 100%)` : state.entidadeSite.pagina.menuBackGroundCorA }">
-                    <div class="flex items-center justify-center w-full h-full rounded-xl bg-red-500 dark:!bg-gray-900">
-                      Borda do Menu
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-md-2 col-12">
                   <q-select label="Cor Borda From" v-model="state.entidadeSite.pagina.bordaTo" :options="listColorsIntensidade" outlined>
                     <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
                       <q-item v-bind="itemProps" :key="opt" :class="'bg-' + opt">
@@ -435,9 +435,9 @@
                 <div class="col-sm-6 col-md-2 col-12">
                   <q-select label="Borda Direção" v-model="state.entidadeSite.pagina.bordaDirecao" :options="listDirecoes" outlined> </q-select>
                 </div>
-              </div>
+              </div> -->
 
-              <span class="text-h5">Headers</span>
+              <!-- <span class="text-h5">Headers</span>
               <div class="row q-col-gutter-sm q-pa-md">
                 <div class="col-sm-6 col-md-4 col-12">
                   <q-input outlined label="Open Graphic Image" ref="state.entidadeSite.pagina.og_image" v-model="state.entidadeSite.pagina.og_image" bottom-slots />
@@ -454,7 +454,7 @@
                 <div class="col-sm-6 col-md-4 col-12">
                   <q-input outlined label="Url Favicon" ref="state.entidadeSite.pagina.urlFavIcon" v-model="state.entidadeSite.pagina.urlFavIcon" bottom-slots />
                 </div>
-              </div>
+              </div> -->
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
