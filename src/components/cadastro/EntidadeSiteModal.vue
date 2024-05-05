@@ -310,7 +310,7 @@
                 <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-select label="Tipo Fundo" v-model="state.entidadeSite.pagina.menuTipoBackGround" :options="['Cor Sólida', 'Glossy', 'Gradiente']" outlined> </q-select>
                 </div> -->
-                <div v-if="state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente'" class="col-sm-6 col-md-2 col-12">
+                <div class="col-sm-6 col-md-2 col-12">
                   <q-select   label="Direcao Borda" v-model="state.entidadeSite.pagina.menuBackGroundDirecao" :options="['Vertical', 'Horizontal']" outlined> </q-select>
                 </div>
 
@@ -337,7 +337,7 @@
                   </q-input>
                 </div>
                 <div class="col-sm-6 col-md-2 col-12">
-                  <div class="flex h-full w-full rounded-xl p-0.5 shadow" :style="{ color: 'white', background: state.entidadeSite.pagina.menuTipoBackGround === 'Gradiente' ? `linear-gradient(to ${state.entidadeSite.pagina.menuBackGroundDirecao==='Vertical'?'top':'left'},${state.entidadeSite.pagina.menuBackGroundCorA} 0%, ${state.entidadeSite.pagina.menuBackGroundCorB} 100%)` : state.entidadeSite.pagina.menuBackGroundCorA }">
+                  <div class="flex h-full w-full rounded-xl p-0.5 shadow" :style="{ color: 'white', background: `linear-gradient(to ${state.entidadeSite.pagina.menuBackGroundDirecao==='Vertical'?'top':'left'},${state.entidadeSite.pagina.menuBackGroundCorA} 0%, ${state.entidadeSite.pagina.menuBackGroundCorB} 100%)` }">
                     <div class="flex items-center justify-center w-full h-full rounded-xl bg-red-500 dark:!bg-gray-900">
                       Exemplo de Borda
                     </div>
