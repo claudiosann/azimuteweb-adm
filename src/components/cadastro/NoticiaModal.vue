@@ -31,7 +31,7 @@
                                         <q-input hide-bottom-space outlined v-model="state.noticia.subTitulo" label="Sub-Título" :dense="dense" />
                                     </div>
                                     <div class="col-md-2 col-sm-4 col-12">
-                                        <q-select  hide-bottom-space outlined v-model="state.noticia.noticiaGrupo" label="Grupo de Notícia" :dense="dense" option-label="descricao" :emit-value="true" map-options :option-value="(obj) => obj._id" :options="grupo" @blur="$v.noticia.noticiaGrupo.$touch" :error="$v.noticia.noticiaGrupo.$error" error-message="Campo obrigatório">
+                                        <q-select  hide-bottom-space outlined v-model="state.noticia.noticiaGrupo" label="Grupo de Notícia" :dense="dense" option-label="descricao" :emit-value="true" map-options :option-value="(obj: any) => obj._id" :options="grupo" @blur="$v.noticia.noticiaGrupo.$touch" :error="$v.noticia.noticiaGrupo.$error" error-message="Campo obrigatório">
                                             <template v-slot:append>
                                             </template>
                                         </q-select>
@@ -122,7 +122,110 @@
                         <q-tab-panels v-model="tab" animated>
                             <q-tab-panel name="conteudo">
                                 <!-- Editor de text -->
-                                <q-editor v-model="state.noticia.htmlNoticia" :definitions="definitions" :dense="$q.screen.lt.md" :toolbar="editorConfiguracoes.toolbar" :fonts="editorConfiguracoes.fonts" @blur="$v.noticia.htmlNoticia.$touch" :error="$v.noticia.htmlNoticia.$error" error-message="Campo obrigatório" />
+                                <q-editor ref="targetRef" v-model="state.noticia.htmlNoticia" :definitions="definitions" :dense="$q.screen.lt.md" :toolbar="editorConfiguracoes.toolbar" :fonts="editorConfiguracoes.fonts" @blur="$v.noticia.htmlNoticia.$touch" :error="$v.noticia.htmlNoticia.$error" error-message="Campo obrigatório" >
+                              <template v-slot:addimage>
+                                <q-btn
+                                  flat
+                                  round
+                                  dense
+                                  icon="image"
+                                  @click="abrirGerenciadorArquivo"
+                                  aria-label="Adicionar Imagem"
+                                />
+                              </template>
+                              <template v-slot:token>
+          <q-btn-dropdown
+            dense
+            no-caps
+            ref="token"
+            no-wrap
+            unelevated
+            color="white"
+            text-color="primary"
+            label="Text Color"
+            size="sm"
+          >
+            <q-list dense>
+              <q-item tag="label" clickable @click="color('backColor', highlight)">
+                <q-item-section side>
+                  <q-icon name="highlight" />
+                </q-item-section>
+                <q-item-section>
+                  <q-color
+                    v-model="highlight"
+                    default-view="palette"
+                    no-header
+                    no-footer
+                    :palette="[
+                      '#ffccccaa',
+                      '#ffe6ccaa',
+                      '#ffffccaa',
+                      '#ccffccaa',
+                      '#ccffe6aa',
+                      '#ccffffaa',
+                      '#cce6ffaa',
+                      '#ccccffaa',
+                      '#e6ccffaa',
+                      '#ffccffaa',
+                      '#ff0000aa',
+                      '#ff8000aa',
+                      '#ffff00aa',
+                      '#00ff00aa',
+                      '#00ff80aa',
+                      '#00ffffaa',
+                      '#0080ffaa',
+                      '#0000ffaa',
+                      '#8000ffaa',
+                      '#ff00ffaa'
+                    ]"
+                    class="my-picker"
+                  />
+                </q-item-section>
+              </q-item>
+              <q-item tag="label" clickable @click="color('foreColor', foreColor)">
+                <q-item-section side>
+                  <q-icon name="format_paint" />
+                </q-item-section>
+                <q-item-section>
+                  <q-color
+                    v-model="foreColor"
+                    no-header
+                    no-footer
+                    default-view="palette"
+                    :palette="[
+    '#000000',
+    '#444444',
+    '#666666',
+    '#999999',
+    '#cccccc',
+    '#eeeeee',
+    '#f3f3f3',
+    '#ffffff',
+    // verde escuro
+    '#004d00',
+    // verde
+    '#008000',
+
+    
+                      '#ff0000',
+                      '#ff8000',
+                      '#ffff00',
+                      '#00ff00',
+                      '#00ff80',
+                      '#00ffff',
+                      '#0080ff',
+                      '#0000ff',
+                      '#8000ff',
+                      '#ff00ff'
+                    ]"
+                    class="my-picker"
+                  />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+        </template>
+                                </q-editor>
                                 <!-- Fim do Editor -->
                             </q-tab-panel>
                         </q-tab-panels>
@@ -169,14 +272,24 @@ import  SeletorEvento from "../SeletorEvento.vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useDialogPluginComponent, useQuasar, QSpinnerOval } from 'quasar';
-import { reactive } from 'vue';
+import { reactive, ref, getCurrentInstance } from 'vue';
 import ImageUpload2 from "../ImageUpload2.vue";
+import GerenciadorArquivoModal from "../GerenciadorArquivoModal.vue";
+
 
 const props = defineProps({
     id: { type: String, default: null },
     copia: null,
 });
 const geral = useGeral();
+
+const foreColor = ref('#000000');
+    const highlight = ref('#ffff00aa');
+const targetRef = ref(null);
+    const token = ref(null);
+const { proxy } = getCurrentInstance() as { proxy: any };
+
+    
 
 defineEmits([...useDialogPluginComponent.emits]);
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
@@ -199,6 +312,44 @@ watch(() => state.noticia.titulo, async (value, oldQuestion) => {
     // console.log(state.noticia.rota);
 })
 
+
+const abrirGerenciadorArquivo = () => {
+  $q.dialog({
+    component: GerenciadorArquivoModal,
+    persistent: true,
+    componentProps: {
+      multiple: true,
+      travarCaminhoUpload: false,
+      travarDeletar: true,
+      caminhoInicial: ``,
+        raiz: `${geral.entidade.sigla}`,
+      extensao: 'jpg, jpeg, png, gif'
+    },
+  })
+    .onOk(async (data) => {
+      console.log(data);
+      const img = `<div><img class="responsive" src="${data}" /></div>`
+        if (targetRef && targetRef.value) {
+            // @ts-ignore
+            targetRef.value.runCmd('insertHTML', img)
+        }
+    })
+    .onCancel(() => { });
+}
+
+const color = (cmd: any, name: any) => {
+    if (token && token.value) {
+        // @ts-ignore
+        token.value.hide()
+    }
+    if (targetRef && targetRef.value) {
+        // @ts-ignore
+        targetRef.value.runCmd(cmd, name);
+        // @ts-ignore
+        targetRef.value.focus();
+    }
+    }
+    
 // GO valida
 const validations = {
     noticia: {
@@ -521,6 +672,8 @@ const save = async (newNoticia: any, nomeTempFile: any) => {
     }
 };
 
+
+
 const editorConfiguracoes = {
     toolbar: [
         [
@@ -531,8 +684,9 @@ const editorConfiguracoes = {
                 options: ['left', 'center', 'right', 'justify']
             }
         ],
-        ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-        ['token', 'hr', 'link', 'custom_btn'],
+        ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript','fontColor'],
+        ['token','removeFormat'],
+        ['hr', 'link', 'addimage'],
         ['print', 'fullscreen'],
         [
             {
@@ -566,8 +720,19 @@ const editorConfiguracoes = {
         ],
         ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
         // ['undo', 'redo', 'insert_img'],
-        ['undo', 'redo']
+        ['undo', 'redo'],
+        ,
+        ['viewsource']
+        
     ],
+     fontColor: {                
+       tip: 'Change font color', 
+       icon: 'colorize',         
+       label: 'Font Color',      
+       handler: function (editor: any) { 
+         editor.execCmd('foreColor', '#ff0000'); 
+         },                  
+        },
     fonts: {
         arial: 'Arial',
         arial_black: 'Arial Black',
@@ -581,3 +746,7 @@ const editorConfiguracoes = {
 };
 </script>
 
+<style lang="sass" scoped>
+.my-picker
+  max-width: 150px
+</style>

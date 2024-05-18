@@ -68,8 +68,15 @@
                   </q-item-section>
                   <q-item-section v-if="!travarDeletar" side>
                     <div class="flex items-center flex-nowrap">
-                      <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-copy" @click.stop="copyLinkFolder(item.Prefix)" />
-                      <q-btn size="14px" flat dense round icon="delete" @click.stop="deleteFolder(item)" />
+                      <q-btn class="mr-2" size="14px" flat dense round color="warning" icon="fas fa-pencil-alt" @click.stop="renomear(item.Prefix, false)">
+                        <q-tooltip> Renomear </q-tooltip>
+                      </q-btn>
+                      <q-btn class="mr-2" size="14px" flat dense round color="primary" icon="fas fa-copy" @click.stop="copyLinkFolder(item.Prefix)">
+                        <q-tooltip> Copiar para área de transferência </q-tooltip>
+                      </q-btn>
+                      <q-btn size="14px" flat dense round color="red" icon="delete" @click.stop="deleteFolder(item)">
+                        <q-tooltip> Deletar </q-tooltip>
+                      </q-btn>
                     </div>
                   </q-item-section>
                 </q-item>
@@ -86,9 +93,19 @@
               </q-item-section>
               <q-item-section class="" v-if="!travarDeletar" side>
                 <div class="flex items-center flex-nowrap">
-                  <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-external-link-alt" target="_blank" :href="$geralService.configuracoes.BASE_S3 + file.Key" />
-                  <q-btn class="mr-2" size="14px" flat dense round icon="fas fa-copy" @click="clipboard(file.Key)" />
-                  <q-btn v-if="geral.funcoesAcessos.arquivosDeletar" size="14px" flat dense round icon="delete" @click="deleteFile(file)" />
+                                        <q-btn class="mr-2" size="14px" flat dense round color="warning" icon="fas fa-pencil-alt" @click.stop="renomear(file.Key, true)">
+                        <q-tooltip> Renomear </q-tooltip>
+                      </q-btn>
+
+                  <q-btn class="mr-2" size="14px" flat dense round color="positive" icon="fas fa-external-link-alt" target="_blank" :href="$geralService.configuracoes.BASE_S3 + file.Key">
+                    <q-tooltip> Abrir arquivo </q-tooltip>
+                  </q-btn>
+                  <q-btn class="mr-2" size="14px" flat dense round color="primary" icon="fas fa-copy" @click="clipboard(file.Key)">
+                    <q-tooltip> Copiar para área de transferência </q-tooltip>
+                  </q-btn>
+                  <q-btn v-if="geral.funcoesAcessos.arquivosDeletar" color="red" size="14px" flat dense round icon="delete" @click="deleteFile(file)">
+                    <q-tooltip> Deletar </q-tooltip>
+                  </q-btn>
                 </div>
               </q-item-section>
             </q-item>
@@ -135,11 +152,74 @@ const clipboard = (text: string) => {
     caption: "Copiado",
   });
 };
+
+
+const removeUltimoItemArray = (array: any) => {
+  return array.slice(0, -1);
+};
+
+const renomear = (nome: any, file:boolean) => {
+  let source: string = nome.slice(0, -1).replace(geral.entidade.sigla + "/", "");
+  if(file) {
+    source = nome.replace(geral.entidade.sigla + "/", "");
+  }
+  let arrayTemp = nome.slice(0, -1).split("/");
+  // remover o último item de teste
+  arrayTemp = arrayTemp.slice(0, 1);
+    $q.dialog({
+        dark: true,
+        title: 'Renomear',
+        message: 'Digite o novo nome',
+        prompt: {
+            model: source,
+            type: 'text' // optional
+        },
+        cancel: true,
+        persistent: true
+    }).onOk(async data => {
+       if (data && data !== source) {
+         $q.notify({
+            color: 'positive',
+            position: 'top',
+            icon: 'check',
+            message: 'Informação!',
+            caption: 'Sucesso na alterarção do nome! '+ arrayTemp.join("/") + '/'+ data + '/'
+         });
+
+         if (data && data !== source) {
+           let destino = arrayTemp.join("/") + '/' + data + '/';
+           if(file) {
+             destino = arrayTemp.join("/") + '/' + data;
+           }
+           const ret = await useCustomFetch("api/moveS3", "post", {
+             origem: nome,
+             destino: destino,
+             file: file
+           }, undefined);
+
+           if (ret.valido) { 
+            navegar(pastas.value.length - 1, true);
+           }
+           console.log(ret);
+         }
+
+        } else {
+          $q.notify({
+            color: 'warning',
+            position: 'top',
+            icon: 'check',
+            message: 'Atenção!',
+            caption: 'Nome inválido ou igual ao anterior.',
+          });
+        }
+       // gravaFiliacao('Filiação aceita e ativada com sucesso! ' + data);
+    });
+}
+
 const copyLinkFolder = (text: string) => {
   // remover o ultimo caracter que é a barra
-  
 
-  copy(text.slice(0, -1).replace(geral.entidade.sigla+'/', ""));
+  copy(text.slice(0, -1).replace(geral.entidade.sigla + "/", ""));
   $q.notify({
     color: "info",
     position: "top",

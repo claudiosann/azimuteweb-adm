@@ -197,7 +197,7 @@ const getList = async () => {
           },
           {
             path: "inscritos.pessoa",
-            select: { nome: 1, foto: 1 },
+            select: { nome: 1, cpf: 1, foto: 1 },
           },
           {
             path: "pagamento",
@@ -308,6 +308,7 @@ const gerarListagemValores = async () => {
           inscricao_total: ai.totalAtletaLiquido,
           // inscrito_id: ai.pessoa._id,
           inscrito_nome: ai.pessoa.nome,
+          inscrito_cpf: ai.pessoa.cpf,
           // consumivel_id: it.consumivel._id,
         };
 

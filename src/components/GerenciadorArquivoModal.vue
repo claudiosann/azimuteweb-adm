@@ -214,12 +214,20 @@ const buscar = async (caminho: any, forcar: boolean) => {
                     if (props.extensao) {
                         // console.log(props.extensao);
                         // console.log(file);
-                        if (!file.Key.endsWith(props.extensao)) {
+
+                        const extensoes = props.extensao.split(',');
+                        let achou = false;
+                        for (const extensao of extensoes) {
+                            if (file.Key.endsWith(extensao)) {
+                                achou = true;
+                            }
+                        }
+                        if (!achou) {
                             return false;
                         }
                     }
-
-                    if (((file.Key.endsWith('jpg') || file.Key.endsWith('png')) && file.Key.startsWith('thumbnail') || file.Key.endsWith('/'))) {
+                    console.log(file.Key);
+                    if ((((file.Key.endsWith('jpg') || file.Key.endsWith('png')) && file.Key.includes('thumbnail-')) || file.Key.endsWith('/'))) {
                         return false;
                     }
                     return true;
