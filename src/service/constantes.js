@@ -1467,7 +1467,7 @@ const constantes = {
       tipo: "Administrador",
     },
   ],
-  ABRANGENCIA: ["Municipal", "Estadual", "Regional", "Nacional", "Internacional"],
+  ABRANGENCIA: ["Municipal", "Estadual", "Regional", "Nacional", "Continental", "Mundial",],
   PAISES: [
     {
       name: "Afghanistan",

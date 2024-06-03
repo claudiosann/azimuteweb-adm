@@ -1,4 +1,4 @@
-const base: {
+const base = {
     "geral" : {
         "tratamento" : "o",
         "tratamento2" : "do",
