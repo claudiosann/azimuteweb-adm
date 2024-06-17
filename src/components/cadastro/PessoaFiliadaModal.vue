@@ -29,6 +29,7 @@
                   <q-tab default name="filiacao" icon="join_left" label="Filiação"> </q-tab>
                   <q-tab name="historico" icon="history" label="Histórico" />
                   <q-tab name="filiacoes" icon="badge" label="Todas as Filiações" />
+                  <q-tab name="fotos" icon="image" label="Fotos" />
                 </q-tabs>
                 <q-separator />
                 <q-tab-panels v-model="tab" animated>
@@ -62,12 +63,12 @@
                             <div class="col-span-6 sm:col-span-3"><span class="font-semibold">País de Origem:</span> {{ state.filiacaoPessoa.pessoa.nacionalidade ? state.filiacaoPessoa.pessoa.nacionalidade : state.filiacaoPessoa.pessoa.endereco.pais }}</div>
                             <div v-if="state.filiacaoPessoa.pessoa.nomeDaMae" class="col-span-6 sm:col-span-3"><span class="font-semibold">Nome da Mãe:</span> {{ state.filiacaoPessoa.pessoa.nomeDaMae }}</div>
 
-                             <div class="col-span-6 mt-2">
-                             <div class="font-bold ">Endereço</div>
-            <div>{{ state.filiacaoPessoa.pessoa.endereco.logradouro }}, {{ state.filiacaoPessoa.pessoa.endereco.numero }} - {{ state.filiacaoPessoa.pessoa.endereco.bairro }}</div>
-            <div>{{ state.filiacaoPessoa.pessoa.endereco.cidade }} - {{ state.filiacaoPessoa.pessoa.endereco.uf }}</div>
-            <div>CEP: {{ state.filiacaoPessoa.pessoa.endereco.cep }}</div>
-</div>
+                            <div class="col-span-6 mt-2">
+                              <div class="font-bold">Endereço</div>
+                              <div>{{ state.filiacaoPessoa.pessoa.endereco.logradouro }}, {{ state.filiacaoPessoa.pessoa.endereco.numero }} - {{ state.filiacaoPessoa.pessoa.endereco.bairro }}</div>
+                              <div>{{ state.filiacaoPessoa.pessoa.endereco.cidade }} - {{ state.filiacaoPessoa.pessoa.endereco.uf }}</div>
+                              <div>CEP: {{ state.filiacaoPessoa.pessoa.endereco.cep }}</div>
+                            </div>
                             <div class="col-span-6 sm:col-span-3">
                               <span class="font-bold mt-2">Validade Seguro: </span>
                               <span>{{ $geralService.getDataFormatada(state.filiacaoPessoa.pessoa.validadeSeguro) }}</span>
@@ -178,12 +179,17 @@
                     </q-timeline>
                   </q-tab-panel>
                   <q-tab-panel name="filiacoes">
-                     <div class="flex items-center gap-1 mt-2 rounded-lg shadow p-2" v-for="(filiacao, index) in state.filiacaoPessoa.pessoa.filiacoes" :key="index">
-                          <q-avatar size="35px" v-if="filiacao.status" :color="getCorStatusFuncao(filiacao.status)" text-color="white">{{ $geralService.getIniciais(filiacao.status) }}</q-avatar>
-                          <q-avatar rounded size="35px"><q-img v-if="filiacao.entidade.logo" :src="getUrlImagem(filiacao.entidade.logo, 128)"></q-img></q-avatar>
-                          <div class="text-lg">{{ filiacao.entidade.sigla }} - {{ filiacao.entidade.nomeRazao }}</div>
-                        </div>
-                    
+                    <div class="flex items-center gap-1 mt-2 rounded-lg shadow p-2" v-for="(filiacao, index) in state.filiacaoPessoa.pessoa.filiacoes" :key="index">
+                      <q-avatar size="35px" v-if="filiacao.status" :color="getCorStatusFuncao(filiacao.status)" text-color="white">{{ $geralService.getIniciais(filiacao.status) }}</q-avatar>
+                      <q-avatar rounded size="35px"><q-img v-if="filiacao.entidade.logo" :src="getUrlImagem(filiacao.entidade.logo, 128)"></q-img></q-avatar>
+                      <div class="text-lg">{{ filiacao.entidade.sigla }} - {{ filiacao.entidade.nomeRazao }}</div>
+                    </div>
+                  </q-tab-panel>
+                  <q-tab-panel name="fotos">
+                    <div class="flex items-center gap-1 mt-2 rounded-lg shadow p-2">
+                      <img v-if="state.filiacaoPessoa.pessoa.foto" class="rounded-s-lg hidden md:!block" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.foto}`" style="max-height: 150px" />
+                      <img v-if="state.filiacaoPessoa.pessoa.fotoPostura" class="rounded-e-lg hidden md:!block" :src="`${$geralService.configuracoes.BASE_S3 + state.filiacaoPessoa.pessoa.fotoPostura}`" style="max-height: 150px" />
+                    </div>
                   </q-tab-panel>
                 </q-tab-panels>
               </div>
@@ -206,7 +212,6 @@ import VisualizarImagemModal from "../VisualizarImagemModal.vue";
 import { useDialogPluginComponent, useQuasar, QSpinnerOval } from "quasar";
 import { reactive } from "vue";
 import { time } from "console";
-
 
 const { $geralService, $constantes } = useNuxtApp();
 
@@ -416,7 +421,7 @@ onBeforeMount(async () => {
           {
             path: "pessoa",
             select: { senha: 0 },
-             populate: [{ path: "filiacoes", select: { nivelDificuldade: 1, entidade: 1, abrangencia: 1, status: 1 } ,populate: [{ path: "entidade", select: { nomeRazao: 1, logo: 1, sigla: 1, nomeFantasia: 1, tipo: 1, tratamentoMasculino: 1 } }]}],
+            populate: [{ path: "filiacoes", select: { nivelDificuldade: 1, entidade: 1, abrangencia: 1, status: 1 }, populate: [{ path: "entidade", select: { nomeRazao: 1, logo: 1, sigla: 1, nomeFantasia: 1, tipo: 1, tratamentoMasculino: 1 } }] }],
           },
           {
             path: "filiacaoPessoaLancamento",
