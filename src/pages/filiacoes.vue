@@ -369,7 +369,7 @@ const validaPagamento = async (ret, filiacaoPessoaLancamento) => {
         }
       }
       retGrava = (await gravaFiliacao(undefined, filiacaoPessoaLancamento));
-      await getFiliacaoPessoa();
+      // await getFiliacaoPessoa(filiacaoPessoaLancamento);
 
       $q.notify({
         color: "positive",
@@ -389,6 +389,15 @@ const validaPagamento = async (ret, filiacaoPessoaLancamento) => {
     });
   }
 };
+
+const getDataMais4Meses = () => {
+  let data = new Date();
+  data.setMonth(data.getMonth() + 4);
+  return data.toISOString();
+};
+
+const tabEntidades = ref(0);
+
 
 const verificaSeTemTef = async (filiacao) => {
   try {

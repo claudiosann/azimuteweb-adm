@@ -657,6 +657,11 @@ const gerarArranjoConsumivel = (item, inscricao, validador, arranjoEntidades) =>
     const arranjo = item.consumivel.arranjoPagamento[index2];
     if (arranjo.tipo == "Percentual" && arranjo.entidade._id != inscricao.evento.entidadeResponsavel._id) {
       let novoValor = $geralService.arredonda((arranjo.valor / 100) * item.totalLiquido);
+
+      if (inscricao.evento.taxaAzimuteCertoAbsorver) {
+          novoValor = $geralService.arredonda((arranjo.valor / 100) *  (item.totalLiquido-$geralService.arredonda((item.totalLiquido * inscricao.evento.taxaAzimuteCerto) / 100)));
+      }
+      
       if (!item.cadUnico) {
         addValorArranjoEntidade(arranjoEntidades, arranjo, novoValor);
         arranjoCalculado.push({

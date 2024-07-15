@@ -387,6 +387,7 @@ const inserirAcrescimoDesconto = (index: number, tipo: any) => {
         descricao: '',
         idadeMinima: '0',
         idadeMaxima: '120',
+        agrupador: 1,
         sexo: 'Qualquer',
         categorias: [],
         entidades: [],

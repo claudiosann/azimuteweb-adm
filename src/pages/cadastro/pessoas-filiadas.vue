@@ -377,6 +377,7 @@ const getList = async () => {
         {
           filtro: {
             entidade: geral.entidade._id,
+            status: { $ne: "Desfiliada" },
             lixo: false,
           },
           populateObj: [
@@ -448,7 +449,7 @@ const exportar = async () => {
   });
   console.log("iniciou");
   console.log(geral.entidade.sigla);
- 
+
   const ret = await useCustomFetch("listarFiliacaoPessoa", "post", { entidades: [geral.entidade.sigla] }, undefined);
   if (ret.valido) {
     const retCSV = await exportCSV(ret.data);
@@ -456,55 +457,51 @@ const exportar = async () => {
     console.log("ret", ret);
   }
   $q.loading.hide();
-  
 };
 
 const model = {
-  "numero": 17562,
-  "nome": "Leo Virgilio Werle",
-  "email": "teste@teste.com",
-  "cpf": "07393049929",
-  "status": "Ativa",
-  "nascimento": "2005-08-15T03:00:00.000Z",
-  "nomeDaMae": "Simone Catarina Bachmann Werle",
-  "validadeSeguro": "2018-08-15T03:00:00.000Z",
-  "atualizacaoDados": "2018-08-15T03:00:00.000Z",
-  "apelido": "Leo",
-  "sexo": "Masculino",
-  "entidades": [
-    "CBO"
+  numero: 17562,
+  nome: "Leo Virgilio Werle",
+  email: "teste@teste.com",
+  cpf: "07393049929",
+  status: "Ativa",
+  nascimento: "2005-08-15T03:00:00.000Z",
+  nomeDaMae: "Simone Catarina Bachmann Werle",
+  validadeSeguro: "2018-08-15T03:00:00.000Z",
+  atualizacaoDados: "2018-08-15T03:00:00.000Z",
+  apelido: "Leo",
+  sexo: "Masculino",
+  entidades: ["CBO"],
+  filiacaoPrincipal: "65a0f1c9480314ee676b664a",
+  filiacoes: [
+    {
+      _id: "65a0f1c9480314ee676b664a",
+      entidade: "CBO",
+      status: "Ativa",
+      abrangencia: "Nacional",
+    },
+    {
+      _id: "65a0f1c9480314ee676b664d",
+      entidade: "ACORPATO",
+      status: "Ativa",
+      abrangencia: "Local",
+    },
+    {
+      _id: "65a0f1c9480314ee676b6650",
+      entidade: "FPO",
+      status: "Ativa",
+      abrangencia: "Estadual",
+    },
   ],
-  "filiacaoPrincipal": "65a0f1c9480314ee676b664a",
-  "filiacoes": [
-    {
-      "_id": "65a0f1c9480314ee676b664a",
-      "entidade": "CBO",
-      "status": "Ativa",
-      "abrangencia": "Nacional"
-    },
-    {
-      "_id": "65a0f1c9480314ee676b664d",
-      "entidade": "ACORPATO",
-      "status": "Ativa",
-      "abrangencia": "Local"
-    },
-    {
-      "_id": "65a0f1c9480314ee676b6650",
-      "entidade": "FPO",
-      "status": "Ativa",
-      "abrangencia": "Estadual"
-    }
-  ]
 };
-
 
 const getFederacoes = (list) => {
   let fed = "";
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
     if (element.abrangencia == "Estadual") {
-      if(fed.length > 0){
-        fed += (", " + element.entidade);
+      if (fed.length > 0) {
+        fed += ", " + element.entidade;
       } else {
         fed = element.entidade;
       }
@@ -518,8 +515,8 @@ const getClubes = (list) => {
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
     if (element.abrangencia == "Local") {
-      if(fed.length > 0){
-        fed += (", " + element.entidade);
+      if (fed.length > 0) {
+        fed += ", " + element.entidade;
       } else {
         fed = element.entidade;
       }
@@ -529,30 +526,30 @@ const getClubes = (list) => {
 };
 
 const exportCSV = async (rows) => {
-    // get model keys
-    const keys = Object.keys(model);
+  // get model keys
+  const keys = Object.keys(model);
 
-    let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
+  let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
 
+  CSV += "\r\n";
+  for (let index = 0; index < rows.length; index++) {
+    const row = rows[index];
+    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.status + ";" + row.email + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
     CSV += "\r\n";
-    for (let index = 0; index < rows.length; index++) {
-      const row = rows[index];
-      CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";"+ row.status+";"+row.email+";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
-      CSV += "\r\n";
-    }
+  }
 
-    let fileName = "filiados_"+geral.entidade.sigla+"_"+$geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-");
-    let uri = "data:text/csv;charset=utf-8," + escape(CSV);
-    let link = document.createElement("a");
-    link.href = uri;
-    // @ts-ignore
-    link.style = "visibility:hidden";
-    link.download = fileName + ".csv";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    return { valido: true, data: { message: "CSV gerado com sucesso!" } };
-  };
+  let fileName = "filiados_" + geral.entidade.sigla + "_" + $geralService.getDataHoraFormatada(new Date()).replaceAll(" ", "-").replaceAll(":", "-");
+  let uri = "data:text/csv;charset=utf-8," + escape(CSV);
+  let link = document.createElement("a");
+  link.href = uri;
+  // @ts-ignore
+  link.style = "visibility:hidden";
+  link.download = fileName + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  return { valido: true, data: { message: "CSV gerado com sucesso!" } };
+};
 
 const deleteRow = async (props) => {
   console.log(props);
