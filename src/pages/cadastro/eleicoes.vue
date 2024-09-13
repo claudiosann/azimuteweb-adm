@@ -227,17 +227,19 @@ const getList = async () => {
       const votacoes = ret.data
         .map((votacao) => {
           votacao.administradores.forEach((adm) => {
-            if (adm.pessoa === geral.pessoa._id) {
+            console.log(adm.pessoa.toString(), geral.pessoa._id.toString());
+            if (adm.pessoa.toString() === geral.pessoa._id.toString()) {
               // eslint-disable-next-line
               adm.funcaoVotacao.forEach((funcao) => {
-                switch (funcao.id) {
-                  case 1:
+                console.log(funcao.id);
+                switch (funcao.descricao) {
+                  case 'Consultar':
                     votacao.funcaoConsultar = true;
                     break;
-                  case 2:
+                  case 'Editar':
                     votacao.funcaoEditar = true;
                     break;
-                  case 3:
+                  case 'Auditar':
                     votacao.funcaoAuditar = true;
                     break;
                 }
