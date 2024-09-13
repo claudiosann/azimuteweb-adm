@@ -45,6 +45,8 @@
                     icon="folder" title="Arquivos"
                     :caption="`Gerenciador de Arquivos ${(geral.entidade.tratamentoMasculino ? 'do' : 'da')} ${geral.entidade.sigla}`"
                     v-if="geral.funcoesAcessos.arquivosAcessar" />
+                <EssentialLink  title="Gerenciar Eleições" caption="Lista de eleições para gerenciamento" icon="alt_route" color="bg-gradient-to-r from-red-400 to-teal-700" link="/cadastro/eleicoes"
+                    v-if="geral.funcoesAcessos.eleicaoAcessar" />
             </q-expansion-item>
             <q-expansion-item :dark="false" v-if="geral.funcoesAcessos.siteAcessar" class="menuItem"
                 icon="important_devices" :content-inset-level="0.5">

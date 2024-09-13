@@ -114,8 +114,25 @@ const buscarPessoa = async () => {
       if (ret.valido) {
         muitosResultados.value = false;
         listaPessoas.value = ret.data;
+
+        if (listaPessoas.value.length === 0) {
+          $q.notify({
+            position: "top",
+            icon: "warning",
+            color: "warning",
+            message: "Nenhuma pessoa encontrada!",
+          });
+        }
+          
+        
       } else {
         if (ret.data.erroMaxRetorno) {
+            $q.notify({
+            position: "top",
+            icon: "info",
+            color: "info",
+            message: "Muitos resultados, melhore sua busca!",
+          });
           muitosResultados.value = true;
         } else {
           console.error(ret);

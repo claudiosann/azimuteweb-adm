@@ -1179,7 +1179,42 @@ const constantes = {
         "descricao": "Administrativo"
       }
     },
-    
+    {
+      "id": 132,
+      "descricao": "Eleição - Acessar",
+      "variavel": "eleicaoAcessar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    {
+      "id": 133,
+      "descricao": "Eleição - Inserir",
+      "variavel": "eleicaoInserir",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    {
+      "id": 134,
+      "descricao": "Eleição - Editar",
+      "variavel": "eleicaoEditar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
+    {
+      "id": 135,
+      "descricao": "Eleição - Deletar",
+      "variavel": "eleicaoDeletar",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
   ],
   formatMoney: {
     decimal: ",",
