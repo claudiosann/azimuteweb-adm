@@ -330,6 +330,34 @@
                       </div>
                     </div>
                   </q-expansion-item>
+                  <q-expansion-item group="validacaoGroup" label="Configuração Site" dense-toggle expand-separator>
+                    <div class="q-pa-sm row q-col-gutter-sm">
+                      <div class="col-md-4 col-12">
+                        <q-field outlined dense>
+                          <template v-slot:control>
+                            <div class="self-center full-width no-outline" tabindex="0">
+                              <q-checkbox keep-color v-model="state.entidade.site.ativo" label="Site Ativo" />
+                            </div>
+                          </template>
+                        </q-field>
+                      </div>
+                      <div class="col-md-4 col-12">
+                        <q-field outlined dense>
+                          <template v-slot:control>
+                            <div class="self-center full-width no-outline" tabindex="0">
+                              <q-checkbox keep-color v-model="state.entidade.site.azimuteWeb" label="Site integrado a plataforma Azimute Certo" />
+                            </div>
+                          </template>
+                        </q-field>
+                      </div>
+                     <div class="col-sm-4 col-12">
+                                <q-input outlined label="Domínio" v-model="state.entidade.site.dominio" />
+                      </div>
+                     <div class="col-sm-4 col-12">
+                                <q-input outlined label="SubDomínio orientacao.esp" v-model="state.entidade.site.dominioOrientacaoEsp" />
+                      </div>
+                    </div>
+                  </q-expansion-item>
                 </q-list>
               </q-tab-panel>
               <q-tab-panel name="adms">

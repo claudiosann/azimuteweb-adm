@@ -88,7 +88,7 @@
                   <div class="col-md-3 col-sm-6 col-12">
                     <q-select :readonly="!inserir" hide-bottom-space outlined
                       v-model="state.financeiroMovimentacao.planoDeConta"
-                      :option-disable="opt => opt.especificacao === 'Sintética'" @update:model-value="inputPlanoConta"
+                      :option-disable="verificaTipoConta" @update:model-value="inputPlanoConta"
                       label="Plano de Conta" :dense="dense" map-options :option-label="getDescricaoPlanoConta"
                       :emit-value="true" option-value="_id" :options="getListaPlanoFiltro"
                       @blur="$v.financeiroMovimentacao.planoDeConta.$touch"
@@ -151,6 +151,12 @@
                       <q-img v-if="!documentoIsPdf && (novoDoc || state.financeiroMovimentacao.documentoImagem)"
                         :src="novoDoc ? novoDoc : ($geralService.configuracoes.BASE_S3 + state.financeiroMovimentacao.documentoImagem)"
                         spinner-color="primary" spinner-size="82px"></q-img>
+                        <iframe
+           v-else-if="novoDoc || state.financeiroMovimentacao.documentoImagem"
+      :src="novoDoc ? novoDoc : ($geralService.configuracoes.BASE_S3 + state.financeiroMovimentacao.documentoImagem)"
+      class="w-full"
+      height="500"
+    />
                     </q-card-section>
                   </q-card>
                 </div>
@@ -183,6 +189,12 @@
                       <q-img v-if="!comprovanteIsPdf && (novoComp || state.financeiroMovimentacao.comprovanteImagem)"
                         :src="novoComp ? novoComp : ($geralService.configuracoes.BASE_S3 + state.financeiroMovimentacao.comprovanteImagem)"
                         spinner-color="primary" spinner-size="82px"></q-img>
+                          <iframe
+           v-else-if="novoComp || state.financeiroMovimentacao.comprovanteImagem"
+      :src="novoComp ? novoComp : ($geralService.configuracoes.BASE_S3 + state.financeiroMovimentacao.comprovanteImagem)"
+      class="w-full"
+      height="500"
+    />
                       <!-- <q-pdfviewer v-if="comprovanteIsPdf" v-model="show" :src="novoComp ? novoComp : ($configuracoes.BASE_S3 + state.financeiroMovimentacao.comprovanteImagem)" type="pdfjs" content-class="fit container" inner-content-class="fit container" /> -->
                     </q-card-section>
                   </q-card>
@@ -202,6 +214,10 @@ import { required } from "@vuelidate/validators";
 import { useDialogPluginComponent, useQuasar, QSpinnerOval } from 'quasar';
 import { reactive } from 'vue';
 import ImageUpload2 from "@/components/ImageUpload2.vue";
+import { VuePDF, usePDF } from '@tato30/vue-pdf'
+import '@tato30/vue-pdf/style.css'
+const scale = ref(1);
+
 
 const props = defineProps({
   id: { type: String, default: null },
@@ -282,6 +298,11 @@ const novoDocumento = ref<any>(null);
 const novoComprovante = ref<any>(null);
 const documentoPadrao = ref<any>(null);
 const comprovantePadrao = ref<any>(null);
+
+// opt => opt.especificacao === 'Sintética'
+const verificaTipoConta = (opt: any) => {
+  return opt.especificacao === 'Sintética';
+}
 
 const documentoIsPdf = computed(() => {
   if (novoDocumento.value) {
@@ -439,6 +460,8 @@ onBeforeMount(async () => {
         inserir.value = true;
       } else {
         inserir.value = false;
+        documentoPadrao.value = state.financeiroMovimentacao.documentoImagem;
+        comprovantePadrao.value = state.financeiroMovimentacao.comprovanteImagem;
       }
     } else {
       setTimeout(async () => {

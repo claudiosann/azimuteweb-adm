@@ -397,7 +397,7 @@ const inserirAcrescimoDesconto = (index: number, tipo: any) => {
     if (tipo === 'descontosDependentes') {
         addTmp.tipos = [];
         addTmp.sexo = undefined;
-        addTmp.minimo = 0;
+        addTmp.minimo = 1;
         addTmp.maximo = 100;
         addTmp.sequenciaDescontos = [];
     }

@@ -865,7 +865,7 @@ const GeralService = {
       } else if (imageData === null) {
         // Função para deletar a imagem
         if (obj[field] !== '') {
-          this.deleteImagem(obj[field], undefined, thumbnails);
+          this.deleteImagem(obj[field], thumbnails);
           obj[field] = '';
         }
       }

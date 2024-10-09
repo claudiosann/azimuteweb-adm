@@ -24,12 +24,32 @@
                             error-message="Campo obrigatório" />
                     </div>
                     <div class="col-sm-4 col-md-2 col-12">
-                        <q-input unmasked-value type="number" hide-bottom-space outlined
-                            v-model="descDep.minimo" label="Qtde Mínima" :dense="dense" />
+                        <q-input unmasked-value type="number" :min="0" hide-bottom-space outlined
+                            v-model="descDep.minimo" label="A partir do" :dense="dense" >
+                             <template v-slot:append>
+                                <q-btn icon="help" round flat>
+                                    <q-popup-proxy>
+                                        <q-banner>
+                                            A partir do dependente (N) será aplicado o desconto
+                                        </q-banner>
+                                    </q-popup-proxy>
+                                </q-btn>
+                            </template>
+                        </q-input>
                     </div>
                     <div class="col-sm-4 col-md-2 col-12">
                         <q-input unmasked-value type="number" hide-bottom-space outlined
-                            v-model="descDep.maximo" label="Qtde Máxima" :dense="dense" />
+                            v-model="descDep.maximo" label="Qtde Máxima" :dense="dense" >
+                            <template v-slot:append>
+                                <q-btn icon="help" round flat>
+                                    <q-popup-proxy>
+                                        <q-banner>
+                                            Número máximo de dependentes que será aplicado o desconto
+                                        </q-banner>
+                                    </q-popup-proxy>
+                                </q-btn>
+                            </template>
+                        </q-input>
                     </div>
                     <div class="col-sm-4 col-md-2 col-12">
                         <q-input unmasked-value type="number" hide-bottom-space outlined
@@ -63,8 +83,6 @@
                             </template>
                             <template v-slot:append>
                                 <q-btn @click="emit('onAddValores', index, index2)" round dense outline icon="add" />
-                            </template>
-                            <template v-slot:after>
                                 <q-btn icon="help" round flat>
                                     <q-popup-proxy>
                                         <q-banner>
@@ -77,7 +95,7 @@
                             </template>
                         </q-field>
                     </div>
-                    <div v-if="percurso" class="col-md-4 col-12">
+                    <div v-if="percurso" class="col-md-5 col-12">
                         <q-field outlined  stack-label
                             label="Categorias">
                             <template v-slot:control>
@@ -118,7 +136,7 @@
                         <q-input type="number" hide-bottom-space min="0" outlined
                             :ref="'state.loteInscricao.consumiveis' + index + '.descontosDependentes' + index2 + '.agrupador'"
                             v-model="descDep.agrupador" label="Agrupador" :dense="dense" >
-                        <template v-slot:after>
+                        <template v-slot:append>
                                     <q-btn icon="help" round flat>
                                         <q-popup-proxy>
                                             <q-banner>
