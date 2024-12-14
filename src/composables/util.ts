@@ -230,7 +230,7 @@ export const getCSVCompletoVotacaoFechada = async (enquete: any) => {
     .map((a: any) => a.value);
 
   for (let i = 0; i < enquete.opcoesDeVoto.length; i++) {
-    CSV += enquete.opcoesDeVoto[i]._id + "\r\n";
+    CSV += enquete.opcoesDeVoto[i]._id + ";" + enquete.opcoesDeVoto[i].titulo + "\r\n";
   }
 
   CSV += "\r\n";

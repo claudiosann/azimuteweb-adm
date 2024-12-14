@@ -386,6 +386,8 @@ const deleteRow = async (index, inscricao) => {
           // console.log(inscricao.pagamento._id )
           // console.log(inscricao._id )
 
+          // Verificar se já foi feito o repasse  (status pago)
+
           const ret = await useCustomFetch("pagamento/delete", "post", { _id: inscricao.pagamento._id }, undefined);
           if (ret.valido) {
             const ret2 = await useCustomFetch("inscricao/delete", "post", { _id: inscricao._id }, undefined);

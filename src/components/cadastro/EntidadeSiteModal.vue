@@ -18,6 +18,7 @@
             <q-tab name="menu" icon="menu" label="Menu" />
             <q-tab name="midias" icon="image" label="Mídias" />
             <q-tab name="layout" icon="line_style" label="Layout" />
+            <!-- <q-tab name="geral" icon="settings" label="Geral" /> -->
           </q-tabs>
           <q-separator />
           <q-tab-panels v-model="tab" animated>
@@ -272,16 +273,7 @@
               <span class="text-h5">Página</span>
 
               <div class="row q-col-gutter-sm q-pa-md">
-                <div class="col-sm-6 col-md-2 col-12">
-                  <q-field outlined stack-label>
-                    <q-checkbox v-model="state.entidadeSite.geral.mostrarNoticiasEntidadeNacional" label="Mostrar Notícias da Entidade Nacional" />
-                  </q-field>
-                </div>
-                <div class="col-sm-6 col-md-2 col-12">
-                  <q-field outlined stack-label>
-                    <q-checkbox v-model="state.entidadeSite.geral.mostrarNoticiasEntidadeEstadual" label="Mostrar Notícias da Entidade Estadual" />
-                  </q-field>
-                </div>
+               
                 <!-- <div class="col-sm-6 col-md-2 col-12">
                   <q-input :style="{ color: state.entidadeSite.pagina.rodapeCorTexto }" outlined label="Rodapé Cor Texto" v-model="state.entidadeSite.pagina.rodapeCorTexto" class="my-input">
                     <template v-slot:append>
@@ -367,16 +359,15 @@
                     <q-checkbox v-model="state.entidadeSite.pagina.menuFixo" label="Menu Sempre Visível" />
                   </q-field>
                 </div>
-               
               </div>
-              
+
               <span class="text-h5">Padrão de Cores</span>
 
               <div class="row q-col-gutter-sm q-pa-md">
-                 <div class=" col-12">
-                  <div class=" w-[14rem] bg-white dark:bg-surface-800 rounded-md shadow border border-surface-200 dark:border-surface-700 flex-col justify-start items-start gap-3.5 inline-flex origin-top">
+                <div class="col-12">
+                  <div class="w-[14rem] bg-white dark:bg-surface-800 rounded-md shadow border border-surface-200 dark:border-surface-700 flex-col justify-start items-start gap-3.5 inline-flex origin-top">
                     <div class="flex-col justify-start items-start gap-2 inline-flex pr-4">
-                      <span class=" text-sm font-medium p-2 rounded-lg text-white" :style="{ backgroundColor: `rgb(${state.entidadeSite.pagina.corPrimaria.palette[5]})` }">Cor Primária</span>
+                      <span class="text-sm font-medium p-2 rounded-lg text-white" :style="{ backgroundColor: `rgb(${state.entidadeSite.pagina.corPrimaria.palette[5]})` }">Cor Primária</span>
                       <div class="self-stretch justify-start items-start gap-2 inline-flex flex-wrap">
                         <button v-for="primaryColor of primaryColors" :key="primaryColor.name" type="button" @click="updateColors('primary', primaryColor)" class="w-4 h-4 rounded-full !border-none cursor-pointer" :class="{ 'ring-2 ring-offset-2 ring-offset-surface-0 dark:ring-offset-surface-800 ring-primary-500': state.entidadeSite.pagina.corPrimaria.name === primaryColor.name }" :style="{ backgroundColor: `rgb(${primaryColor.palette[5]})` }"></button>
                       </div>
@@ -476,6 +467,60 @@
                 </div>
               </div> -->
             </q-tab-panel>
+            <q-tab-panel name="geral">
+              <div class="q-ma-sm">
+                <div class="row q-col-gutter-sm">
+                   <div class="col-sm-6 col-md-2 col-12">
+                  <q-field outlined stack-label>
+                    <q-checkbox v-model="state.entidadeSite.geral.mostrarNoticiasEntidadeNacional" label="Mostrar Notícias da Entidade Nacional" />
+                  </q-field>
+                </div>
+                <div class="col-sm-6 col-md-2 col-12">
+                  <q-field outlined stack-label>
+                    <q-checkbox v-model="state.entidadeSite.geral.mostrarNoticiasEntidadeEstadual" label="Mostrar Notícias da Entidade Estadual" />
+                  </q-field>
+                </div>
+                  <div class="col-sm-6 col-12">
+                    <q-field outlined label="Entidade Estadual" stack-label>
+                      <template v-if="state.entidadeSite.geral.entidadeEstadual && state.entidadeSite.geral.entidadeEstadual.logo" v-slot:prepend>
+                        <q-avatar rounded size="45px">
+                          <q-img :src="getUrlImagemLocal(state.entidadeSite.geral.entidadeEstadual.logo)"></q-img>
+                        </q-avatar>
+                      </template>
+                      <template v-slot:control>
+                        <div class="self-center full-width no-outline" tabindex="0">
+                          <span v-if="state.entidadeSite.geral.entidadeEstadual">{{ state.entidadeSite.geral.entidadeEstadual.nomeRazao }}{{ " (" + state.entidadeSite.geral.entidadeEstadual.sigla + ")" }}</span>
+                        </div>
+                      </template>
+                      <template v-slot:append>
+                        <q-btn color="primary" @click="selecionarEntidade(TipoEntidade.estadual)" icon="search" round>
+                          <q-tooltip>Localizar Entidade</q-tooltip>
+                        </q-btn>
+                      </template>
+                    </q-field>
+                  </div>
+                  <div class="col-sm-6 col-12">
+                    <q-field outlined label="Entidade Nacional" stack-label>
+                      <template v-if="state.entidadeSite.geral.entidadeNacional && state.entidadeSite.geral.entidadeNacional.logo" v-slot:prepend>
+                        <q-avatar rounded size="45px">
+                          <q-img :src="getUrlImagemLocal(state.entidadeSite.geral.entidadeNacional.logo)"></q-img>
+                        </q-avatar>
+                      </template>
+                      <template v-slot:control>
+                        <div class="self-center full-width no-outline" tabindex="0">
+                          <span v-if="state.entidadeSite.geral.entidadeNacional">{{ state.entidadeSite.geral.entidadeNacional.nomeRazao }}{{ " (" + state.entidadeSite.geral.entidadeNacional.sigla + ")" }}</span>
+                        </div>
+                      </template>
+                      <template v-slot:append>
+                        <q-btn color="primary" @click="selecionarEntidade(TipoEntidade.nacional)" icon="search" round>
+                          <q-tooltip>Localizar Entidade</q-tooltip>
+                        </q-btn>
+                      </template>
+                    </q-field>
+                  </div>
+                </div>
+              </div>
+            </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
       </q-card>
@@ -485,10 +530,9 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { AnyMxRecord } from "dns";
 import { useDialogPluginComponent, useQuasar, QSpinnerOval } from "quasar";
 import { reactive } from "vue";
+import BuscarEntidade from "../BuscarEntidade.vue";
 
 const props = defineProps({
   id: { type: String, default: null },
@@ -505,6 +549,37 @@ const state: any = reactive({
 });
 const dense = ref(false);
 const $q = useQuasar();
+
+const getUrlImagemLocal = (caminho: String) => {
+  return $geralService.getUrlS3Thumb(caminho, {
+    height: 128,
+  });
+};
+
+enum TipoEntidade {
+  estadual = "Estadual",
+  nacional = "Nacional",
+}
+
+const selecionarEntidade = (tipo: TipoEntidade) => {
+  $q.dialog({
+    component: BuscarEntidade,
+    persistent: true,
+    componentProps: {},
+  })
+    .onOk(async (data) => {
+      confirmSelecaoEntidade(data, tipo);
+    })
+    .onCancel(() => {});
+};
+
+const confirmSelecaoEntidade = (entidade: any, tipo: TipoEntidade) => {
+  if (TipoEntidade.nacional === tipo) {
+    state.entidadeSite.geral.entidadeNacional = entidade;
+  } else {
+    state.entidadeSite.geral.entidadeEstadual = entidade;
+  }
+};
 
 // const selectedPrimaryColor = ref({ name: "emerald", palette: ["236 253 245", "209 250 229", "167 243 208", "110 231 183", "52 211 153", "16 185 129", "5 150 105", "4 120 87", "6 95 70", "4 78 56", "2 44 34"] });
 // const selectedSurfaceColor = ref( {
@@ -639,6 +714,26 @@ onBeforeMount(async () => {
               logo: 1,
             },
           },
+          {
+            path: "geral.entidadeEstadual",
+            select: {
+              nomeRazao: 1,
+              nomeFantasia: 1,
+              cnpj: 1,
+              sigla: 1,
+              logo: 1,
+            },
+          },
+          {
+            path: "geral.entidadeNacional",
+            select: {
+              nomeRazao: 1,
+              nomeFantasia: 1,
+              cnpj: 1,
+              sigla: 1,
+              logo: 1,
+            },
+          },
         ],
       },
       undefined
@@ -658,7 +753,7 @@ onBeforeMount(async () => {
         state.entidadeSite.pagina.corPrimaria = {
           name: "emerald",
           palette: ["236 253 245", "209 250 229", "167 243 208", "110 231 183", "52 211 153", "16 185 129", "5 150 105", "4 120 87", "6 95 70", "4 78 56", "2 44 34"],
-        };  
+        };
       }
       if (!state.entidadeSite.pagina.corFundo) {
         state.entidadeSite.pagina.corFundo = {
