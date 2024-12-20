@@ -197,7 +197,7 @@ const getList = async () => {
           },
           {
             path: "inscritos.pessoa",
-            select: { nome: 1, cpf: 1, foto: 1 },
+            select: { nome: 1, cpf: 1,email: 1, foto: 1 },
           },
           {
             path: "pagamento",
@@ -309,6 +309,7 @@ const gerarListagemValores = async () => {
           // inscrito_id: ai.pessoa._id,
           inscrito_nome: ai.pessoa.nome,
           inscrito_cpf: ai.pessoa.cpf,
+          inscrito_email: ai.pessoa.email,
           // consumivel_id: it.consumivel._id,
         };
 
