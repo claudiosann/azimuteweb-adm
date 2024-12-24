@@ -85,7 +85,7 @@
           <q-td key="numero"> {{ props.row.numero }} </q-td>
           <q-td key="nivelDificuldade"> {{ props.row.nivelDificuldade }} </q-td>
           <q-td key="temporaria"> {{ props.row.temporaria }} </q-td>
-          <q-td key="dataFiliacao"> {{ $geralService.getDataFormatada(props.row.dataFiliacao) }} </q-td>
+          <q-td key="dataFiliacao"> {{ $geralService.getDataFormatada(props.row.dataFiliacao?props.row.dataFiliacao:props.row.created_at) }} </q-td>
           <q-td key="pessoa.nascimento"> {{ $geralService.getDataFormatada(props.row.pessoa.nascimento) }} </q-td>
           <q-td key="pessoa.validadeSeguro"> {{ $geralService.getDataFormatada(props.row.pessoa.validadeSeguro) }} </q-td>
           <q-td key="action">
