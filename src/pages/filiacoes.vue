@@ -8,6 +8,9 @@
           <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Gerar Valores" @click="gerarRateio">
             <q-tooltip>Gerar Arranjo</q-tooltip>
           </q-btn>
+          <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round label="Ajustar Status Filiações" @click="ajustarFiliacoes">
+            <q-tooltip>Gerar Arranjo</q-tooltip>
+          </q-btn>
         </q-toolbar>
         <q-expansion-item class="w-full" expand-separator icon="fas fa-filter" label="Filtro">
           <div class="row q-ma-sm q-col-gutter-sm">
@@ -51,8 +54,8 @@
               </q-item-section>
             </q-item>
           </q-td>
-          <q-td key="created_at">{{ props.row.pagamento ? $geralService.getDataHoraFormatada(props.row.pagamento.created_at) : "Sem Pagamento" }}</q-td>
-          <q-td key="pagamento.tipo">{{ props.row.pagamento.tipo }}</q-td>
+          <q-td key="created_at">{{ props.row.pagamento ? $geralService.getDataHoraFormatada(props.row.pagamento.created_at) : $geralService.getDataHoraFormatada(props.row.created_at) }}</q-td>
+          <q-td key="pagamento">{{ props.row.pagamento ? props.row.pagamento.tipo : "Grátis" }}</q-td>
           <q-td key="valorTotal">{{ $geralService.numeroParaMoeda(props.row.valorTotal) }}</q-td>
           <q-td key="status">
             <q-badge :color="getCorStatus(props.row.status)">{{ props.row.status }}</q-badge></q-td
@@ -64,7 +67,7 @@
                   <q-item>
                     <div class="row content-center"><span class="font-bold mr-1">Funções</span> {{ props.row.descricao }}</div>
                   </q-item>
-                  <q-item v-if="geral.funcoesAcessos.consumivelInserir" clickable @click="editRow(props.rowIndex, props.row._id, true)" v-close-popup>
+                  <q-item v-if="geral.funcoesAcessos.consumivelInserir" clickable @click="editRow(props.rowIndex, props.row.filiacoesGeradas[0], true)" v-close-popup>
                     <q-item-section avatar>
                       <q-avatar rounded-xl color="amber-7" text-color="white" icon="edit" />
                     </q-item-section>
@@ -110,7 +113,8 @@ definePageMeta({
 });
 
 import { useQuasar, QSpinnerOval } from "quasar";
-import InscricaoModal from "../components/cadastro/InscricaoModal.vue";
+import PessoaFiliadaModal from "../components/cadastro/PessoaFiliadaModal.vue";
+import PessoaModal from "../components/cadastro/PessoaModal.vue";
 
 const filtro = ref({
   status: null,
@@ -176,11 +180,11 @@ const columns = ref([
     sortable: true,
   },
   {
-    name: "papamento.tipo",
-    required: true,
+    name: "pagamento",
+    required: false,
     label: "Tipo",
     align: "left",
-    field: "pagamento.tipo",
+    field: "pagamento",
     sortable: true,
   },
   {
@@ -212,6 +216,61 @@ const getUrlImagemThumb = (caminho) => {
   return $geralService.getUrlS3Thumb(caminho, {
     height: 128,
   });
+};
+
+const ajustarFiliacoes = async () => {
+  $q.loading.show({
+    spinner: QSpinnerOval,
+    spinnerColor: "white",
+    spinnerSize: 60,
+    message: "Ajustando Filiações... Aguarde!",
+    messageColor: "white",
+  });
+
+  try {
+    const ret = await useCustomFetch("filiacaoPessoaLancamento/getPopulate", "post", {
+      filtro: {
+        lixo: false,
+        status: "Em Análise",
+      },
+      populateObj: [{ path: "filiacoesGeradas", select: { status: 1 } }],
+    });
+    if (ret.valido) {
+      for (let index = 0; index < ret.data.length; index++) {
+        const element = ret.data[index];
+        $q.loading.show({
+          spinner: QSpinnerOval,
+          spinnerColor: "white",
+          spinnerSize: 60,
+          message: `Ajustando Processo ${element.sequencial}... Aguarde!`,
+          messageColor: "white",
+        });
+        if (element.filiacoesGeradas.length > 0) {
+          let status = "Concluída";
+          for (let index2 = 0; index2 < element.filiacoesGeradas.length; index2++) {
+            const element2 = element.filiacoesGeradas[index2];
+            if (element2.status != "Ativa") {
+              status = "Em Análise";
+              break;
+            }
+          }
+          element.status = status;
+          await gravaFiliacao(null, { _id: element._id, status: status });
+        }
+      }
+
+      $q.loading.hide();
+    } else {
+      $q.loading.hide();
+      $q.notify({
+        color: "negative",
+        message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter a lista de acessos!",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    $q.loading.hide();
+  }
 };
 
 const gravaFiliacao = async (descricaoHistorico, filiacaoPessoaLancamento) => {
@@ -272,7 +331,6 @@ const verificaPagamentoPIX = async (inscricao) => {
     const ret = await useCustomFetch(`consultarCobrancaPIX/${"pagamentoaz" + inscricao.pagamento._id}`, "GET", undefined, undefined);
     console.log(ret);
     if (ret.valido && ret.data && ret.data.status == "CONCLUIDA") {
-      getList();
       $q.notify({
         color: "positive",
         message: "Pagamento Recebido",
@@ -322,10 +380,10 @@ const validaPagamento = async (ret, filiacaoPessoaLancamento) => {
     if (!ret.semPagamento) {
       // // console.log("Tem pAg");
       filiacaoPessoaLancamento.pagamento = ret.data._id;
-      retGrava = (await gravaFiliacao("Confimado o pagamento das taxas em " + ret.data.tipo + " e alterado o Status para (Em Análise).", filiacaoPessoaLancamento));
+      retGrava = await gravaFiliacao("Confimado o pagamento das taxas em " + ret.data.tipo + " e alterado o Status para (Em Análise).", filiacaoPessoaLancamento);
     } else {
       // // console.log("N Tem pAg");
-      retGrava = (await gravaFiliacao("Alterado o Status para (Em Análise).", filiacaoPessoaLancamento));
+      retGrava = await gravaFiliacao("Alterado o Status para (Em Análise).", filiacaoPessoaLancamento);
     }
 
     if (retGrava) {
@@ -368,7 +426,7 @@ const validaPagamento = async (ret, filiacaoPessoaLancamento) => {
           filiacaoPessoaLancamento.filiacoesGeradas.push(ret3.data._id);
         }
       }
-      retGrava = (await gravaFiliacao(undefined, filiacaoPessoaLancamento));
+      retGrava = await gravaFiliacao(undefined, filiacaoPessoaLancamento);
       // await getFiliacaoPessoa(filiacaoPessoaLancamento);
 
       $q.notify({
@@ -397,7 +455,6 @@ const getDataMais4Meses = () => {
 };
 
 const tabEntidades = ref(0);
-
 
 const verificaSeTemTef = async (filiacao) => {
   try {
@@ -435,6 +492,7 @@ const getList = async () => {
       {
         filtro: {
           lixo: false,
+          entidades: geral.pessoa._id == "5aff4d2f47667633c7ace227" ? undefined : geral.entidade._id,
           status: filtro.value.status || undefined,
           created_at:
             filtro.value.inicio || filtro.value.fim
@@ -508,48 +566,73 @@ const exportCSV = async () => {
 };
 
 const gerarRateio = async () => {
-  await getList();
-  // let listaInscricoes = [];
-  for (let index = 0; index < rows.value.length; index++) {
-    const fili = rows.value[index];
+  let listaFiliacaoNaoGeradas = [];
+
+   try {
+    const ret = await useCustomFetch(
+      "filiacaoPessoaLancamento/getPopulate",
+      "post",
+      {
+        filtro: {
+          lixo: false,
+          valorTotal: { $gt: 0 },
+          estagioRateio: { $ne: "Finalizado" },
+          status: { $in: ["Em Análise", "Concluída"] },
+        },
+        populateObj: [
+          {
+            path: "taxas.entidade",
+            select: { financeiroContaPrincipal: 1 },
+          },
+          {
+            path: "pagamento",
+             select: { tipo: 1, tef: 1 },
+          },
+        ],
+      },
+      undefined
+    );
+    // // console.log('Leu o Banco de dados.');
+    if (ret.valido) {
+      listaFiliacaoNaoGeradas = ret.data;
+      $q.loading.hide();
+    } else {
+      rows.value = [];
+      $q.loading.hide();
+      $q.notify({
+        color: "negative",
+        message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter a lista de acessos!",
+      });
+      return;
+    }
+  } catch (error) {
+    $q.loading.hide();
+  }
+
+
+  for (let index = 0; index < listaFiliacaoNaoGeradas.length; index++) {
+    const fili = listaFiliacaoNaoGeradas[index];
     if (fili.estagioRateio == "Finalizado") {
-      console.log("Inscrição com o rateio já finalizado");
+      console.log("Filiação com o rateio já finalizado");
       continue;
     }
-    if (fili.status == "Em Análise" || fili.status == "Concluída" || fili.status == "Aguardando Pagamento") {
-      console.log("Arranjo gerado com sucesso");
 
-      let totalArranjoEntidades = 0;
-      let listaTotalArranjos = [];
-      for (const key in arranjoEntidades) {
-        if (Object.hasOwnProperty.call(arranjoEntidades, key)) {
-          const element = arranjoEntidades[key];
-          totalArranjoEntidades += element.valor;
-          listaTotalArranjos.push(element);
-        }
-      }
+    if (!fili.pagamento) {
+      console.log("Filiação sem pagamento");
+      console.log(fili._id);
+      console.log(fili.sequencial);
+      continue;
+    }
 
-      if (i.evento.taxaAzimuteCertoAbsorver) {
-        let valor = $geralService.arredonda(i.subtotal - (i.subtotal * i.evento.taxaAzimuteCerto) / 100);
-        if ($geralService.arredonda(totalArranjoEntidades) != valor) {
-          console.log("Falha ao gerar arranjo de pagamento");
-          console.log(i);
-          return;
-        }
-      } else {
-        if ($geralService.arredonda(totalArranjoEntidades) != i.subtotal) {
-          console.log("Falha ao gerar arranjo de pagamento");
-          console.log(i);
-          return;
-        }
-      }
+      for (let index2 = 0; index2 < fili.taxas.length; index2++) { 
+        let taxa = fili.taxas[index2];
 
-      if (validador.saldo != 0) {
-        console.log("Falha ao gerar arranjo de pagamento");
-        console.log(i);
-        return;
-      } else {
-        const retCons = await useCustomFetch("pagamentoRateio/getPopulate", "post", { filtro: { pagamento: i.pagamento._id }, select: { _id: 1 } }, undefined);
+        if (taxa.valor <= 0) {
+          console.log("Taxa com valor zerado");
+          continue;
+        }
+
+        const retCons = await useCustomFetch("pagamentoRateio/getPopulate", "post", { filtro: { entidade: taxa.entidade._id, identificador: fili._id }, select: { _id: 1 } }, undefined);
         if (retCons.valido) {
           if (retCons.data.length > 0) {
             console.log("Erro Pagamento de rateio já gerado");
@@ -561,54 +644,127 @@ const gerarRateio = async () => {
           return;
         }
 
-        // console.log(i);
-        i.estagioRateio = "Iniciado";
-        const ret = await useCustomFetch("inscricao/" + i._id, "put", i, undefined);
-        if (ret.valido) {
-          console.log("Inscrição atualizada com sucesso");
-
-          for (let index = 0; index < listaTotalArranjos.length; index++) {
-            const element = listaTotalArranjos[index];
-
-            const ret2 = await useCustomFetch("pagamentoRateio", "post", getObjetoRateio(i, element), undefined);
-            if (ret2.valido) {
+          let el = {
+            entidade: taxa.entidade._id,
+            valor: taxa.valor,
+            financeiroConta: taxa.entidade.financeiroContaPrincipal,
+          };
+        const ret2 = await useCustomFetch("pagamentoRateio", "post", getObjetoRateio(fili, el), undefined);
+              if (ret2.valido) {
               console.log("Pagamento de rateio gerado com sucesso");
             } else {
               console.log("Falha ao gerar pagamento de rateio");
               console.log(ret2);
               return;
             }
+      }
+      const ret4 = await useCustomFetch("filiacaoPessoaLancamento/" + fili._id, "put", { estagioRateio: "Finalizado" }, undefined);
+      if (ret4.valido) {
+        console.log("Estágio de rateio finalizado com sucesso");
+      } else {
+        console.log("Falha ao finalizar o estágio de rateio");
+        console.log(ret4);
+        return;
+      }
+  }
+  gerarRateioConversao();
+  // console.log(listaInscricoes);
+};
+
+
+const gerarRateioConversao = async () => {
+  let listaFiliacaoNaoGeradas = [];
+
+   try {
+    const ret = await useCustomFetch(
+      "filiacaoPessoa/getPopulate",
+      "post",
+      {
+        filtro: {
+          lixo: false,
+          'conversao.executada': true,
+          'conversao.taxaConversao': { $gt: 0 },
+          'conversao.estagioRateio': { $ne: "Finalizado" },
+        },
+        populateObj: [
+          {
+            path: "entidade",
+              select: { financeiroContaPrincipal: 1 },
+          },
+          {
+            path: "conversao.pagamento",
+              select: { tipo: 1, tef: 1 },
+          },
+        ],
+      },
+      undefined
+    );
+    // // console.log('Leu o Banco de dados.');
+    if (ret.valido) {
+      listaFiliacaoNaoGeradas = ret.data;
+      console.log(listaFiliacaoNaoGeradas);
+      $q.loading.hide();
+    } else {
+      rows.value = [];
+      $q.loading.hide();
+      $q.notify({
+        color: "negative",
+        message: ret.data && ret.data.message ? ret.data.message : "Falha ao obter a lista de acessos!",
+      });
+      return;
+    }
+  } catch (error) {
+    $q.loading.hide();
+  }
+
+
+  for (let index = 0; index < listaFiliacaoNaoGeradas.length; index++) {
+    const fili = listaFiliacaoNaoGeradas[index];
+    if (fili.conversao.estagioRateio == "Finalizado") {
+      console.log("Filiação com o rateio já finalizado");
+      continue;
+    }
+
+    if (!fili.conversao.pagamento) {
+      console.log("Filiação sem pagamento");
+      console.log(fili._id);
+      continue;
+    }
+
+        const retCons = await useCustomFetch("pagamentoRateio/getPopulate", "post", { filtro: { entidade: fili.entidade._id, identificador: fili._id }, select: { _id: 1 } }, undefined);
+        if (retCons.valido) {
+          if (retCons.data.length > 0) {
+            const ret4 = await useCustomFetch("filiacaoPessoa/" + fili._id, "put", { 'conversao.estagioRateio': "Finalizado" }, undefined);
+            continue;
           }
-
-          const ret3 = await useCustomFetch("pagamento/" + fili.pagamento._id, "put", getObjetoUpdatePagamento(fili, listaTotalArranjos), undefined);
-
-          if (ret3.valido) {
-            console.log("Pagamento atualizado com sucesso");
-            i.estagioRateio = "Iniciado";
-            const ret4 = await useCustomFetch("filiacaoPessoaLancamento/" + i._id, "put", { estagioRateio: "Finalizado" }, undefined);
-            if (ret4.valido) {
-              console.log("Inscrição atualizada com sucesso e geradados os reteios com sucesso");
-            } else {
-              console.log("Falha ao atualizar inscrição");
-              console.log(ret4);
-              return;
-            }
-          } else {
-            console.log("Falha ao atualizar pagamento");
-            console.log(ret3);
-            return;
-          }
-
-          // console.log(i);
-          // // Só vai fazer a primera para teste mesmo depois tem que tirar
-          // return;
         } else {
-          console.log("Falha ao atualizar inscrição");
-          console.log(ret);
+          console.log("Falha ao consultar pagamento de rateio");
+          console.log(retCons);
           return;
         }
+
+          let el = {
+            entidade: fili.entidade._id,
+            valor: fili.conversao.taxaConversao,
+            financeiroConta: fili.entidade.financeiroContaPrincipal,
+          };
+        const ret2 = await useCustomFetch("pagamentoRateio", "post", getObjetoRateio(fili, el), undefined);
+              if (ret2.valido) {
+              console.log("Pagamento de rateio gerado com sucesso");
+            } else {
+              console.log("Falha ao gerar pagamento de rateio");
+              console.log(ret2);
+              return;
+            }
+      
+      const ret4 = await useCustomFetch("filiacaoPessoa/" + fili._id, "put", { 'conversao.estagioRateio': "Finalizado" }, undefined);
+      if (ret4.valido) {
+        console.log("Estágio de rateio finalizado com sucesso");
+      } else {
+        console.log("Falha ao finalizar o estágio de rateio");
+        console.log(ret4);
+        return;
       }
-    }
   }
   // console.log(listaInscricoes);
 };
@@ -618,7 +774,9 @@ const getObjetoRateio = (i, arranjo) => {
   let dtPrevisao = i.created_at;
   let lb = true;
   let st = "Liberado";
-  if (i.pagamento.tipo != "PIX") {
+  let tipoPagamento = i.conversao? i.conversao.pagamento.tipo:i.pagamento.tipo;
+
+  if (tipoPagamento != "PIX") {
     let dataInscricaoMais30dias = new Date(i.created_at);
     dataInscricaoMais30dias.setDate(dataInscricaoMais30dias.getDate() + 30);
     dtLiberado = undefined;
@@ -629,11 +787,11 @@ const getObjetoRateio = (i, arranjo) => {
 
   return {
     entidade: arranjo.entidade,
-    financeiroConta: arranjo.financeiroConta,
     identificador: i._id,
-    pagamento: i.pagamento._id,
-    tipo: "Inscrição",
-    evento: i.evento._id,
+    financeiroConta: arranjo.financeiroConta,
+    pagamento: i.conversao? i.conversao.pagamento._id:i.pagamento._id,
+    pessoa: i.pessoa,
+    tipo: "Filiação",
     valor: arranjo.valor,
     liberado: lb, // Confirma que gerou saldo para a conta da entidade
     dataLiberado: dtLiberado, // Data em que o valor foi liberado
@@ -834,6 +992,7 @@ const deleteRow = async (index, inscricao) => {
 };
 
 const editRow = (index, id, copy) => {
+  console.log("id", id);
   if (geral.funcoesAcessos.consumivelEditar) {
     openModal(index, id, copy);
   }
@@ -844,7 +1003,7 @@ const openModal = (index, id, copy) => {
   indexSelecionado.value = index;
 
   $q.dialog({
-    component: InscricaoModal,
+    component: PessoaFiliadaModal,
     persistent: true,
     componentProps: {
       id: idSelecionado.value,

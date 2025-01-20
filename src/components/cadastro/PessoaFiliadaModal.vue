@@ -9,7 +9,7 @@
           <div ml-3>
             <div text-xl>Filiação {{ state.filiacaoPessoa.pessoa.nome }}</div>
             <div>
-              <q-badge :color="getCorStatus">{{ state.filiacaoPessoa.status }}</q-badge>
+              <q-badge :color="getCorStatus">{{ state.filiacaoPessoa.status }}</q-badge> {{state.filiacaoPessoa.filiacaoPessoaLancamento ? state.filiacaoPessoa.filiacaoPessoaLancamento.sequencial:''}}
               <q-badge class="ml-2" v-if="state.filiacaoPessoa.temporaria" color="red">Temporária</q-badge>
             </div>
           </div>
@@ -81,6 +81,15 @@
                               <div class="font-bold mt-2">Telefones</div>
                               <div v-for="(telefone, index) in state.filiacaoPessoa.pessoa.telefones" :key="index">{{ telefone.tipo }} - {{ telefone.numero }}</div>
                             </div>
+                            <div v-if="state.filiacaoPessoa.pessoa.possuiLimitacao" class="col-span-6 sm:col-span-3">
+                              <div class="font-bold mt-2">Limitações ({{state.filiacaoPessoa.pessoa.limitacoes.length}})</div>
+                              <div v-for="(limitacao, index) in state.filiacaoPessoa.pessoa.limitacoes" :key="index">{{ limitacao }}</div>
+                            </div>
+                            <div v-else class="col-span-6 sm:col-span-3">
+                              <div class="font-bold mt-2">Limitações</div>
+                              <div >Não Possui</div>
+                            </div>
+
                           </div>
                         </div>
                         <q-field v-if="state.filiacaoPessoa.filiacaoPessoaLancamento" class="mt-4" readonly outlined label="Observação" stack-label>
@@ -183,6 +192,8 @@
                       <q-avatar size="35px" v-if="filiacao.status" :color="getCorStatusFuncao(filiacao.status)" text-color="white">{{ $geralService.getIniciais(filiacao.status) }}</q-avatar>
                       <q-avatar rounded size="35px"><q-img v-if="filiacao.entidade.logo" :src="getUrlImagem(filiacao.entidade.logo, 128)"></q-img></q-avatar>
                       <div class="text-lg">{{ filiacao.entidade.sigla }} - {{ filiacao.entidade.nomeRazao }}</div>
+                      <div class="text-lg">{{ filiacao.numero}}</div>
+                      <div class="text-lg">{{ filiacao._id}}</div>
                     </div>
                   </q-tab-panel>
                   <q-tab-panel name="fotos">
@@ -407,7 +418,7 @@ const $v = useVuelidate(validations, state);
 const inserir = ref(true);
 
 onBeforeMount(async () => {
-  // console.log(props.id);
+  console.log(props.id);
   if (props.id) {
     const ret: any = await useCustomFetch(
       "filiacaoPessoa/getPopulate",
@@ -421,7 +432,7 @@ onBeforeMount(async () => {
           {
             path: "pessoa",
             select: { senha: 0 },
-            populate: [{ path: "filiacoes", select: { nivelDificuldade: 1, entidade: 1, abrangencia: 1, status: 1 }, populate: [{ path: "entidade", select: { nomeRazao: 1, logo: 1, sigla: 1, nomeFantasia: 1, tipo: 1, tratamentoMasculino: 1 } }] }],
+            populate: [{ path: "filiacoes", select: { nivelDificuldade: 1, entidade: 1, abrangencia: 1, status: 1, numero: 1 }, populate: [{ path: "entidade", select: { nomeRazao: 1, logo: 1, sigla: 1, nomeFantasia: 1, tipo: 1, tratamentoMasculino: 1 } }] }],
           },
           {
             path: "filiacaoPessoaLancamento",
@@ -435,7 +446,7 @@ onBeforeMount(async () => {
       },
       undefined
     );
-    // console.log(ret);
+    console.log(ret);
     if (ret.valido) {
       state.filiacaoPessoa = ret.data[0];
       // console.log(ret.data);

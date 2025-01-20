@@ -22,6 +22,9 @@
               <q-select outlined dense v-model="filtro.status" :options="['Liberado', 'Pendente', 'Pago', 'Cancelado', null]" label="Status" />
             </div>
             <div class="col-md-3 col-sm-4 col-12">
+              <q-select outlined dense v-model="filtro.tipo" :options="['Inscrição', 'Filiação']" label="Tipo" />
+            </div>
+            <div class="col-md-3 col-sm-4 col-12">
               <q-input dense outlined v-model="filtro.numero" type="text" label="Evento Número" />
             </div>
             <div class="col-md-3 col-sm-4 col-12">
@@ -53,16 +56,16 @@
               <q-checkbox left-label v-model="filtro.rateioValidado" label="Rateio Validado" />
             </div> -->
             <div class="col-12">
-            <div class="flex justify-between items-center">
-              <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round icon="check" label="Aplicar Filtro" @click="aplicarFiltro" />
-              <q-btn v-if="rows.length > 0" class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round icon="fas fa-download" label="Baixar Excel" @click="exportCSV">
-                <q-tooltip>Baixar Planilha Excel</q-tooltip>
-              </q-btn>
-              <q-btn v-if="rows.length > 0 && filtroAplicado.status == 'Liberado' && filtroAplicado.entidade && entidade" class="btn-scale m-2 pr-4 pl-2" color="positive" push glossy round icon="currency_exchange" label="Solicitar Transferência" @click="gerarPagamentoMovimentacao">
-                <q-tooltip>Solicitar Transferência</q-tooltip>
-              </q-btn>
-              <div class="text-lg">TOTAL: R$ {{ $geralService.numeroParaMoeda(somaTotal) }}</div>
-            </div>
+              <div class="flex justify-between items-center">
+                <q-btn class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round icon="check" label="Aplicar Filtro" @click="aplicarFiltro" />
+                <q-btn v-if="rows.length > 0" class="btn-scale m-2 pr-4 pl-2" color="primary" push glossy round icon="fas fa-download" label="Baixar Excel" @click="exportCSV">
+                  <q-tooltip>Baixar Planilha Excel</q-tooltip>
+                </q-btn>
+                <q-btn v-if="rows.length > 0 && filtroAplicado.status == 'Liberado' && filtroAplicado.entidade && entidade" class="btn-scale m-2 pr-4 pl-2" color="positive" push glossy round icon="currency_exchange" label="Solicitar Transferência" @click="gerarPagamentoMovimentacao">
+                  <q-tooltip>Solicitar Transferência</q-tooltip>
+                </q-btn>
+                <div class="text-lg">TOTAL: R$ {{ $geralService.numeroParaMoeda(somaTotal) }}</div>
+              </div>
             </div>
           </div>
         </q-expansion-item>
@@ -77,7 +80,7 @@
               <span>{{ props.row.entidade.sigla }}</span>
             </div>
           </q-td>
-          <q-td key="evento.sigla">{{ props.row.evento.numero+' - '+props.row.evento.sigla }}</q-td>
+          <q-td key="evento.sigla">{{ props.row.evento ? props.row.evento.numero + " - " + props.row.evento.sigla : "" }}</q-td>
           <q-td key="dataLiberado">{{ $geralService.getDataHoraFormatada(props.row.dataLiberado) }}</q-td>
           <q-td key="dataPrevisao">{{ $geralService.getDataHoraFormatada(props.row.dataPrevisao) }}</q-td>
           <q-td key="dataPagamento">{{ $geralService.getDataHoraFormatada(props.row.dataPagamento) }}</q-td>
@@ -121,10 +124,12 @@ const expanded = ref(true);
 
 const filtro = ref({
   status: "Liberado",
+  tipo: "Inscrição",
 });
 
 const filtroAplicado = ref({
   status: "Liberado",
+  tipo: "filiação",
 });
 
 const getCorStatus = (status) => {
@@ -264,7 +269,6 @@ const confirmSelecaoEntidade = (ent) => {
   }
 };
 
-
 onBeforeMount(() => {
   if (geral.pessoa._id === "5aff4d2f47667633c7ace227") {
     suporte.value = true;
@@ -337,7 +341,7 @@ const gerarPagamentoMovimentacao = async () => {
         for (let index = 0; index < rows.value.length; index++) {
           const row = rows.value[index];
           row.status = "Pago";
-        
+
           const ret2 = await useCustomFetch("pagamentoRateio/" + row._id, "put", { status: "Pago", pagamentoMovimentacao: ret.data._id, pagamentoMovimentacaoSequencial: ret.data.sequencial }, undefined);
           if (!ret2.valido) {
             $q.loading.hide();
@@ -368,8 +372,6 @@ const gerarPagamentoMovimentacao = async () => {
     }
   });
 };
-
-
 
 const getUrlImagemThumb = (caminho) => {
   return $geralService.getUrlS3Thumb(caminho, {
@@ -409,6 +411,7 @@ const aplicarFiltro = async () => {
       identificador: filtro.value.identificador || undefined,
       tipo: filtro.value.tipo || undefined,
       status: filtro.value.status || undefined,
+      tipo: filtro.value.tipo,
       evento: eventoId || undefined,
       entidade: filtro.value.entidade || undefined,
       pagamentoMovimentacaoSequencial: filtro.value.pagamentoMovimentacaoSequencial || undefined,
@@ -450,8 +453,16 @@ const aplicarFiltro = async () => {
             },
           },
           {
+            path: "pessoa",
+            select: { nome: 1, apelido: 1, foto: 1 },
+          },
+          {
             path: "entidade",
             select: { sigla: 1, logo: 1 },
+          },
+          {
+            path: "pagamento",
+            select: { created_at: 1 },
           },
         ],
       },
@@ -501,10 +512,23 @@ const exportCSV = async () => {
     const col = columns.value[index];
     if (col.field) CSV += col.label + ";";
   }
+
+  if (filtro.value.tipo == "Filiação") {
+    CSV.replaceAll("Entidade", "Pessoa");
+  }
+  CSV +=  "dt created;";
+
   CSV += "\r\n";
   for (let index = 0; index < rows.value.length; index++) {
     const row = rows.value[index];
-    CSV += row.identificador + ";" + row.tipo + ";" + row.entidade.sigla + ";" + row.evento.sigla + ";" + $geralService.getDataHoraFormatada(row.dataLiberado) + ";" + $geralService.getDataHoraFormatada(row.dataPrevisao) + ";" + $geralService.getDataHoraFormatada(row.dataPagamento) + ";" + $geralService.numeroParaMoeda(row.valor) + ";" + row.status;
+
+    if (filtro.value.tipo == "Filiação") {
+      CSV += row.identificador + ";" + row.tipo + ";" + row.pessoa.nome + ";" + '' + ";" + $geralService.getDataHoraFormatada(row.dataLiberado) + ";" + $geralService.getDataHoraFormatada(row.dataPrevisao) + ";" + $geralService.getDataHoraFormatada(row.dataPagamento) + ";" + $geralService.numeroParaMoeda(row.valor) + ";" + row.status;
+    } else {
+      CSV += row.identificador + ";" + row.tipo + ";" + row.entidade.sigla + ";" + row.evento.sigla + ";" + $geralService.getDataHoraFormatada(row.dataLiberado) + ";" + $geralService.getDataHoraFormatada(row.dataPrevisao) + ";" + $geralService.getDataHoraFormatada(row.dataPagamento) + ";" + $geralService.numeroParaMoeda(row.valor) + ";" + row.status;
+    }
+    CSV += ";" + $geralService.getDataHoraFormatada(row.pagamento.created_at);
+
     CSV += "\r\n";
   }
 

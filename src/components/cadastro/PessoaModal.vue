@@ -52,25 +52,22 @@
                     <div class="col-sm-6 col-md-3 col-12">
                       <CinputDate hide-bottom-space outlined :error-message="'Data inválida'" :dense="false" v-model="state.pessoa.validadeSeguro" label="Validade Seguro" />
                     </div>
-                   
-                     <!-- GO NomeDaMae -->
+
+                    <!-- GO NomeDaMae -->
                     <div class="col-sm-6 col-md-3 col-12">
                       <q-input hide-bottom-space outlined label="Nome da Mãe" maxlength="100" ref="pessoa.nomeDaMae" v-model="state.pessoa.nomeDaMae" />
                     </div>
-                     <!-- GO NomeDaPai -->
+                    <!-- GO NomeDaPai -->
                     <div class="col-sm-6 col-md-3 col-12">
                       <q-input hide-bottom-space outlined label="Nome do Pai" maxlength="100" ref="pessoa.nomeDoPai" v-model="state.pessoa.nomeDoPai" />
                     </div>
-                     <div class="col-sm-3 col-md-2 col-12">
-                                <!-- GO Tipo Telefone -->
-                                <q-select hide-bottom-space outlined :dark="$q.dark.isActive" transition-show="flip-up" transition-hide="flip-down" :ref="'pessoa.sexo'" v-model="state.pessoa.sexo" label="Sexo" :options="['Masculino', 'Feminino']" />
-                              </div>
-                     <!-- GO CadÚnico -->
+                    <div class="col-sm-3 col-md-2 col-12">
+                      <!-- GO Tipo Telefone -->
+                      <q-select hide-bottom-space outlined :dark="$q.dark.isActive" transition-show="flip-up" transition-hide="flip-down" :ref="'pessoa.sexo'" v-model="state.pessoa.sexo" label="Sexo" :options="['Masculino', 'Feminino']" />
+                    </div>
+                    <!-- GO CadÚnico -->
                     <div class="col-sm-6 col-md-3 col-12">
-                                <q-checkbox
-                                  v-model="state.pessoa.cadUnico"
-                                  label="Inscrição Social (CadÚnico)"
-                                />
+                      <q-checkbox v-model="state.pessoa.cadUnico" label="Inscrição Social (CadÚnico)" />
                     </div>
 
                     <!-- <div class="col-sm-6 col-md-3 col-12">
@@ -97,7 +94,7 @@
                               <q-item-section>
                                 <q-item dense class="pl-0">
                                   <q-item-section>
-                                    <q-item-label>{{ telefone.tipo ? telefone.tipo + ": " : "" }} {{  (telefone.numero ? "" + telefone.numero : "") }}</q-item-label>
+                                    <q-item-label>{{ telefone.tipo ? telefone.tipo + ": " : "" }} {{ telefone.numero ? "" + telefone.numero : "" }}</q-item-label>
                                   </q-item-section>
                                 </q-item>
                               </q-item-section>
@@ -135,10 +132,7 @@
                               </div>
                               <!-- GO WhatApp -->
                               <div class="col-sm-12 col-md-5 col-12">
-                                <q-checkbox
-                                  v-model="telefone.whatsApp"
-                                  label="WhatsApp"
-                                />
+                                <q-checkbox v-model="telefone.whatsApp" label="WhatsApp" />
                               </div>
                             </div>
                           </q-expansion-item>
@@ -203,6 +197,24 @@
                         </q-expansion-item>
                       </q-list>
                     </div>
+                  </div>
+                  <div class="row q-col-gutter-sm q-mt-sm">
+                    <div class="col-sm-12 col-12">
+                      <q-item-label :dense="true"><span class="caption">Limitações</span></q-item-label>
+                    </div>
+
+                    <!-- GO Limitacoes -->
+                    <div class="col-sm-6 col-md-3 col-12">
+                      <q-checkbox v-model="state.pessoa.possuiLimitacao" label="Possui alguma limitação" />
+                      <div v-if="state.pessoa.possuiLimitacao">
+                      <!-- GO Tipo Telefone -->
+                      <q-select class="ml-2" hide-bottom-space outlined :dark="$q.dark.isActive" transition-show="flip-up" transition-hide="flip-down" :ref="'pessoa.limitacoes'" multiple use-chips v-model="state.pessoa.limitacoes" label="Limitações" :options="['Física', 'Intelectual', 'Visual', 'Auditiva']" />
+                    </div>
+                    </div>
+
+                     
+                     
+                    
                   </div>
                 </div>
               </div>
@@ -379,6 +391,9 @@ onBeforeMount(async () => {
       state.pessoa = ret.data[0];
       // console.log(ret.data);
       state.pessoa = JSON.parse(JSON.stringify(state.pessoa));
+      if(!state.pessoa.limitacoes){
+        state.pessoa.limitacoes = []
+      }
       inserir.value = false;
     } else {
       setTimeout(async () => {

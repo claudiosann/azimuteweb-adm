@@ -308,7 +308,7 @@ export default {
           if (self.column_options_selected[self.columns[i].field].length === 0) { continue; }
           try {
             // console.log(self.column_options_selected[self.columns[i].field]);
-            if (self.column_options_selected[self.columns[i].field] !== item[self.columns[i].field].toString()) {
+            if (item[self.columns[i].field]!==undefined || self.column_options_selected[self.columns[i].field] !== item[self.columns[i].field].toString()) {
               return false;
             }
           } catch (error) {
