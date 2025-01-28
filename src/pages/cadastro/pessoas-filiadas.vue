@@ -534,7 +534,7 @@ const exportCSV = async (rows) => {
   CSV += "\r\n";
   for (let index = 0; index < rows.length; index++) {
     const row = rows[index];
-    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.status + ";" + row.email + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
+    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.status + ";" + row.email + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao?row.dataFiliacao:row.created_at) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
     CSV += "\r\n";
   }
 
