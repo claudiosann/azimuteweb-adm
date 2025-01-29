@@ -529,7 +529,7 @@ const exportCSV = async (rows) => {
   // get model keys
   const keys = Object.keys(model);
 
-  let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes,clubes";
+  let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes;clubes";
 
   CSV += "\r\n";
   for (let index = 0; index < rows.length; index++) {
