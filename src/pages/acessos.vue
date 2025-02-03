@@ -4,9 +4,9 @@
       <template v-slot:top>
         <q-toolbar class="p-none rounded-tl-lg  rounded-tr-lg" :glossy="true"
             :class="$q.dark.isActive ? 'text-grey-2 bg-gray-8' : 'bg-grey-2 text-gray-9'">
-            <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-fuchsia-500 to-fuchsia-700"
-                          name="person" size="30px" />
-            <q-toolbar-title><span class="mr-3 text-weight-medium">Pessoas</span></q-toolbar-title>
+            <q-icon class="ml-3 p-1 rounded text-white bg-gradient-to-l from-blue-500 to-amber-700"
+                          name="fas fa-shield-alt" size="30px" />
+            <q-toolbar-title><span class="mr-3 text-weight-medium">Acessos</span></q-toolbar-title>
           </q-toolbar>
         
       </template>
