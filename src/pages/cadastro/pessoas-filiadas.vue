@@ -525,16 +525,30 @@ const getClubes = (list) => {
   return fed;
 };
 
+const getTelefones = (arrayTelefones) => {
+  // retornar os telefones (campo numero) separados por ;
+  let telefones = "";
+  for (let index = 0; index < arrayTelefones.length; index++) {
+    const element = arrayTelefones[index];
+    if (telefones.length > 0) {
+      telefones += ", " + element.numero;
+    } else {
+      telefones = element.numero;
+    }
+  }
+  return telefones;
+};
+
 const exportCSV = async (rows) => {
   // get model keys
   const keys = Object.keys(model);
 
-  let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes;clubes";
+  let CSV = "numero;nome;cpf;nascimento;status;email;nomeDaMae;dataFiliacao;nivelDificuldade;validadeSeguro;atualizacaoDados;apelido;sexo;federacoes;clubes;telefones";
 
   CSV += "\r\n";
   for (let index = 0; index < rows.length; index++) {
     const row = rows[index];
-    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.status + ";" + row.email + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao?row.dataFiliacao:row.created_at) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes);
+    CSV += row.numero + ";" + row.nome + ";" + row.cpf + ";" + $geralService.getDataFormatada(row.nascimento) + ";" + row.status + ";" + row.email + ";" + row.nomeDaMae + ";" + $geralService.getDataFormatada(row.dataFiliacao?row.dataFiliacao:row.created_at) + ";" + row.nivelDificuldade + ";" + $geralService.getDataFormatada(row.validadeSeguro) + ";" + $geralService.getDataFormatada(row.atualizacaoDados) + ";" + row.apelido + ";" + row.sexo + ";" + getFederacoes(row.filiacoes) + ";" + getClubes(row.filiacoes)+ ";" + getTelefones(row.telefones);
     CSV += "\r\n";
   }
 

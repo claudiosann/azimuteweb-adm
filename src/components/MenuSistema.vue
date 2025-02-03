@@ -18,6 +18,9 @@
                 <EssentialLink link="/cadastro/perfis-de-acessos" color="bg-gradient-to-l from-amber-500 to-amber-700"
                     icon="badge" title="Perfis de Acessos" :caption="`Funções de Acesso ao sistema`"
                     v-if="geral.funcoesAcessos.acessoSistemaAcessar" />
+                <EssentialLink link="/acessos" color="bg-gradient-to-l from-blue-500 to-amber-700"
+                    icon="fas fa-shield-alt" title="Acessos" :caption="`Listagem de acessos geral`"
+                    v-if="geral.funcoesAcessos.acessos"/>
                 <EssentialLink link="/cadastro/pessoas-filiadas" color="bg-gradient-to-l from-emerald-500 to-emerald-700"
                     icon="fas fa-id-card" title="Pessoas Filiadas"
                     :caption="`Pessoas filiadas ${(geral.entidade.tratamentoMasculino ? 'ao' : 'à')} ${geral.entidade.sigla}`"

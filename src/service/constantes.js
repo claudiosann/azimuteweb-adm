@@ -1215,6 +1215,15 @@ const constantes = {
         "descricao": "Administrativo"
       }
     },
+    {
+      "id": 136,
+      "descricao": "Acessos",
+      "variavel": "acessos",
+      "grupo": {
+        "id": 1,
+        "descricao": "Administrativo"
+      }
+    },
   ],
   formatMoney: {
     decimal: ",",
