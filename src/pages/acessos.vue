@@ -12,7 +12,7 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="nome"> <q-img v-if="props.row.pessoa.foto" class="rounded-borders" style="width: 32px;" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img> {{ props.row.pessoa.nome }} </q-td>
+          <q-td key="nome"> <q-img v-if="props.row.pessoa.foto" class="rounded-borders" style="width: 32px;" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.pessoa.foto)"></q-img> {{ props.row.pessoa.nome }} ({{ props.row.pessoa.apelido }}) </q-td>
           <q-td key="entidade"> <q-img v-if="props.row.entidade.logo" class="rounded-borders" style="width: 32px;" :ratio="32 / 32" :src="getUrlImagemThumb(props.row.entidade.logo)"></q-img> {{ props.row.entidade.sigla }} </q-td>
           <q-td key="Cargo">{{ props.row.cargo }}</q-td>
           <q-td key="action">
